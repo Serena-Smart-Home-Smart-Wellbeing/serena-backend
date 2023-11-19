@@ -9,3 +9,97 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id                 String              @id @default(uuid())
+  email              String              @unique
+  password           String
+  username           String              @unique
+  image_name         String?             @default("")
+  SerenBoxes         SerenBox[]
+  UserEmotionResults UserEmotionResult[]
+}
+
+model SerenBox {
+  id               String            @id @default(uuid())
+  credentials      String
+  name             String
+  user             User              @relation(fields: [userId], references: [id])
+  userId           String
+  image_name       String?           @default("")
+  added            DateTime          @default(now())
+  slotA            SerenBoxSlot      @relation("slotA", fields: [slotAId], references: [id])
+  slotAId          String            @unique
+  slotB            SerenBoxSlot      @relation("slotB", fields: [slotBId], references: [id])
+  slotBId          String            @unique
+  SerenBoxSessions SerenBoxSession[]
+}
+
+enum SerenBoxSlots {
+  A
+  B
+}
+
+enum SerenBoxLabels {
+  ENERGETIC
+  RELAX
+}
+
+model SerenBoxSlot {
+  id                  String         @id @default(uuid())
+  name                String
+  slot                SerenBoxSlots
+  label               SerenBoxLabels
+  capacity_ml         Int
+  current_capacity_ml Float
+  is_active           Boolean        @default(false)
+  usedByA             SerenBox?      @relation("slotA")
+  usedByB             SerenBox?      @relation("slotB")
+}
+
+enum SerenBoxDetectionModes {
+  INTERVAL
+  ONCE
+}
+
+enum SerenBoxDiffusionModes {
+  MATCH_MOOD
+  OPPOSITE_MOOD
+  AUTO
+}
+
+model SerenBoxSession {
+  id               String                  @id @default(uuid())
+  serenBox         SerenBox                @relation(fields: [serenBoxId], references: [id])
+  serenBoxId       String
+  duration_minutes Int?                    @default(10)
+  detection_mode   SerenBoxDetectionModes? @default(INTERVAL)
+  diffusion_option SerenBoxDiffusionModes? @default(MATCH_MOOD)
+  start_time       DateTime                @default(now())
+  end_time         DateTime?
+  is_running       Boolean                 @default(true)
+}
+
+model UserEmotionResult {
+  id           String   @id @default(uuid())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  created_time DateTime @default(now())
+  neutral      Decimal
+  joy          Decimal
+  sadness      Decimal
+  disgust      Decimal
+  surprise     Decimal
+  anger        Decimal
+  fear         Decimal
+  user_photo   String
+}
+
+model SerenPlaceProduct {
+  id          String  @id @default(uuid())
+  name        String
+  price_idr   Int
+  description String
+  stock       Int
+  image_name  String? @default("")
+}
