@@ -17,13 +17,14 @@ datasource db {
 }
 
 model User {
-  id                 String              @id @default(uuid())
-  email              String              @unique
-  password           String
-  username           String              @unique
-  image_name         String?             @default("")
-  SerenBoxes         SerenBox[]
-  UserEmotionResults UserEmotionResult[]
+  id                  String                @id @default(uuid())
+  email               String                @unique
+  password            String
+  username            String                @unique
+  image_name          String?               @default("")
+  SerenBoxes          SerenBox[]
+  UserEmotionResults  UserEmotionResult[]
+  MusicRecommendation MusicRecommendation[]
 }
 
 model SerenBox {
@@ -108,4 +109,16 @@ model SerenPlaceProduct {
   description String
   stock       Int
   image_name  String? @default("")
+}
+
+model MusicRecommendation {
+  id           String  @id @default(uuid())
+  user         User    @relation(fields: [userId], references: [id])
+  userId       String
+  title        String
+  artist       String
+  album        String
+  release_year Int
+  cover_image  String?
+  preview_link String?
 }
