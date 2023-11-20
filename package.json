@@ -3,8 +3,21 @@
     "version": "0.0.0",
     "description": "Backend for Serena",
     "main": "dist/index.js",
+    "nodemonConfig": {
+        "ignore": [
+            "**/*.test.ts",
+            "**/*.spec.ts",
+            ".git",
+            "node_modules"
+        ],
+        "watch": [
+            "src"
+        ],
+        "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
+        "ext": "ts, js"
+    },
     "scripts": {
-        "build": "npx tsc",
+        "build": "tsc && tsc-alias",
         "start": "npm run build && node dist/index.js",
         "dev": "nodemon src/index.ts"
     },
@@ -38,6 +51,8 @@
         "prisma-erd-generator": "^1.11.1",
         "ts-node": "^10.9.1",
         "ts-node-dev": "^2.0.0",
+        "tsc-alias": "^1.8.8",
+        "tsconfig-paths": "^4.2.0",
         "typescript": "^5.2.2"
     }
 }
