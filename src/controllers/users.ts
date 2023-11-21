@@ -79,16 +79,6 @@ export const registerUser: RequestHandler<unknown, unknown, UserReqBod> = async 
 
 export const deleteUser: RequestHandler = async (req, res, next) => {
     try {
-        const token = req.headers.authorization?.split(" ")[1];
-        if (!token) {
-            throw new HttpError(400, "Token not provided");
-        }
-
-        const isTokenValid = jwt.verify(token, await getJwtAccessSecret());
-        if (!isTokenValid) {
-            throw new HttpError(401, "Invalid token");
-        }
-
         const userExists = await prisma.user.findFirst({
             where: {
                 id: req.params.userId
@@ -109,7 +99,7 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
             }
         });
 
-        return res.status(204).json(deletedUser);
+        return res.status(200).json(deletedUser);
     } catch (err) {
         next(err);
     }
