@@ -77,34 +77,6 @@ export const registerUser: RequestHandler<unknown, unknown, UserReqBod> = async 
     }
 };
 
-export const deleteUser: RequestHandler = async (req, res, next) => {
-    try {
-        const userExists = await prisma.user.findFirst({
-            where: {
-                id: req.params.userId
-            }
-        });
-        if (!userExists) {
-            throw new HttpError(404, "User not found");
-        }
-
-        const deletedUser = await prisma.user.delete({
-            where: {
-                id: req.params.userId
-            },
-            select: {
-                email: true,
-                id: true,
-                username: true
-            }
-        });
-
-        return res.status(200).json(deletedUser);
-    } catch (err) {
-        next(err);
-    }
-};
-
 export const login: RequestHandler<
     unknown,
     unknown,
@@ -144,6 +116,60 @@ export const login: RequestHandler<
             accessToken,
             userId: user.id
         });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const deleteUser: RequestHandler = async (req, res, next) => {
+    try {
+        const userExists = await prisma.user.findFirst({
+            where: {
+                id: req.params.userId
+            }
+        });
+        if (!userExists) {
+            throw new HttpError(404, "User not found");
+        }
+
+        const deletedUser = await prisma.user.delete({
+            where: {
+                id: req.params.userId
+            },
+            select: {
+                email: true,
+                id: true,
+                username: true
+            }
+        });
+
+        return res.status(200).json(deletedUser);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const getUserData: RequestHandler<{ userId: string }> = async (
+    req,
+    res,
+    next
+) => {
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                id: req.params.userId
+            },
+            select: {
+                email: true,
+                id: true,
+                username: true
+            }
+        });
+        if (!user) {
+            throw new HttpError(404, "User not found");
+        }
+
+        return res.status(200).json(user);
     } catch (err) {
         next(err);
     }
