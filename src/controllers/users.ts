@@ -17,17 +17,17 @@ const validatePassword = (password: string) => {
     return true;
 };
 
-interface RegisterUserReqBod {
+interface UserReqBod {
     username: string;
     email: string;
     password: string;
 }
 
-export const registerUser: RequestHandler<
-    unknown,
-    unknown,
-    RegisterUserReqBod
-> = async (req, res, next) => {
+export const registerUser: RequestHandler<unknown, unknown, UserReqBod> = async (
+    req,
+    res,
+    next
+) => {
     try {
         const { username, email, password } = req.body;
 
@@ -110,6 +110,50 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
         });
 
         return res.status(204).json(deletedUser);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const login: RequestHandler<
+    unknown,
+    unknown,
+    Omit<UserReqBod, "username">
+> = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            let missingField = "";
+            if (!email) missingField = "email";
+            else if (!password) missingField = "password";
+
+            throw new HttpError(400, `Missing ${missingField}`);
+        }
+
+        const user = await prisma.user.findFirst({
+            where: {
+                email
+            }
+        });
+
+        if (!user) {
+            throw new HttpError(404, "User not found");
+        }
+
+        const isPasswordValid = bcrypt.compareSync(password, user.password);
+        if (!isPasswordValid) {
+            throw new HttpError(401, "Wrong email/password");
+        }
+
+        const accessToken = jwt.sign(
+            { userId: user.id },
+            await getJwtAccessSecret(),
+            { expiresIn: "30d" }
+        );
+        return res.status(200).json({
+            accessToken,
+            userId: user.id
+        });
     } catch (err) {
         next(err);
     }
