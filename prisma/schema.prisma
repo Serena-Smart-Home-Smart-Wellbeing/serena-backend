@@ -21,6 +21,7 @@ model User {
   email               String                @unique
   password            String
   username            String                @unique
+  // TODO add default values for images
   image_name          String?               @default("")
   SerenBoxes          SerenBox[]
   UserEmotionResults  UserEmotionResult[]
