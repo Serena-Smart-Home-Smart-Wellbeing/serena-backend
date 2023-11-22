@@ -128,13 +128,16 @@ export const login: RequestHandler<
 
 export const deleteUser: RequestHandler = async (req, res, next) => {
     try {
-        const userExists = await prisma.user.findFirst({
+        const user = await prisma.user.findFirst({
             where: {
                 id: req.params.userId
             }
         });
-        if (!userExists) {
+        if (!user) {
             throw new HttpError(404, "User not found");
+        }
+        if (user.id !== req.user?.id) {
+            throw new HttpError(403, "Forbidden");
         }
 
         const deletedUser = await prisma.user.delete({

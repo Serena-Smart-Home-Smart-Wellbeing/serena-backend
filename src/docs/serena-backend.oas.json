@@ -193,9 +193,9 @@
             },
             "delete": {
                 "tags": ["Users"],
-                "summary": "Get a user's data",
-                "description": "Get a user's data",
-                "operationId": "getUserData",
+                "summary": "Delete a user",
+                "description": "Delete a user",
+                "operationId": "deleteUser",
                 "parameters": [
                     {
                         "name": "userId",
@@ -214,6 +214,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ReturnedUser"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the user id in the path parameter",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
                                 }
                             }
                         }
