@@ -1,7 +1,6 @@
 import { getJwtAccessSecret } from "@/config/secret-manager";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
-import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 
@@ -17,14 +16,16 @@ export const parseToken: RequestHandler = async (req, res, next) => {
                 throw new HttpError(401, "Invalid token");
             }
 
-            req.user =
-                (await prisma.user.findFirst({
-                    where: {
-                        id: (user as User).id
-                    }
-                })) || undefined;
+            const foundUser = await prisma.user.findUnique({
+                where: {
+                    // @ts-expect-error
+                    id: user.userId
+                }
+            });
+
+            req.user = foundUser;
+            next();
         });
-        next();
     } catch (err) {
         next(err);
     }
