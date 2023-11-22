@@ -1,0 +1,30 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Serena Backend",
+        "description": "Serena Backend API docs",
+        "version": "1.0.0"
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Bearer token to access these api endpoints",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Local express server"
+        }
+    ],
+    "paths": {}
+}

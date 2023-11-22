@@ -3,6 +3,7 @@ import express, { Application, Request, Response } from "express";
 import usersRouter from "./routers/users";
 import { handleHttpErrors } from "./middlewares/errors";
 import cors from "cors";
+import setupSwagger from "./docs/swagger";
 
 //For env File
 dotenv.config();
@@ -13,9 +14,7 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req: Request, res: Response) => {
-    res.send("Welcome to Express & TypeScript Server");
-});
+setupSwagger(app);
 
 app.use("/users", usersRouter);
 
