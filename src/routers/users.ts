@@ -8,8 +8,8 @@ usersRouter.route("/").post(registerUser);
 
 usersRouter
     .route("/:userId")
-    .delete(parseToken, deleteUser)
-    .get(parseToken, getUserData);
+    .get(parseToken, getUserData)
+    .delete(parseToken, deleteUser);
 
 usersRouter.post("/login", login);
 
