@@ -36,6 +36,19 @@
                     "username": "test",
                     "email": "test@gmail.com"
                 }
+            },
+            "HttpError": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Missing email"
+                    },
+                    "status": {
+                        "type": "number",
+                        "example": 400
+                    }
+                }
             }
         }
     },
@@ -55,7 +68,7 @@
             "post": {
                 "tags": ["Users"],
                 "summary": "Register a new user",
-                "description": "Make sure to store the accessToken on Swagger's Authorize button to be able to make further requests on protected routes",
+                "description": "After a successful response, make sure to store the accessToken on Swagger's Authorize button to be able to make further requests on protected routes. You don't need to do this if you are still logged in on Swagger",
                 "operationId": "registerUser",
                 "requestBody": {
                     "content": {
@@ -73,7 +86,8 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "default": "12345678"
+                                        "default": "12345678",
+                                        "description": "Must be at least 8 characters long"
                                     }
                                 }
                             }
@@ -83,7 +97,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "User created",
+                        "description": "User successfully created",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -92,13 +106,33 @@
                                         "accessToken": {
                                             "type": "string",
                                             "description": "JWT token to be used for further requests",
-                                            "default": "fiejfei.jwifjifjie.iajifjaeija"
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhOTIxNTk2NC1lOGM3LTRkOTgtODI4ZC1mNGIxODU1OTE1ODciLCJpYXQiOjE3MDA2Njk5MjQsImV4cCI6MTcwMzI2MTkyNH0.uPe7Z3L27UW1356YeWrNnzzc8WQrBMAG59ePOzThX2I"
                                         },
                                         "userId": {
                                             "type": "string",
-                                            "default": "5f9e1-b9b0b3e2b9c3f3b1a-5f9e1b7b9b0b31a"
+                                            "example": "5f9e1-b9b0b3e2b9c3f3b1a-5f9e1b7b9b0b31a"
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Multiple bad requests reasons: missing email/username/password, invalid password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "User already exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
                                 }
                             }
                         }

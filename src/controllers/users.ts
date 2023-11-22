@@ -23,11 +23,16 @@ interface UserReqBod {
     password: string;
 }
 
-export const registerUser: RequestHandler<unknown, unknown, UserReqBod> = async (
-    req,
-    res,
-    next
-) => {
+interface SafeUserResponse {
+    accessToken: string;
+    userId: string;
+}
+
+export const registerUser: RequestHandler<
+    unknown,
+    SafeUserResponse,
+    UserReqBod
+> = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
 
@@ -79,7 +84,7 @@ export const registerUser: RequestHandler<unknown, unknown, UserReqBod> = async 
 
 export const login: RequestHandler<
     unknown,
-    unknown,
+    SafeUserResponse,
     Omit<UserReqBod, "username">
 > = async (req, res, next) => {
     try {
