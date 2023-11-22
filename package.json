@@ -3,6 +3,9 @@
     "version": "0.0.0",
     "description": "Backend for Serena",
     "main": "dist/index.js",
+    "engines": {
+        "node": "16.x"
+    },
     "scripts": {
         "build": "tsc && tsc-alias",
         "start": "npm run build && node dist/index.js",
