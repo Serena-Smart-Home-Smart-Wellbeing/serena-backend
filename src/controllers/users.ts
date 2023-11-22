@@ -23,11 +23,16 @@ interface UserReqBod {
     password: string;
 }
 
-export const registerUser: RequestHandler<unknown, unknown, UserReqBod> = async (
-    req,
-    res,
-    next
-) => {
+interface SafeUserResponse {
+    accessToken: string;
+    userId: string;
+}
+
+export const registerUser: RequestHandler<
+    unknown,
+    SafeUserResponse,
+    UserReqBod
+> = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
 
@@ -79,7 +84,7 @@ export const registerUser: RequestHandler<unknown, unknown, UserReqBod> = async 
 
 export const login: RequestHandler<
     unknown,
-    unknown,
+    SafeUserResponse,
     Omit<UserReqBod, "username">
 > = async (req, res, next) => {
     try {
@@ -123,13 +128,16 @@ export const login: RequestHandler<
 
 export const deleteUser: RequestHandler = async (req, res, next) => {
     try {
-        const userExists = await prisma.user.findFirst({
+        const user = await prisma.user.findFirst({
             where: {
                 id: req.params.userId
             }
         });
-        if (!userExists) {
+        if (!user) {
             throw new HttpError(404, "User not found");
+        }
+        if (user.id !== req.user?.id) {
+            throw new HttpError(403, "Forbidden");
         }
 
         const deletedUser = await prisma.user.delete({
@@ -168,9 +176,14 @@ export const getUserData: RequestHandler<{ userId: string }> = async (
         if (!user) {
             throw new HttpError(404, "User not found");
         }
+        // Prevent user from accessing other user's data if they steal the token
+        if (user.id !== req.user?.id) {
+            throw new HttpError(403, "Forbidden");
+        }
 
         return res.status(200).json(user);
     } catch (err) {
         next(err);
     }
 };
+// PROG document users API
