@@ -49,6 +49,20 @@
                         "example": 400
                     }
                 }
+            },
+            "SafeUserResponse": {
+                "type": "object",
+                "properties": {
+                    "accessToken": {
+                        "type": "string",
+                        "description": "JWT token to be used for further requests",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhOTIxNTk2NC1lOGM3LTRkOTgtODI4ZC1mNGIxODU1OTE1ODciLCJpYXQiOjE3MDA2Njk5MjQsImV4cCI6MTcwMzI2MTkyNH0.uPe7Z3L27UW1356YeWrNnzzc8WQrBMAG59ePOzThX2I"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "example": "5f9e1-b9b0b3e2b9c3f3b1a-5f9e1b7b9b0b31a"
+                    }
+                }
             }
         }
     },
@@ -102,18 +116,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "accessToken": {
-                                            "type": "string",
-                                            "description": "JWT token to be used for further requests",
-                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhOTIxNTk2NC1lOGM3LTRkOTgtODI4ZC1mNGIxODU1OTE1ODciLCJpYXQiOjE3MDA2Njk5MjQsImV4cCI6MTcwMzI2MTkyNH0.uPe7Z3L27UW1356YeWrNnzzc8WQrBMAG59ePOzThX2I"
-                                        },
-                                        "userId": {
-                                            "type": "string",
-                                            "example": "5f9e1-b9b0b3e2b9c3f3b1a-5f9e1b7b9b0b31a"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/SafeUserResponse"
                                 }
                             }
                         }
@@ -130,6 +133,78 @@
                     },
                     "409": {
                         "description": "User already exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Login to an existing user",
+                "description": "After a successful response, make sure to store the accessToken on Swagger's Authorize button to be able to make further requests on protected routes. You don't need to do this if you are still logged in on Swagger",
+                "operationId": "login",
+                "security": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "default": "test@test.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "12345678",
+                                        "description": "Must be at least 8 characters long"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SafeUserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing email/password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong email/password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -233,15 +308,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "status": {
-                                            "type": "number"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/HttpError"
                                 }
                             }
                         }
