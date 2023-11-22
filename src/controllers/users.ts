@@ -168,9 +168,14 @@ export const getUserData: RequestHandler<{ userId: string }> = async (
         if (!user) {
             throw new HttpError(404, "User not found");
         }
+        // Prevent user from accessing other user's data if they steal the token
+        if (user.id !== req.user?.id) {
+            throw new HttpError(403, "Forbidden");
+        }
 
         return res.status(200).json(user);
     } catch (err) {
         next(err);
     }
 };
+// PROG document users API

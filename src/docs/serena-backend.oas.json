@@ -9,9 +9,33 @@
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
-                "description": "Bearer token to access these api endpoints",
+                "description": "Get accessToken from register or login routes",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "ReturnedUser": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "User id"
+                    },
+                    "username": {
+                        "type": "string",
+                        "description": "User name"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "User email"
+                    }
+                },
+                "example": {
+                    "id": "5f9e1b7b9b0b3e2b9c3f3b1a",
+                    "username": "test",
+                    "email": "test@gmail.com"
+                }
             }
         }
     },
@@ -23,8 +47,113 @@
     "servers": [
         {
             "url": "http://localhost:8080",
-            "description": "Local express server"
+            "description": "Local"
         }
     ],
-    "paths": {}
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Register a new user",
+                "description": "Make sure to store the accessToken on Swagger's Authorize button to be able to make further requests on protected routes",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "default": "test"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "test@test.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "12345678"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "accessToken": {
+                                            "type": "string",
+                                            "description": "JWT token to be used for further requests",
+                                            "default": "fiejfei.jwifjifjie.iajifjaeija"
+                                        },
+                                        "userId": {
+                                            "type": "string",
+                                            "default": "5f9e1-b9b0b3e2b9c3f3b1a-5f9e1b7b9b0b31a"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get a user's data",
+                "description": "Get a user's data",
+                "operationId": "getUserData",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReturnedUser"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
