@@ -186,4 +186,3 @@ export const getUserData: RequestHandler<{ userId: string }> = async (
         next(err);
     }
 };
-// PROG document users API

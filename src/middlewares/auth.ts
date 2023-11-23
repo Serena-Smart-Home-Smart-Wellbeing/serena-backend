@@ -13,7 +13,7 @@ export const parseToken: RequestHandler = async (req, res, next) => {
 
         jwt.verify(token, await getJwtAccessSecret(), async (err, user) => {
             if (err) {
-                throw new HttpError(401, "Invalid token");
+                return next(new HttpError(401, "Invalid token"));
             }
 
             const foundUser = await prisma.user.findUnique({
