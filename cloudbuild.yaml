@@ -6,13 +6,6 @@ steps:
           - "npm run create-env --set-env-vars _DATABASE_URL=$$SECRET_DATABASE_URL"
       secretEnv:
           - "SECRET_DATABASE_URL"
-    - name: node:18.16.0
-      entrypoint: npm
-      args:
-          - run
-          - create-env
-      env:
-          - DATABASE_URL=$_DATABASE_URL
       id: GetEnv
     - name: gcr.io/k8s-skaffold/pack
       env:
