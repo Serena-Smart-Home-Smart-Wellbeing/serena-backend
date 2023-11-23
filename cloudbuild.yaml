@@ -1,9 +1,11 @@
 steps:
-    - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-      entrypoint: bash
+    - name: node:18.16.0
+      entrypoint: npm
       args:
-          - "-c"
-          - "npm run create-env --set-env-vars _DATABASE_URL=$$SECRET_DATABASE_URL"
+          - run
+          - create-env
+      env:
+          - DATABASE_URL=$$SECRET_DATABASE_URL
       secretEnv:
           - "SECRET_DATABASE_URL"
       id: GetEnv
