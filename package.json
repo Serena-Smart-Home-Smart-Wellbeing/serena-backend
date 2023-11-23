@@ -9,7 +9,8 @@
     "scripts": {
         "build": "tsc && tsc-alias",
         "start": "node dist/index.js",
-        "dev": "nodemon"
+        "dev": "nodemon",
+        "create-env": "printenv > .env"
     },
     "repository": {
         "type": "git",
