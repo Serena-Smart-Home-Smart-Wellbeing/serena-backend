@@ -75,6 +75,10 @@
         {
             "url": "http://localhost:8080",
             "description": "Local"
+        },
+        {
+            "url": "https://serena-backend-2g6tjw7nja-et.a.run.app/",
+            "description": "Cloud Run"
         }
     ],
     "paths": {
@@ -127,6 +131,36 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing email": {
+                                        "summary": "Missing email",
+                                        "value": {
+                                            "message": "Missing email",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Missing username": {
+                                        "summary": "Missing username",
+                                        "value": {
+                                            "message": "Missing username",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Missing password": {
+                                        "summary": "Missing password",
+                                        "value": {
+                                            "message": "Missing password",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Password too short": {
+                                        "summary": "Password too short",
+                                        "value": {
+                                            "message": "Password must be at least 8 characters long",
+                                            "status": 400
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -137,6 +171,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "User already exists",
+                                    "status": 409
                                 }
                             }
                         }
@@ -189,6 +227,22 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing email": {
+                                        "summary": "Missing email",
+                                        "value": {
+                                            "message": "Missing email",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Missing password": {
+                                        "summary": "Missing password",
+                                        "value": {
+                                            "message": "Missing password",
+                                            "status": 400
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -199,6 +253,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Wrong email/password",
+                                    "status": 401
                                 }
                             }
                         }
@@ -209,6 +267,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "User not found",
+                                    "status": 404
                                 }
                             }
                         }
@@ -250,6 +312,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "User not found",
+                                    "status": 404
                                 }
                             }
                         }
@@ -260,6 +326,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
                                 }
                             }
                         }
@@ -299,6 +369,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
                                 }
                             }
                         }
@@ -309,6 +383,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "User not found",
+                                    "status": 404
                                 }
                             }
                         }
