@@ -333,6 +333,20 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -387,6 +401,20 @@
                                 "example": {
                                     "message": "User not found",
                                     "status": 404
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
                                 }
                             }
                         }
