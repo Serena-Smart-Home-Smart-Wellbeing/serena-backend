@@ -86,7 +86,7 @@
             "post": {
                 "tags": ["Users"],
                 "summary": "Register a new user",
-                "description": "After a successful response, make sure to store the accessToken on Swagger's Authorize button to be able to make further requests on protected routes. You don't need to do this if you are still logged in on Swagger",
+                "description": "Store the accessToken and userId to be used for future authenticated requests. Authentication for secured API routes expects header of \"Authorization: Bearer {ACCESS_TOKEN}\".",
                 "operationId": "registerUser",
                 "security": [],
                 "requestBody": {
@@ -186,7 +186,7 @@
             "post": {
                 "tags": ["Users"],
                 "summary": "Login to an existing user",
-                "description": "After a successful response, make sure to store the accessToken on Swagger's Authorize button to be able to make further requests on protected routes. You don't need to do this if you are still logged in on Swagger",
+                "description": "Store the accessToken and userId to be used for future authenticated requests. Authentication for secured API routes expects header of \"Authorization: Bearer {ACCESS_TOKEN}\".",
                 "operationId": "login",
                 "security": [],
                 "requestBody": {
