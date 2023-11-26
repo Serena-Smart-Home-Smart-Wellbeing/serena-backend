@@ -63,6 +63,41 @@
                         "example": "5f9e1-b9b0b3e2b9c3f3b1a-5f9e1b7b9b0b31a"
                     }
                 }
+            },
+            "SerenPlaceProduct": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Product id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Product name"
+                    },
+                    "price_idr": {
+                        "type": "integer",
+                        "description": "Product price in IDR"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Product description"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "description": "Product stock"
+                    },
+                    "image_name": {
+                        "type": "string",
+                        "description": "Product image name"
+                    }
+                }
+            },
+            "SerenPlaceProducts": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SerenPlaceProduct"
+                }
             }
         }
     },
@@ -415,6 +450,73 @@
                                 "example": {
                                     "message": "Invalid token",
                                     "status": 401
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/serenplace": {
+            "get": {
+                "security": [],
+                "tags": ["SerenPlace"],
+                "summary": "Get all products",
+                "description": "Get all products",
+                "operationId": "getSerenPlaceProducts",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenPlaceProducts"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/serenplace/{productId}": {
+            "get": {
+                "security": [],
+                "tags": ["SerenPlace"],
+                "summary": "Get a product's data",
+                "description": "Get a product's data",
+                "operationId": "getSerenPlaceProduct",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenPlaceProduct"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Product not found",
+                                    "status": 404
                                 }
                             }
                         }
