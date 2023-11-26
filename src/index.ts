@@ -4,6 +4,7 @@ import usersRouter from "./routers/users";
 import { handleHttpErrors } from "./middlewares/errors";
 import cors from "cors";
 import setupSwagger from "./docs/swagger";
+import serenPlaceRouter from "./routers/serenplace";
 
 //For env File
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(cors());
 setupSwagger(app);
 
 app.use("/users", usersRouter);
+app.use("/serenplace", serenPlaceRouter);
 
 app.use(handleHttpErrors);
 
