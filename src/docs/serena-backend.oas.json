@@ -69,27 +69,38 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "description": "Product id"
+                        "description": "Product id",
+                        "example": "5f9e1b7b9b0b3e2b9c3f3b1a"
                     },
                     "name": {
                         "type": "string",
-                        "description": "Product name"
+                        "description": "Product name",
+                        "example": "Serena Oil"
                     },
                     "price_idr": {
                         "type": "integer",
-                        "description": "Product price in IDR"
+                        "description": "Product price in IDR",
+                        "example": 100000
                     },
                     "description": {
                         "type": "string",
-                        "description": "Product description"
+                        "description": "Product description",
+                        "example": "Serena Oil 10ml"
                     },
                     "stock": {
                         "type": "integer",
-                        "description": "Product stock"
+                        "description": "Product stock",
+                        "example": 10
                     },
                     "image_name": {
                         "type": "string",
-                        "description": "Product image name"
+                        "description": "Product image name",
+                        "example": "serena-oil.jpg"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "OIL or DEVICE",
+                        "example": "OIL"
                     }
                 }
             },
