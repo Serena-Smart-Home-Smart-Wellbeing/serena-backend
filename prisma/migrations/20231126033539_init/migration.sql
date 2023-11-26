@@ -1,18 +1,18 @@
 -- CreateTable
-CREATE TABLE `User` (
+CREATE TABLE `user` (
     `id` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `username` VARCHAR(191) NOT NULL,
     `image_name` VARCHAR(191) NULL DEFAULT '',
 
-    UNIQUE INDEX `User_email_key`(`email`),
-    UNIQUE INDEX `User_username_key`(`username`),
+    UNIQUE INDEX `user_email_key`(`email`),
+    UNIQUE INDEX `user_username_key`(`username`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `SerenBox` (
+CREATE TABLE `serenbox` (
     `id` VARCHAR(191) NOT NULL,
     `credentials` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
@@ -22,13 +22,13 @@ CREATE TABLE `SerenBox` (
     `slotAId` VARCHAR(191) NOT NULL,
     `slotBId` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `SerenBox_slotAId_key`(`slotAId`),
-    UNIQUE INDEX `SerenBox_slotBId_key`(`slotBId`),
+    UNIQUE INDEX `serenbox_slotAId_key`(`slotAId`),
+    UNIQUE INDEX `serenbox_slotBId_key`(`slotBId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `SerenBoxSlot` (
+CREATE TABLE `serenboxslot` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `slot` ENUM('A', 'B') NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `SerenBoxSlot` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `SerenBoxSession` (
+CREATE TABLE `serenboxsession` (
     `id` VARCHAR(191) NOT NULL,
     `serenBoxId` VARCHAR(191) NOT NULL,
     `duration_minutes` INTEGER NULL DEFAULT 10,
@@ -55,7 +55,7 @@ CREATE TABLE `SerenBoxSession` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `UserEmotionResult` (
+CREATE TABLE `useremotionresult` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `created_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -72,28 +72,46 @@ CREATE TABLE `UserEmotionResult` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `SerenPlaceProduct` (
+CREATE TABLE `serenplaceproduct` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `price_idr` INTEGER NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `stock` INTEGER NOT NULL,
     `image_name` VARCHAR(191) NULL DEFAULT '',
+    `type` ENUM('OIL', 'DEVICE') NOT NULL DEFAULT 'OIL',
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `musicrecommendation` (
+    `id` VARCHAR(191) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
+    `artist` VARCHAR(191) NOT NULL,
+    `album` VARCHAR(191) NOT NULL,
+    `release_year` INTEGER NOT NULL,
+    `cover_image` VARCHAR(191) NULL,
+    `preview_link` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `SerenBox` ADD CONSTRAINT `SerenBox_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `serenbox` ADD CONSTRAINT `serenbox_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SerenBox` ADD CONSTRAINT `SerenBox_slotAId_fkey` FOREIGN KEY (`slotAId`) REFERENCES `SerenBoxSlot`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `serenbox` ADD CONSTRAINT `serenbox_slotAId_fkey` FOREIGN KEY (`slotAId`) REFERENCES `serenboxslot`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SerenBox` ADD CONSTRAINT `SerenBox_slotBId_fkey` FOREIGN KEY (`slotBId`) REFERENCES `SerenBoxSlot`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `serenbox` ADD CONSTRAINT `serenbox_slotBId_fkey` FOREIGN KEY (`slotBId`) REFERENCES `serenboxslot`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SerenBoxSession` ADD CONSTRAINT `SerenBoxSession_serenBoxId_fkey` FOREIGN KEY (`serenBoxId`) REFERENCES `SerenBox`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `serenboxsession` ADD CONSTRAINT `serenboxsession_serenBoxId_fkey` FOREIGN KEY (`serenBoxId`) REFERENCES `serenbox`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserEmotionResult` ADD CONSTRAINT `UserEmotionResult_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `useremotionresult` ADD CONSTRAINT `useremotionresult_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `musicrecommendation` ADD CONSTRAINT `musicrecommendation_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
