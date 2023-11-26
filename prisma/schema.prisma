@@ -26,6 +26,8 @@ model User {
   SerenBoxes          SerenBox[]
   UserEmotionResults  UserEmotionResult[]
   MusicRecommendation MusicRecommendation[]
+
+  @@map("user")
 }
 
 model SerenBox {
@@ -41,6 +43,8 @@ model SerenBox {
   slotB            SerenBoxSlot      @relation("slotB", fields: [slotBId], references: [id])
   slotBId          String            @unique
   SerenBoxSessions SerenBoxSession[]
+
+  @@map("serenbox")
 }
 
 enum SerenBoxSlots {
@@ -63,6 +67,8 @@ model SerenBoxSlot {
   is_active           Boolean        @default(false)
   usedByA             SerenBox?      @relation("slotA")
   usedByB             SerenBox?      @relation("slotB")
+
+  @@map("serenboxslot")
 }
 
 enum SerenBoxDetectionModes {
@@ -86,6 +92,8 @@ model SerenBoxSession {
   start_time       DateTime                @default(now())
   end_time         DateTime?
   is_running       Boolean                 @default(true)
+
+  @@map("serenboxsession")
 }
 
 model UserEmotionResult {
@@ -101,6 +109,8 @@ model UserEmotionResult {
   anger        Decimal
   fear         Decimal
   user_photo   String
+
+  @@map("useremotionresult")
 }
 
 enum SerenPlaceProductTypes {
@@ -116,6 +126,8 @@ model SerenPlaceProduct {
   stock       Int
   image_name  String?                @default("")
   type        SerenPlaceProductTypes @default(OIL)
+
+  @@map("serenplaceproduct")
 }
 
 model MusicRecommendation {
@@ -128,4 +140,6 @@ model MusicRecommendation {
   release_year Int
   cover_image  String?
   preview_link String?
+
+  @@map("musicrecommendation")
 }
