@@ -103,13 +103,19 @@ model UserEmotionResult {
   user_photo   String
 }
 
+enum SerenPlaceProductTypes {
+  OIL
+  DEVICE
+}
+
 model SerenPlaceProduct {
-  id          String  @id @default(uuid())
+  id          String                 @id @default(uuid())
   name        String
   price_idr   Int
   description String
   stock       Int
-  image_name  String? @default("")
+  image_name  String?                @default("")
+  type        SerenPlaceProductTypes @default(OIL)
 }
 
 model MusicRecommendation {
