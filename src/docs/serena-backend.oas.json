@@ -109,6 +109,75 @@
                 "items": {
                     "$ref": "#/components/schemas/SerenPlaceProduct"
                 }
+            },
+            "UserEmotion": {
+                "type": "object",
+                "properties": {
+                    "neutral": {
+                        "type": "number",
+                        "example": 0.1
+                    },
+                    "joy": {
+                        "type": "number",
+                        "example": 0.2
+                    },
+                    "sadness": {
+                        "type": "number",
+                        "example": 0.4
+                    },
+                    "disgust": {
+                        "type": "number",
+                        "example": 0.05
+                    },
+                    "surprise": {
+                        "type": "number",
+                        "example": 0.05
+                    },
+                    "anger": {
+                        "type": "number",
+                        "example": 0.15
+                    },
+                    "fear": {
+                        "type": "number",
+                        "example": 0.05
+                    }
+                }
+            },
+            "MusicRecommendation": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "The Hours"
+                    },
+                    "artist": {
+                        "type": "string",
+                        "example": "Beach House"
+                    },
+                    "album": {
+                        "type": "string",
+                        "example": "Bloom"
+                    },
+
+                    "release_year": {
+                        "type": "string",
+                        "example": "2012"
+                    },
+                    "cover_image": {
+                        "type": "string",
+                        "example": "https://i.scdn.co/image/ab67616d0000b273e3b6b8f9b7f6b8f9b7f6b8f9"
+                    },
+                    "preview_link": {
+                        "type": "string",
+                        "example": "https://p.scdn.co/mp3-preview/1b7f6b8f9b7f6b8f9b7f6b8f9b7f6b8f9"
+                    }
+                }
+            },
+            "MusicRecommendations": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/MusicRecommendation"
+                }
             }
         }
     },
@@ -528,6 +597,56 @@
                                 "example": {
                                     "message": "Product not found",
                                     "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/music-recommender": {
+            "post": {
+                "security": [],
+                "tags": ["Music Recommender"],
+                "summary": "Recommend music based on user's emotion",
+                "description": "Recommend music based on user's emotion",
+                "operationId": "recommendMusic",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserEmotion"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MusicRecommendations"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing user emotion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing emotion": {
+                                        "summary": "Missing useremotion",
+                                        "value": {
+                                            "message": "Missing user emotion",
+                                            "status": 400
+                                        }
+                                    }
                                 }
                             }
                         }
