@@ -25,7 +25,7 @@ export const handleGetRecommendations: RequestHandler<
         }
 
         const mood = energetic > relax ? energetic : relax;
-        const spotifyToken = (await spotify.authenticate()).accessToken.access_token;
+        const spotifyToken = (await spotify.getAccessToken())!.access_token;
         const recommendations = await getRecommendations(spotifyToken, mood);
 
         res.status(200).json(recommendations);
