@@ -113,39 +113,61 @@
             "UserEmotion": {
                 "type": "object",
                 "properties": {
-                    "neutral": {
-                        "type": "number",
-                        "example": 0.1
+                    "energetic": {
+                        "type": "object",
+                        "properties": {
+                            "anger": {
+                                "type": "number",
+                                "example": 0.3
+                            },
+                            "fear": {
+                                "type": "number",
+                                "example": 0.2
+                            },
+                            "surprise": {
+                                "type": "number",
+                                "example": 0.2
+                            },
+                            "total": {
+                                "type": "number",
+                                "example": 0.7
+                            }
+                        }
                     },
-                    "joy": {
-                        "type": "number",
-                        "example": 0.2
-                    },
-                    "sadness": {
-                        "type": "number",
-                        "example": 0.4
-                    },
-                    "disgust": {
-                        "type": "number",
-                        "example": 0.05
-                    },
-                    "surprise": {
-                        "type": "number",
-                        "example": 0.05
-                    },
-                    "anger": {
-                        "type": "number",
-                        "example": 0.15
-                    },
-                    "fear": {
-                        "type": "number",
-                        "example": 0.05
+                    "relax": {
+                        "type": "object",
+                        "properties": {
+                            "disgust": {
+                                "type": "number",
+                                "example": 0.075
+                            },
+                            "joy": {
+                                "type": "number",
+                                "example": 0.075
+                            },
+                            "neutral": {
+                                "type": "number",
+                                "example": 0.075
+                            },
+                            "sadness": {
+                                "type": "number",
+                                "example": 0.075
+                            },
+                            "total": {
+                                "type": "number",
+                                "example": 0.3
+                            }
+                        }
                     }
                 }
             },
             "MusicRecommendation": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "6nek1Nin9q48AVZcWs9e9D"
+                    },
                     "title": {
                         "type": "string",
                         "example": "The Hours"
@@ -605,22 +627,40 @@
             }
         },
         "/music-recommender": {
-            "post": {
+            "get": {
                 "security": [],
                 "tags": ["Music Recommender"],
                 "summary": "Recommend music based on user's emotion",
                 "description": "Recommend music based on user's emotion",
-                "operationId": "recommendMusic",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UserEmotion"
-                            }
-                        }
+                "operationId": "getRecommendations",
+                "parameters": [
+                    {
+                        "name": "energetic",
+                        "in": "query",
+                        "description": "Energetic emotion",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "example": 0.7
                     },
-                    "required": true
-                },
+                    {
+                        "name": "relax",
+                        "in": "query",
+                        "description": "Relax emotion",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "example": 0.3
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -633,17 +673,24 @@
                         }
                     },
                     "400": {
-                        "description": "Missing user emotion",
+                        "description": "Missing energetic/relax emotion",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
                                 },
                                 "examples": {
-                                    "Missing emotion": {
-                                        "summary": "Missing useremotion",
+                                    "Missing energetic": {
+                                        "summary": "Missing energetic",
                                         "value": {
-                                            "message": "Missing user emotion",
+                                            "message": "Missing energetic",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Missing relax": {
+                                        "summary": "Missing relax",
+                                        "value": {
+                                            "message": "Missing relax",
                                             "status": 400
                                         }
                                     }
