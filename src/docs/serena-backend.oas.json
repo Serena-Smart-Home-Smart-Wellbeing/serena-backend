@@ -109,6 +109,97 @@
                 "items": {
                     "$ref": "#/components/schemas/SerenPlaceProduct"
                 }
+            },
+            "UserEmotion": {
+                "type": "object",
+                "properties": {
+                    "energetic": {
+                        "type": "object",
+                        "properties": {
+                            "anger": {
+                                "type": "number",
+                                "example": 0.3
+                            },
+                            "fear": {
+                                "type": "number",
+                                "example": 0.2
+                            },
+                            "surprise": {
+                                "type": "number",
+                                "example": 0.2
+                            },
+                            "total": {
+                                "type": "number",
+                                "example": 0.7
+                            }
+                        }
+                    },
+                    "relax": {
+                        "type": "object",
+                        "properties": {
+                            "disgust": {
+                                "type": "number",
+                                "example": 0.075
+                            },
+                            "joy": {
+                                "type": "number",
+                                "example": 0.075
+                            },
+                            "neutral": {
+                                "type": "number",
+                                "example": 0.075
+                            },
+                            "sadness": {
+                                "type": "number",
+                                "example": 0.075
+                            },
+                            "total": {
+                                "type": "number",
+                                "example": 0.3
+                            }
+                        }
+                    }
+                }
+            },
+            "MusicRecommendation": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "6nek1Nin9q48AVZcWs9e9D"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "The Hours"
+                    },
+                    "artist": {
+                        "type": "string",
+                        "example": "Beach House"
+                    },
+                    "album": {
+                        "type": "string",
+                        "example": "Bloom"
+                    },
+
+                    "release_year": {
+                        "type": "string",
+                        "example": "2012"
+                    },
+                    "cover_image": {
+                        "type": "string",
+                        "example": "https://i.scdn.co/image/ab67616d0000b273e3b6b8f9b7f6b8f9b7f6b8f9"
+                    },
+                    "preview_link": {
+                        "type": "string",
+                        "example": "https://p.scdn.co/mp3-preview/1b7f6b8f9b7f6b8f9b7f6b8f9b7f6b8f9"
+                    }
+                }
+            },
+            "MusicRecommendations": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/MusicRecommendation"
+                }
             }
         }
     },
@@ -528,6 +619,81 @@
                                 "example": {
                                     "message": "Product not found",
                                     "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/music-recommender": {
+            "get": {
+                "security": [],
+                "tags": ["Music Recommender"],
+                "summary": "Recommend music based on user's emotion",
+                "description": "Recommend music based on user's emotion",
+                "operationId": "getRecommendations",
+                "parameters": [
+                    {
+                        "name": "energetic",
+                        "in": "query",
+                        "description": "Energetic emotion",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "example": 0.7
+                    },
+                    {
+                        "name": "relax",
+                        "in": "query",
+                        "description": "Relax emotion",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "example": 0.3
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MusicRecommendations"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing energetic/relax emotion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing energetic": {
+                                        "summary": "Missing energetic",
+                                        "value": {
+                                            "message": "Missing energetic",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Missing relax": {
+                                        "summary": "Missing relax",
+                                        "value": {
+                                            "message": "Missing relax",
+                                            "status": 400
+                                        }
+                                    }
                                 }
                             }
                         }

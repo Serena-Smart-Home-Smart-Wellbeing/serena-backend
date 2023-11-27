@@ -1,9 +1,9 @@
-import { getJwtAccessSecret } from "@/config/secret-manager";
+import { isRequestedBySameUser, jwtAccessSecret } from "@/utils/auth";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
+import bcrypt from "bcryptjs";
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 
 enum PasswordError {
     TOO_SHORT = "Password must be at least 8 characters long"
@@ -67,11 +67,9 @@ export const registerUser: RequestHandler<
             }
         });
 
-        const accessToken = jwt.sign(
-            { userId: newUser.id },
-            await getJwtAccessSecret(),
-            { expiresIn: "30d" }
-        );
+        const accessToken = jwt.sign({ userId: newUser.id }, jwtAccessSecret, {
+            expiresIn: "30d"
+        });
 
         return res.status(201).json({
             accessToken,
@@ -112,11 +110,9 @@ export const login: RequestHandler<
             throw new HttpError(401, "Wrong email/password");
         }
 
-        const accessToken = jwt.sign(
-            { userId: user.id },
-            await getJwtAccessSecret(),
-            { expiresIn: "30d" }
-        );
+        const accessToken = jwt.sign({ userId: user.id }, jwtAccessSecret, {
+            expiresIn: "30d"
+        });
         return res.status(200).json({
             accessToken,
             userId: user.id
@@ -136,9 +132,7 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
         if (!user) {
             throw new HttpError(404, "User not found");
         }
-        if (user.id !== req.user?.id) {
-            throw new HttpError(403, "Forbidden");
-        }
+        isRequestedBySameUser(req, user.id);
 
         const deletedUser = await prisma.user.delete({
             where: {
@@ -176,10 +170,7 @@ export const getUserData: RequestHandler<{ userId: string }> = async (
         if (!user) {
             throw new HttpError(404, "User not found");
         }
-        // Prevent user from accessing other user's data if they steal the token
-        if (user.id !== req.user?.id) {
-            throw new HttpError(403, "Forbidden");
-        }
+        isRequestedBySameUser(req, user.id);
 
         return res.status(200).json(user);
     } catch (err) {

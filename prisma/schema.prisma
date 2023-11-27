@@ -17,15 +17,14 @@ datasource db {
 }
 
 model User {
-  id                  String                @id @default(uuid())
-  email               String                @unique
-  password            String
-  username            String                @unique
+  id                 String              @id @default(uuid())
+  email              String              @unique
+  password           String
+  username           String              @unique
   // TODO add default values for images
-  image_name          String?               @default("")
-  SerenBoxes          SerenBox[]
-  UserEmotionResults  UserEmotionResult[]
-  MusicRecommendation MusicRecommendation[]
+  image_name         String?             @default("")
+  SerenBoxes         SerenBox[]
+  UserEmotionResults UserEmotionResult[]
 
   @@map("user")
 }
@@ -128,18 +127,4 @@ model SerenPlaceProduct {
   type        SerenPlaceProductTypes @default(OIL)
 
   @@map("serenplaceproduct")
-}
-
-model MusicRecommendation {
-  id           String  @id @default(uuid())
-  user         User    @relation(fields: [userId], references: [id])
-  userId       String
-  title        String
-  artist       String
-  album        String
-  release_year Int
-  cover_image  String?
-  preview_link String?
-
-  @@map("musicrecommendation")
 }

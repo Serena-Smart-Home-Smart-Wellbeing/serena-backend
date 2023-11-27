@@ -1,3 +1,30 @@
+availableSecrets:
+    secretManager:
+        - versionName: projects/$PROJECT_ID/secrets/serena-main-sql-connection/versions/latest
+          env: "DATABASE_URL"
+        - versionName: projects/$PROJECT_ID/secrets/spotify-client-id/versions/latest
+          env: "SPOTIFY_CLIENT_ID"
+        - versionName: projects/$PROJECT_ID/secrets/spotify-client-secret/versions/latest
+          env: "SPOTIFY_CLIENT_SECRET"
+        - versionName: projects/$PROJECT_ID/secrets/jwt-access-secret/versions/latest
+          env: "JWT_ACCESS_SECRET"
+images:
+    - >-
+        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+options:
+    substitutionOption: ALLOW_LOOSE
+    logging: CLOUD_LOGGING_ONLY
+substitutions:
+    _SERVICE_NAME: serena-backend
+    _TRIGGER_ID: d980f73f-fa5c-4dbd-8af6-ee9e67854f79
+    _AR_HOSTNAME: asia-southeast2-docker.pkg.dev
+    _DEPLOY_REGION: asia-southeast2
+    _ENTRYPOINT: npm run start
+    _PLATFORM: managed
+tags:
+    - gcp-cloud-build-deploy-cloud-run
+    - gcp-cloud-build-deploy-cloud-run-managed
+    - serena-backend
 steps:
     - name: node:alpine
       entrypoint: npm
@@ -6,6 +33,9 @@ steps:
           - create-env
       secretEnv:
           - "DATABASE_URL"
+          - "SPOTIFY_CLIENT_ID"
+          - "SPOTIFY_CLIENT_SECRET"
+          - "JWT_ACCESS_SECRET"
       id: GetEnv
     - name: gcr.io/k8s-skaffold/pack
       env:
@@ -42,24 +72,3 @@ steps:
           - "--quiet"
       id: Deploy
       entrypoint: gcloud
-availableSecrets:
-    secretManager:
-        - versionName: projects/$PROJECT_ID/secrets/serena-main-sql-connection/versions/latest
-          env: "DATABASE_URL"
-images:
-    - >-
-        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-options:
-    substitutionOption: ALLOW_LOOSE
-    logging: CLOUD_LOGGING_ONLY
-substitutions:
-    _SERVICE_NAME: serena-backend
-    _TRIGGER_ID: d980f73f-fa5c-4dbd-8af6-ee9e67854f79
-    _AR_HOSTNAME: asia-southeast2-docker.pkg.dev
-    _DEPLOY_REGION: asia-southeast2
-    _ENTRYPOINT: npm run start
-    _PLATFORM: managed
-tags:
-    - gcp-cloud-build-deploy-cloud-run
-    - gcp-cloud-build-deploy-cloud-run-managed
-    - serena-backend
