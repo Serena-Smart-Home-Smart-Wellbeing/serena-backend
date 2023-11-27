@@ -4,6 +4,7 @@ import prisma from "@/utils/prisma";
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { isRequestedBySameUser } from "@/utils/auth";
 
 enum PasswordError {
     TOO_SHORT = "Password must be at least 8 characters long"
@@ -136,9 +137,7 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
         if (!user) {
             throw new HttpError(404, "User not found");
         }
-        if (user.id !== req.user?.id) {
-            throw new HttpError(403, "Forbidden");
-        }
+        isRequestedBySameUser(req, user.id);
 
         const deletedUser = await prisma.user.delete({
             where: {
@@ -176,10 +175,7 @@ export const getUserData: RequestHandler<{ userId: string }> = async (
         if (!user) {
             throw new HttpError(404, "User not found");
         }
-        // Prevent user from accessing other user's data if they steal the token
-        if (user.id !== req.user?.id) {
-            throw new HttpError(403, "Forbidden");
-        }
+        isRequestedBySameUser(req, user.id);
 
         return res.status(200).json(user);
     } catch (err) {
