@@ -1,4 +1,4 @@
-import { getJwtAccessSecret } from "@/config/secret-manager";
+import { jwtAccessSecret } from "@/utils/auth";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
 import { RequestHandler } from "express";
@@ -11,7 +11,7 @@ export const parseToken: RequestHandler = async (req, res, next) => {
             throw new HttpError(400, "Missing token");
         }
 
-        jwt.verify(token, await getJwtAccessSecret(), async (err, user) => {
+        jwt.verify(token, jwtAccessSecret, async (err, user) => {
             if (err) {
                 return next(new HttpError(401, "Invalid token"));
             }

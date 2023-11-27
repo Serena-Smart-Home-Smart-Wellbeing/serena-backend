@@ -1,10 +1,9 @@
-import { getJwtAccessSecret } from "@/config/secret-manager";
+import { isRequestedBySameUser, jwtAccessSecret } from "@/utils/auth";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
+import bcrypt from "bcryptjs";
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import { isRequestedBySameUser } from "@/utils/auth";
 
 enum PasswordError {
     TOO_SHORT = "Password must be at least 8 characters long"
@@ -68,11 +67,9 @@ export const registerUser: RequestHandler<
             }
         });
 
-        const accessToken = jwt.sign(
-            { userId: newUser.id },
-            await getJwtAccessSecret(),
-            { expiresIn: "30d" }
-        );
+        const accessToken = jwt.sign({ userId: newUser.id }, jwtAccessSecret, {
+            expiresIn: "30d"
+        });
 
         return res.status(201).json({
             accessToken,
@@ -113,11 +110,9 @@ export const login: RequestHandler<
             throw new HttpError(401, "Wrong email/password");
         }
 
-        const accessToken = jwt.sign(
-            { userId: user.id },
-            await getJwtAccessSecret(),
-            { expiresIn: "30d" }
-        );
+        const accessToken = jwt.sign({ userId: user.id }, jwtAccessSecret, {
+            expiresIn: "30d"
+        });
         return res.status(200).json({
             accessToken,
             userId: user.id
