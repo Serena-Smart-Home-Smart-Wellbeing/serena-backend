@@ -10,7 +10,9 @@
         "build": "tsc && tsc-alias",
         "start": "node dist/index.js",
         "dev": "nodemon",
-        "create-env": "printenv > .env"
+        "create-env": "printenv > .env",
+        "prisma-migrate:dev": "prisma migrate dev",
+        "postprisma-migrate:dev": "npm i"
     },
     "repository": {
         "type": "git",
