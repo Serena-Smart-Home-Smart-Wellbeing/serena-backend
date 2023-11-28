@@ -807,7 +807,6 @@
                 }
             },
             "post": {
-                "security": [],
                 "tags": ["SerenBox"],
                 "summary": "Add a new SerenBox",
                 "description": "Add a new SerenBox",
