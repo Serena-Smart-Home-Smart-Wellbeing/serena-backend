@@ -776,16 +776,6 @@
                 "summary": "Get a list of user's SerenBoxes",
                 "description": "Get a list of user's SerenBoxes",
                 "operationId": "getSerenBoxes",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SerenBoxData"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "OK",
