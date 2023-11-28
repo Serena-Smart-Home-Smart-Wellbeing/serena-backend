@@ -121,3 +121,38 @@ export const handlePatchSerenBoxIpAddress: RequestHandler<
         next(err);
     }
 };
+
+export const handleDeleteSerenBox: RequestHandler<{ serenboxId: string }> = async (
+    req,
+    res,
+    next
+) => {
+    try {
+        if (!req.user) {
+            throw new HttpError(401, "Unauthorized");
+        }
+
+        const serenBox = await prisma.serenBox.findUnique({
+            where: {
+                id: req.params.serenboxId
+            }
+        });
+
+        if (!serenBox) {
+            throw new HttpError(404, "SerenBox not found");
+        }
+        if (serenBox.userId !== req.user.id) {
+            throw new HttpError(403, "Forbidden");
+        }
+
+        await prisma.serenBox.delete({
+            where: {
+                id: req.params.serenboxId
+            }
+        });
+
+        res.status(200).json(serenBox);
+    } catch (err) {
+        next(err);
+    }
+};

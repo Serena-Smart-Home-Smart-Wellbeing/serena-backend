@@ -1057,7 +1057,7 @@
                 "tags": ["SerenBox"],
                 "summary": "Delete a SerenBox",
                 "description": "Delete a SerenBox",
-                "operationId": "deleteSerenBox",
+                "operationId": "handleDeleteSerenBox",
                 "responses": {
                     "200": {
                         "description": "OK",
