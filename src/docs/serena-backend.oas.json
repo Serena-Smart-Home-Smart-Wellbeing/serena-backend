@@ -253,6 +253,11 @@
                                 "type": "string",
                                 "description": "SerenBox image name",
                                 "example": "serenbox.jpg"
+                            },
+                            "ip_address": {
+                                "type": "string",
+                                "description": "SerenBox IP address",
+                                "example": "192.0.31.34"
                             }
                         }
                     }
@@ -766,6 +771,51 @@
             }
         },
         "/devices/serenbox": {
+            "get": {
+                "tags": ["SerenBox"],
+                "summary": "Get a list of user's SerenBoxes",
+                "description": "Get a list of user's SerenBoxes",
+                "operationId": "getSerenBoxes",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SerenBoxData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SerenBoxServerData"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [],
                 "tags": ["SerenBox"],
@@ -783,7 +833,7 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "OK",
                         "content": {
                             "application/json": {
@@ -829,6 +879,87 @@
                                 "example": {
                                     "message": "SerenBox already exists",
                                     "status": 409
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [],
+                "tags": ["SerenBox"],
+                "summary": "Update a SerenBox ip_address",
+                "description": "Update a SerenBox ip_address",
+                "operationId": "patchSerenBoxIpAddress",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "credentials": {
+                                        "type": "string",
+                                        "description": "SerenBox credentials",
+                                        "example": "00:0a:95:9d:68:16"
+                                    },
+                                    "ip_address": {
+                                        "type": "string",
+                                        "description": "SerenBox IP address",
+                                        "example": "192.0.31.34"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxServerData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing credentials": {
+                                        "summary": "Missing credentials",
+                                        "value": {
+                                            "message": "Missing credentials",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Missing ip_address": {
+                                        "summary": "Missing ip_address",
+                                        "value": {
+                                            "message": "Missing ip_address",
+                                            "status": 400
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
                                 }
                             }
                         }
@@ -888,56 +1019,6 @@
                                 "example": {
                                     "message": "Forbidden",
                                     "status": 403
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "SerenBox not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HttpError"
-                                },
-                                "example": {
-                                    "message": "SerenBox not found",
-                                    "status": 404
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "security": [],
-                "tags": ["SerenBox"],
-                "summary": "Update SerenBox credentials",
-                "description": "Update SerenBox credentials",
-                "operationId": "patchSerenBoxCredentials",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "credentials": {
-                                        "type": "string",
-                                        "description": "SerenBox credentials",
-                                        "example": "00:0a:95:9d:68:16"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SerenBoxServerData"
                                 }
                             }
                         }
