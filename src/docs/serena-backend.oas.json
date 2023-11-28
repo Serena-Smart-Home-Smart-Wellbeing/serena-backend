@@ -904,7 +904,7 @@
                 "tags": ["SerenBox"],
                 "summary": "Update a SerenBox ip_address",
                 "description": "Update a SerenBox ip_address",
-                "operationId": "patchSerenBoxIpAddress",
+                "operationId": "handlePatchSerenBoxIpAddress",
                 "requestBody": {
                     "required": true,
                     "content": {
