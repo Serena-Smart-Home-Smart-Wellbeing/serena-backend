@@ -631,7 +631,7 @@
                 "security": [],
                 "tags": ["Music Recommender"],
                 "summary": "Recommend music based on user's emotion",
-                "description": "Recommend music based on user's emotion",
+                "description": "Get energetic and relax from `UserEmotion.energetic.total` or `UserEmotion.relax.total`. Energetic + relax cannot be more than 1",
                 "operationId": "getRecommendations",
                 "parameters": [
                     {
@@ -673,7 +673,7 @@
                         }
                     },
                     "400": {
-                        "description": "Missing energetic/relax emotion",
+                        "description": "Bad Request",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -691,6 +691,13 @@
                                         "summary": "Missing relax",
                                         "value": {
                                             "message": "Missing relax",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Energetic + relax !== 1": {
+                                        "summary": "Energetic + relax !== 1",
+                                        "value": {
+                                            "message": "Energetic + relax must be 1",
                                             "status": 400
                                         }
                                     }

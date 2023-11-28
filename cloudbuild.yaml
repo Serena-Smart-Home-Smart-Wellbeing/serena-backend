@@ -48,7 +48,6 @@ steps:
           - "--network=cloudbuild"
           - "--path=."
           - "--env=GOOGLE_ENTRYPOINT"
-          - "--env=DATABASE_URL"
       id: Buildpack
       entrypoint: pack
     - name: gcr.io/cloud-builders/docker

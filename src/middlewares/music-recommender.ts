@@ -4,8 +4,8 @@ import spotify from "@/utils/spotify-api";
 import { RequestHandler } from "express";
 
 interface RecommendationsParams {
-    energetic: number;
-    relax: number;
+    energetic: string;
+    relax: string;
 }
 
 export const handleGetRecommendations: RequestHandler<
@@ -24,7 +24,17 @@ export const handleGetRecommendations: RequestHandler<
             throw new HttpError(400, "Missing relax");
         }
 
-        const mood = energetic > relax ? energetic : relax;
+        const parsedEnergetic = parseFloat(energetic);
+        const parsedRelax = parseFloat(relax);
+        if (parsedEnergetic + parsedRelax !== 1) {
+            throw new HttpError(400, "Energetic + relax must be 1");
+        }
+
+        let mood = parsedEnergetic;
+        if (parsedRelax > parsedEnergetic) {
+            mood = 1 - parsedRelax;
+        }
+
         const spotifyToken = (await spotify.authenticate()).accessToken.access_token;
         const recommendations = await getRecommendations(spotifyToken, mood);
 
