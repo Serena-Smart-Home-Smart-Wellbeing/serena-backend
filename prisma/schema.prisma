@@ -31,7 +31,8 @@ model User {
 
 model SerenBox {
   id               String            @id @default(uuid())
-  credentials      String
+  credentials      String            @unique
+  ip_address       String?
   name             String
   user             User              @relation(fields: [userId], references: [id])
   userId           String

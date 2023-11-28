@@ -8,7 +8,9 @@ const setupSwagger = (app: Application) => {
         swaggerUi.serve,
         swaggerUi.setup(swaggerDocument, {
             swaggerOptions: {
-                persistAuthorization: true
+                persistAuthorization: true,
+                tagsSorter: "alpha",
+                operationsSorter: "alpha"
             }
         })
     );

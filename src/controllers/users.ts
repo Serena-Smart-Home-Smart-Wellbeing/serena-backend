@@ -132,7 +132,9 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
         if (!user) {
             throw new HttpError(404, "User not found");
         }
-        isRequestedBySameUser(req, user.id);
+        if (user.id !== req.user?.id) {
+            throw new HttpError(403, "Forbidden");
+        }
 
         const deletedUser = await prisma.user.delete({
             where: {

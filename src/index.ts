@@ -6,6 +6,7 @@ import cors from "cors";
 import setupSwagger from "./docs/swagger";
 import serenPlaceRouter from "./routers/serenplace";
 import musicRecommenderRouter from "./routers/music-recommender";
+import serenBoxRouter from "./routers/serenbox";
 
 //For env File
 dotenv.config();
@@ -21,6 +22,7 @@ setupSwagger(app);
 app.use("/users", usersRouter);
 app.use("/serenplace", serenPlaceRouter);
 app.use("/music-recommender", musicRecommenderRouter);
+app.use("/devices/serenbox", serenBoxRouter);
 
 app.use(handleHttpErrors);
 
