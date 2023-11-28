@@ -200,6 +200,63 @@
                 "items": {
                     "$ref": "#/components/schemas/MusicRecommendation"
                 }
+            },
+            "SerenBoxData": {
+                "type": "object",
+                "properties": {
+                    "credentials": {
+                        "type": "string",
+                        "description": "SerenBox credentials",
+                        "example": "00:0a:95:9d:68:16"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "SerenBox name",
+                        "example": "My SerenBox"
+                    }
+                }
+            },
+            "SerenBoxServerData": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/SerenBoxData"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "SerenBox id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "userId": {
+                                "type": "string",
+                                "description": "User id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "added": {
+                                "type": "string",
+                                "description": "SerenBox added date",
+                                "example": "2020-10-31T00:00:00.000Z"
+                            },
+                            "slotAId": {
+                                "type": "string",
+                                "description": "Slot A product id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "slotBId": {
+                                "type": "string",
+                                "description": "Slot B product id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "image_name": {
+                                "type": "string",
+                                "description": "SerenBox image name",
+                                "example": "serenbox.jpg"
+                            }
+                        }
+                    }
+                ]
             }
         }
     },
@@ -701,6 +758,260 @@
                                             "status": 400
                                         }
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/serenbox": {
+            "post": {
+                "security": [],
+                "tags": ["SerenBox"],
+                "summary": "Add a new SerenBox",
+                "description": "Add a new SerenBox",
+                "operationId": "addSerenBox",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SerenBoxData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxServerData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing credentials": {
+                                        "summary": "Missing credentials",
+                                        "value": {
+                                            "message": "Missing credentials",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Missing name": {
+                                        "summary": "Missing name",
+                                        "value": {
+                                            "message": "Missing name",
+                                            "status": 400
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "SerenBox already exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox already exists",
+                                    "status": 409
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/serenbox/{serenboxId}": {
+            "parameters": [
+                {
+                    "name": "serenboxId",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                }
+            ],
+            "get": {
+                "tags": ["SerenBox"],
+                "summary": "Get a SerenBox",
+                "description": "Get a SerenBox",
+                "operationId": "getSerenBox",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxServerData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [],
+                "tags": ["SerenBox"],
+                "summary": "Update SerenBox credentials",
+                "description": "Update SerenBox credentials",
+                "operationId": "patchSerenBoxCredentials",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "credentials": {
+                                        "type": "string",
+                                        "description": "SerenBox credentials",
+                                        "example": "00:0a:95:9d:68:16"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxServerData"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["SerenBox"],
+                "summary": "Delete a SerenBox",
+                "description": "Delete a SerenBox",
+                "operationId": "deleteSerenBox",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxServerData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
                                 }
                             }
                         }
