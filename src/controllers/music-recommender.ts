@@ -14,8 +14,8 @@ export const getRecommendations = async (
             limit,
             seed_genres,
             // target_valence: mood,
-            min_valence: mood - Math.random() * 0.5,
-            max_valence: mood + Math.random() * 0.5,
+            min_valence: mood - Math.random() * 0.1,
+            max_valence: mood + Math.random() * 0.1,
             energy: mood
         }
     });
