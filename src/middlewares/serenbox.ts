@@ -39,3 +39,50 @@ export const handleAddSerenBox: RequestHandler<
         next(err);
     }
 };
+
+export const handleGetSerenBox: RequestHandler<{ serenboxId: string }> = async (
+    req,
+    res,
+    next
+) => {
+    try {
+        if (!req.user) {
+            throw new HttpError(401, "Unauthorized");
+        }
+
+        const serenBox = await prisma.serenBox.findUnique({
+            where: {
+                id: req.params.serenboxId
+            }
+        });
+
+        if (!serenBox) {
+            throw new HttpError(404, "SerenBox not found");
+        }
+        if (serenBox.userId !== req.user.id) {
+            throw new HttpError(403, "Forbidden");
+        }
+
+        res.status(200).json(serenBox);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const handleGetSerenBoxes: RequestHandler = async (req, res, next) => {
+    try {
+        if (!req.user) {
+            throw new HttpError(401, "Unauthorized");
+        }
+
+        const serenBoxes = await prisma.serenBox.findMany({
+            where: {
+                userId: req.user.id
+            }
+        });
+
+        res.status(200).json(serenBoxes);
+    } catch (err) {
+        next(err);
+    }
+};

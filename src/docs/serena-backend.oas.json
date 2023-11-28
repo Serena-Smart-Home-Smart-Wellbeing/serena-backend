@@ -997,7 +997,7 @@
                 "tags": ["SerenBox"],
                 "summary": "Get a SerenBox",
                 "description": "Get a SerenBox",
-                "operationId": "getSerenBox",
+                "operationId": "handleGetSerenBox",
                 "responses": {
                     "200": {
                         "description": "OK",
