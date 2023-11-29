@@ -2835,7 +2835,7 @@
 							"response": []
 						},
 						{
-							"name": "404 SerenBox Not Found Copy",
+							"name": "404 SerenBox session Not Found",
 							"event": [
 								{
 									"listen": "test",
@@ -3015,7 +3015,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "90645be8-6b43-4dca-9929-823446e4fcbd",
+										"id": "a8711eb6-37ff-476a-8c7b-35b799aba46e",
 										"exec": [
 											"pm.test(\"Reject if access token doesn't match SerenBox's userId\", () => {\r",
 											"    pm.response.to.have.status(403);\r",
@@ -3036,7 +3036,7 @@
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}/finish"
 							},
 							"response": []
 						},
@@ -3046,7 +3046,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ec510ec1-66b0-47a8-9a29-2edeca083018",
+										"id": "f68b6158-701e-496a-b245-98cbbc18b7fe",
 										"exec": [
 											"pm.test(\"Reject if SerenBox not found\", () => {\r",
 											"    pm.response.to.have.status(404);\r",
@@ -3061,17 +3061,17 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/NOTHINGGGG/sessions/{{SESSION_ID}}"
+								"url": "{{HOST}}/devices/serenbox/NOTHINGGGG/sessions/{{SESSION_ID}}/finish"
 							},
 							"response": []
 						},
 						{
-							"name": "404 SerenBox Not Found Copy",
+							"name": "404 SerenBox session Not Found",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "dfcf8187-a314-49bf-b9d7-af40ced2a4eb",
+										"id": "f70fd852-516e-43c8-b9f3-76007e64553c",
 										"exec": [
 											"pm.test(\"Reject if SerenBox session not found\", () => {\r",
 											"    pm.response.to.have.status(404);\r",
@@ -3086,7 +3086,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/NOTHINGGGG"
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/NOTHINGGGG/finish"
 							},
 							"response": []
 						}
