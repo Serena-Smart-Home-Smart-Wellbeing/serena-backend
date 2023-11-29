@@ -5,8 +5,10 @@ import {
     handleCreateSerenBoxSession,
     handleDeleteSerenBox,
     handleGetSerenBox,
+    handleGetSerenBoxSession,
     handleGetSerenBoxes,
-    handlePatchSerenBoxIpAddress
+    handlePatchSerenBoxIpAddress,
+    validateSerenBoxById
 } from "@/middlewares/serenbox";
 import express from "express";
 
@@ -35,12 +37,16 @@ serenBoxRouter
     .route("/:serenboxId/slots/:slotOption")
     .patch(parseToken, handleChangeSerenBoxSlotStatus);
 
-export interface SerenBoxSessionRouterParams extends SerenBoxSlotRouterParams {
+export interface SerenBoxSessionRouterParams extends SerenBoxRouterParams {
     sessionId: string;
 }
 
 serenBoxRouter
     .route("/:serenboxId/sessions")
-    .post(parseToken, handleCreateSerenBoxSession);
+    .post(parseToken, validateSerenBoxById, handleCreateSerenBoxSession);
+
+serenBoxRouter
+    .route("/:serenboxId/sessions/:sessionId")
+    .get(parseToken, validateSerenBoxById, handleGetSerenBoxSession);
 
 export default serenBoxRouter;

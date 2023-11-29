@@ -1,5 +1,9 @@
 import { addSerenBox, changeSerenBoxSlotStatus } from "@/controllers/serenbox";
-import { SerenBoxRouterParams, SerenBoxSlotRouterParams } from "@/routers/serenbox";
+import {
+    SerenBoxRouterParams,
+    SerenBoxSessionRouterParams,
+    SerenBoxSlotRouterParams
+} from "@/routers/serenbox";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
 import { SerenBox, SerenBoxSession, SerenBoxSlots } from "@prisma/client";
@@ -194,6 +198,32 @@ export const handleChangeSerenBoxSlotStatus: RequestHandler<
     }
 };
 
+export const validateSerenBoxById: RequestHandler<SerenBoxRouterParams> = async (
+    req,
+    _res,
+    next
+) => {
+    try {
+        const { serenboxId } = req.params;
+
+        const serenBox = await prisma.serenBox.findUnique({
+            where: {
+                id: serenboxId
+            }
+        });
+        if (!serenBox) {
+            throw new HttpError(404, "SerenBox not found");
+        }
+        if (serenBox.userId !== req.user?.id) {
+            throw new HttpError(403, "Forbidden");
+        }
+
+        next();
+    } catch (err) {
+        next(err);
+    }
+};
+
 export const handleCreateSerenBoxSession: RequestHandler<
     SerenBoxRouterParams,
     SerenBoxSession,
@@ -212,18 +242,6 @@ export const handleCreateSerenBoxSession: RequestHandler<
             throw new HttpError(400, "Missing duration_minutes");
         }
 
-        const serenBox = await prisma.serenBox.findUnique({
-            where: {
-                id: serenboxId
-            }
-        });
-        if (!serenBox) {
-            throw new HttpError(404, "SerenBox not found");
-        }
-        if (serenBox.userId !== req.user?.id) {
-            throw new HttpError(403, "Forbidden");
-        }
-
         const serenBoxSession = await prisma.serenBoxSession.create({
             data: {
                 serenBox: {
@@ -238,6 +256,28 @@ export const handleCreateSerenBoxSession: RequestHandler<
         });
 
         res.status(201).json(serenBoxSession);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const handleGetSerenBoxSession: RequestHandler<
+    SerenBoxSessionRouterParams,
+    SerenBoxSession
+> = async (req, res, next) => {
+    try {
+        const { sessionId } = req.params;
+
+        const serenBoxSession = await prisma.serenBoxSession.findUnique({
+            where: {
+                id: sessionId
+            }
+        });
+        if (!serenBoxSession) {
+            throw new HttpError(404, "SerenBox session not found");
+        }
+
+        res.status(200).json(serenBoxSession);
     } catch (err) {
         next(err);
     }
