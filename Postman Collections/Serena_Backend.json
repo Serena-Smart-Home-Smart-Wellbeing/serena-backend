@@ -1839,7 +1839,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38116774-201d-4d4c-93ef-e76aa99681e0",
+										"id": "4db75d5d-80ab-4cea-ab2e-b71ce4934a57",
 										"exec": [
 											"pm.test(\"Reject if SerenBox unavailable\", () => {\r",
 											"    pm.response.to.have.status(503);\r",
@@ -1854,7 +1854,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/serenbox_not_available/status"
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_UNAV_ID}}/status"
 							},
 							"response": []
 						}
