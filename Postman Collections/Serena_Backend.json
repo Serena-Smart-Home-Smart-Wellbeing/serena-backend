@@ -2009,11 +2009,20 @@
 					"name": "Update diffuser slot status",
 					"item": [
 						{
-							"name": "New request",
+							"name": "200 Successfully updated slot A status to true",
 							"id": "52a39009-75da-4f44-9fd3-a487b94dafda",
 							"request": {
 								"method": "GET",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"is_active\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/A"
 							},
 							"response": []
