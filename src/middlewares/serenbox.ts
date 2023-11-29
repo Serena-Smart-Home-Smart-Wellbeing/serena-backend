@@ -1,7 +1,7 @@
-import { addSerenBox } from "@/controllers/serenbox";
+import { addSerenBox, changeSerenBoxSlotStatus } from "@/controllers/serenbox";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
-import { SerenBox } from "@prisma/client";
+import { SerenBox, SerenBoxSlots } from "@prisma/client";
 import { RequestHandler } from "express";
 
 interface HandleAddSerenBoxBody {
@@ -152,6 +152,47 @@ export const handleDeleteSerenBox: RequestHandler<{ serenboxId: string }> = asyn
         });
 
         res.status(200).json(serenBox);
+    } catch (err) {
+        next(err);
+    }
+};
+
+interface SerenBoxSlotParams {
+    serenboxId: string;
+    slotOption: string;
+}
+
+export const handleChangeSerenBoxSlotStatus: RequestHandler<
+    SerenBoxSlotParams,
+    unknown,
+    { is_active: true }
+> = async (req, res, next) => {
+    try {
+        const { serenboxId, slotOption } = req.params;
+
+        if (!(slotOption in SerenBoxSlots)) {
+            throw new HttpError(400, "Wrong slot option");
+        }
+
+        const serenBox = await prisma.serenBox.findUnique({
+            where: {
+                id: req.params.serenboxId
+            }
+        });
+        if (!serenBox) {
+            throw new HttpError(404, "SerenBox not found");
+        }
+        if (serenBox.userId !== req.user?.id) {
+            throw new HttpError(403, "Forbidden");
+        }
+
+        const updatedSerenBox = await changeSerenBoxSlotStatus(
+            serenboxId,
+            slotOption as SerenBoxSlots,
+            req.body.is_active
+        );
+
+        res.status(200).json(updatedSerenBox);
     } catch (err) {
         next(err);
     }

@@ -1,6 +1,7 @@
 import { parseToken } from "@/middlewares/auth";
 import {
     handleAddSerenBox,
+    handleChangeSerenBoxSlotStatus,
     handleDeleteSerenBox,
     handleGetSerenBox,
     handleGetSerenBoxes,
@@ -20,5 +21,9 @@ serenBoxRouter
     .route("/:serenboxId")
     .get(parseToken, handleGetSerenBox)
     .delete(parseToken, handleDeleteSerenBox);
+
+serenBoxRouter
+    .route("/:serenboxId/slots/:slotOption")
+    .patch(parseToken, handleChangeSerenBoxSlotStatus);
 
 export default serenBoxRouter;

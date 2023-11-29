@@ -1149,7 +1149,23 @@
                 "tags": ["SerenBox Slot"],
                 "summary": "Update a SerenBox diffuser slot state",
                 "description": "Update a SerenBox diffuser slot state",
-                "operationId": "handleUpdateSerenBoxSlot",
+                "operationId": "handleChangeSerenBoxSlotStatus",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "is_active": {
+                                        "type": "string",
+                                        "enum": [true, false]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1161,6 +1177,26 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Wrong slot option": {
+                                        "summary": "Wrong slot option",
+                                        "value": {
+                                            "message": "Wrong slot option",
+                                            "status": 400
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+
                     "401": {
                         "description": "Invalid token",
                         "content": {
