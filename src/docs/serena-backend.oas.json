@@ -1127,7 +1127,7 @@
             "parameters": [
                 {
                     "name": "serenboxId",
-                    "in": "query",
+                    "in": "path",
                     "required": true,
                     "schema": {
                         "type": "string"
@@ -1136,7 +1136,7 @@
                 },
                 {
                     "name": "slotOption",
-                    "in": "path",
+                    "in": "query",
                     "required": true,
                     "schema": {
                         "type": "string",
