@@ -2499,7 +2499,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "8c07001a-4f44-47e8-b0b6-9cbe72f097e0",
+										"id": "2071795d-8d8f-4e52-8e73-c302b481e158",
 										"exec": [
 											"pm.test(\"Reject if SerenBox not found\", () => {\r",
 											"    pm.response.to.have.status(404);\r",
@@ -2523,7 +2523,7 @@
 										}
 									}
 								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
+								"url": "{{HOST}}/devices/serenbox/NOTHINGGGG/sessions"
 							},
 							"response": []
 						},
@@ -2715,10 +2715,10 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "269dcd3d-2c98-4a86-91ab-f12018ac73e5",
+										"id": "658a4fa0-1599-49b9-8e88-51909dfbcf01",
 										"exec": [
-											"pm.test(\"Created new SerenBox session\", function () {\r",
-											"    pm.response.to.have.status(201);\r",
+											"pm.test(\"Get existing SerenBox session\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
 											"    const res = pm.response.json();\r",
 											"    \r",
 											"    pm.expect(res).to.have.keys(\r",
@@ -2732,10 +2732,6 @@
 											"        \"is_running\"\r",
 											"    );\r",
 											"\r",
-											"    pm.expect(res.duration_minutes).to.be.equal(10);\r",
-											"    pm.expect(res.detection_mode).to.be.equal(\"INTERVAL\");\r",
-											"    pm.expect(res.diffusion_option).to.be.equal(\"MATCH_MOOD\");\r",
-											"\r",
 											"    pm.environment.set(\"SESSION_ID\", res.id)\r",
 											"});"
 										],
@@ -2747,50 +2743,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
-							},
-							"response": []
-						},
-						{
-							"name": "409 SerenBox session already exists",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "23211815-ce9c-4c8a-9ff3-4f41a5297d70",
-										"exec": [
-											"pm.test(\"Reject if SerenBox session already exists\", function () {\r",
-											"    pm.response.to.have.status(409);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox session already exists\");\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "a6b4e2b5-0e37-4fb7-abd1-ede34a27035d",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
 							},
 							"response": []
 						},
@@ -2800,7 +2753,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "6d719057-dcd1-4df0-97b9-2bf3c67b9c5c",
+										"id": "b7cfe90b-e4dc-4638-807a-edd75c581eba",
 										"exec": [
 											"pm.test(\"Reject if token is invalid\", () => {\r",
 											"    pm.response.to.have.status(401);\r",
@@ -2819,18 +2772,9 @@
 										"token": "meow.meow.meow"
 									}
 								},
-								"method": "POST",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
 							},
 							"response": []
 						},
@@ -2840,7 +2784,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ced14e86-e401-460f-877f-9e580948995f",
+										"id": "90645be8-6b43-4dca-9929-823446e4fcbd",
 										"exec": [
 											"pm.test(\"Reject if access token doesn't match SerenBox's userId\", () => {\r",
 											"    pm.response.to.have.status(403);\r",
@@ -2859,18 +2803,9 @@
 										"token": "{{SECOND_ACCESS_TOKEN}}"
 									}
 								},
-								"method": "POST",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
 							},
 							"response": []
 						},
@@ -2880,7 +2815,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "8c07001a-4f44-47e8-b0b6-9cbe72f097e0",
+										"id": "ec510ec1-66b0-47a8-9a29-2edeca083018",
 										"exec": [
 											"pm.test(\"Reject if SerenBox not found\", () => {\r",
 											"    pm.response.to.have.status(404);\r",
@@ -2893,120 +2828,34 @@
 							],
 							"id": "b78a990c-cf3c-4364-9cd9-bd4b4d0d8888",
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
+								"url": "{{HOST}}/devices/serenbox/NOTHINGGGG/sessions/{{SESSION_ID}}"
 							},
 							"response": []
 						},
 						{
-							"name": "400 Missing duration_minutes",
+							"name": "404 SerenBox Not Found Copy",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "0065e021-2a20-4562-9890-402ff81b9519",
+										"id": "dfcf8187-a314-49bf-b9d7-af40ced2a4eb",
 										"exec": [
-											"pm.test(\"Reject if missing duration_minutes\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing duration_minutes\");\r",
+											"pm.test(\"Reject if SerenBox session not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox session not found\");\r",
 											"});"
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
-							"id": "fdc4b58b-9633-4308-ab87-b62285412c32",
+							"id": "3670f05c-d650-4ec2-b308-3ec12202f3b3",
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
-							},
-							"response": []
-						},
-						{
-							"name": "400 Missing detection_mode",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "1a693da8-c941-4c91-836f-2695d7f2a17d",
-										"exec": [
-											"pm.test(\"Reject if missing detection_mode\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing detection_mode\");\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "34a1002d-f2b1-42c7-b768-9bf6b48c55e8",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
-							},
-							"response": []
-						},
-						{
-							"name": "400 Missing diffusion_option",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "7836f744-e702-422b-8bce-7d24966e4342",
-										"exec": [
-											"pm.test(\"Reject if missing diffusion_option\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing diffusion_option\");\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "611cf39c-3031-4377-a4bb-77700df599ba",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/NOTHINGGGG"
 							},
 							"response": []
 						}
@@ -3089,8 +2938,234 @@
 				},
 				{
 					"name": "Finish SerenBox session",
-					"item": [],
-					"id": "28a8a04d-0e11-450e-b655-e37496c69950"
+					"item": [
+						{
+							"name": "200 Existing SerenBox session",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2d718af9-5523-46af-8d59-c37f057f93b1",
+										"exec": [
+											"pm.test(\"Finish an existing SerenBox session\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"duration_minutes\",\r",
+											"        \"detection_mode\",\r",
+											"        \"diffusion_option\",\r",
+											"        \"id\",\r",
+											"        \"serenBoxId\",\r",
+											"        \"start_time\",\r",
+											"        \"end_time\",\r",
+											"        \"is_running\"\r",
+											"    );\r",
+											"    pm.expect(res.is_running).to.equal(false);\r",
+											"\r",
+											"    pm.environment.set(\"SESSION_ID\", res.id)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "088cbb18-b188-4aba-bb2e-76ce1e426e3e",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}/finish"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Invalid Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "da450e6d-435d-408a-8a38-b12f86a096ac",
+										"exec": [
+											"pm.test(\"Reject if token is invalid\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "78106efe-7f16-479e-9c53-68cedeaf2fe1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "meow.meow.meow"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}/finish"
+							},
+							"response": []
+						},
+						{
+							"name": "403 Forbidden",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "90645be8-6b43-4dca-9929-823446e4fcbd",
+										"exec": [
+											"pm.test(\"Reject if access token doesn't match SerenBox's userId\", () => {\r",
+											"    pm.response.to.have.status(403);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Forbidden\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "5155ce83-41b3-45ce-8e56-043c12dab171",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{SECOND_ACCESS_TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "404 SerenBox Not Found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ec510ec1-66b0-47a8-9a29-2edeca083018",
+										"exec": [
+											"pm.test(\"Reject if SerenBox not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "9566c8f5-2c0f-4e7e-b530-12608b25a080",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/NOTHINGGGG/sessions/{{SESSION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "404 SerenBox Not Found Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dfcf8187-a314-49bf-b9d7-af40ced2a4eb",
+										"exec": [
+											"pm.test(\"Reject if SerenBox session not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox session not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c3397bb9-3864-429a-ba3a-62d7d6fc4b40",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/NOTHINGGGG"
+							},
+							"response": []
+						}
+					],
+					"id": "abf4c4a1-0a50-4b5f-9509-a2df6c827d68",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "03acd11b-29ca-41ed-b6d8-4c6b1be833ec",
+								"exec": [
+									"const secondUserCreds = {\r",
+									"    email: \"test_second_user@test.com\",\r",
+									"    username: \"test_second_user\",\r",
+									"    password: \"12345678\"\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        method: \"POST\",\r",
+									"        url: `${pm.environment.get(\"HOST\")}/users`,\r",
+									"        body: {\r",
+									"            mode: \"raw\",\r",
+									"            raw: JSON.stringify(secondUserCreds)\r",
+									"        },\r",
+									"        header: {\r",
+									"            \"Content-Type\": \"application/json\"\r",
+									"        }\r",
+									"    },\r",
+									"    function (err, response) {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        } else {\r",
+									"            const res = response.json();\r",
+									"\r",
+									"            if (res.accessToken && res.userId) {\r",
+									"                console.log(\"Registered User\");\r",
+									"\r",
+									"                pm.environment.set(\"SECOND_ACCESS_TOKEN\", res.accessToken);\r",
+									"                pm.environment.set(\"SECOND_USER_ID\", res.userId);\r",
+									"            } else {\r",
+									"                pm.sendRequest(\r",
+									"                    {\r",
+									"                        method: \"POST\",\r",
+									"                        url: `${pm.environment.get(\"HOST\")}/users/login`,\r",
+									"                        body: {\r",
+									"                            mode: \"raw\",\r",
+									"                            raw: JSON.stringify(secondUserCreds)\r",
+									"                        },\r",
+									"                        header: {\r",
+									"                            \"Content-Type\": \"application/json\"\r",
+									"                        }\r",
+									"                    },\r",
+									"                    (err, response) => {\r",
+									"                        console.log(\"Logged In\");\r",
+									"                        if (err) {\r",
+									"                            console.log(err);\r",
+									"                        } else {\r",
+									"                            const res = response.json();\r",
+									"                            if (res.status) return console.log(res);\r",
+									"\r",
+									"                            pm.environment.set(\r",
+									"                                \"SECOND_ACCESS_TOKEN\",\r",
+									"                                res.accessToken\r",
+									"                            );\r",
+									"                            pm.environment.set(\"SECOND_USER_ID\", res.userId);\r",
+									"                        }\r",
+									"                    }\r",
+									"                );\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
 				}
 			],
 			"id": "95697787-dcde-4e45-bce8-a3a78277ba69",
