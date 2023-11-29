@@ -89,7 +89,8 @@ export const finishSerenBoxSession = async (sessionId: string) => {
             id: sessionId
         },
         data: {
-            is_running: false
+            is_running: false,
+            end_time: new Date()
         }
     });
 
