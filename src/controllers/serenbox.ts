@@ -62,7 +62,18 @@ export const changeSerenBoxSlotStatus = async (
     slot: SerenBoxSlots,
     status: boolean
 ) => {
-    // TODO use ip address to axios request to serenbox, dont thow so that delivarables dont need serenbox prototype
+    try {
+        const path = `/diffusers/${slot}`;
+        const res = await axios.get(path, {
+            params: {
+                state: status ? "on" : "off"
+            }
+        });
+
+        console.log(res);
+    } catch (err) {
+        console.error(err);
+    }
 
     const updatedSerenBox = await prisma.serenBox.update({
         where: {
