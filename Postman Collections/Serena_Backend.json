@@ -2448,16 +2448,16 @@
 							"response": []
 						},
 						{
-							"name": "401 Missing duration_minutes Copy",
+							"name": "401 Missing diffusion_option",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "dc39a364-8ef8-4116-a09b-5d9b0e8f982b",
+										"id": "97499214-6e12-4040-a72f-de45d2bb6a61",
 										"exec": [
-											"pm.test(\"Reject if missing duration_minutes\", function () {\r",
+											"pm.test(\"Reject if missing diffusion_option\", function () {\r",
 											"    pm.response.to.have.status(400);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing duration_minutes\");\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing diffusion_option\");\r",
 											"});"
 										],
 										"type": "text/javascript"
