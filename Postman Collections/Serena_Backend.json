@@ -2911,7 +2911,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "179cbf70-54fd-4e42-b820-1b9ccb757105",
+										"id": "3bd347cb-efbd-4485-b118-8a0fe929b7fe",
 										"exec": [
 											"pm.test(\"Finish an existing SerenBox session\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2928,7 +2928,9 @@
 											"        \"is_running\"\r",
 											"    );\r",
 											"    pm.expect(res.is_running).to.equal(false);\r",
-											"    pm.expect(res.end_time).to.be.instanceOf(Date);\r",
+											"\r",
+											"    const regex = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$/;\r",
+											"    pm.expect(res.end_time).to.match(regex);\r",
 											"\r",
 											"    pm.environment.set(\"SESSION_ID\", res.id)\r",
 											"});"
