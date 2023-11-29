@@ -2217,16 +2217,16 @@
 							"response": []
 						},
 						{
-							"name": "401 Invalid Token Copy",
+							"name": "403 Forbidden",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "b7ffda14-d79b-4c7d-afad-133badfe6eaf",
+										"id": "8becf43f-a61d-4044-88c5-713b2f1193e9",
 										"exec": [
-											"pm.test(\"Reject if token is invalid\", () => {\r",
-											"    pm.response.to.have.status(401);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
+											"pm.test(\"Reject if access token doesn't match SerenBox's userId\", () => {\r",
+											"    pm.response.to.have.status(403);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Forbidden\");\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -2238,7 +2238,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "meow.meow.meow"
+										"token": "{{SECOND_ACCESS_TOKEN}}"
 									}
 								},
 								"method": "PATCH",
@@ -2253,6 +2253,40 @@
 									}
 								},
 								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/B"
+							},
+							"response": []
+						},
+						{
+							"name": "404 Not Found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7a26d4da-4588-4ffb-881c-1993b508f8f0",
+										"exec": [
+											"pm.test(\"Reject if SerenBox not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "6d3eaa99-9ecc-4c03-80df-2315c2031215",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"is_active\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/NOTFOUNDDDD/slots/B"
 							},
 							"response": []
 						}
