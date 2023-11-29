@@ -1,3 +1,4 @@
+import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
 import {
     SerenBox,
@@ -5,6 +6,7 @@ import {
     SerenBoxSlot,
     SerenBoxSlots
 } from "@prisma/client";
+import axios from "axios";
 
 export const addSerenBox = async (
     data: Pick<SerenBox, "credentials" | "name" | "userId"> & Partial<SerenBox>
@@ -45,11 +47,34 @@ export const addSerenBox = async (
     return newSerenBox;
 };
 
+export const verifySerenBoxConnection = async (ip: SerenBox["ip_address"]) => {
+    try {
+        const res = await axios.get(`${ip}/ping`);
+
+        return res;
+    } catch (err) {
+        throw new HttpError(503, "SerenBox unavailable");
+    }
+};
+
 export const changeSerenBoxSlotStatus = async (
     serenBoxId: string,
     slot: SerenBoxSlots,
     status: boolean
 ) => {
+    try {
+        const path = `/diffusers/${slot}`;
+        const res = await axios.get(path, {
+            params: {
+                state: status ? "on" : "off"
+            }
+        });
+
+        console.log(res);
+    } catch (err) {
+        console.error(err);
+    }
+
     const updatedSerenBox = await prisma.serenBox.update({
         where: {
             id: serenBoxId
