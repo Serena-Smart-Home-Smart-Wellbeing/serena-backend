@@ -2329,10 +2329,144 @@
 					"name": "Create SerenBox session",
 					"item": [
 						{
-							"name": "200 Created SerenBox session",
+							"name": "201 Created SerenBox session",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3ad6f8fc-d244-4f79-9edc-9bbce7adba40",
+										"exec": [
+											"pm.test(\"Created new SerenBox session\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    const res = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"duration_minutes\",\r",
+											"        \"detection_mode\",\r",
+											"        \"diffusion_option\",\r",
+											"        \"id\",\r",
+											"        \"serenBoxId\",\r",
+											"        \"start_time\",\r",
+											"        \"end_time\",\r",
+											"        \"is_running\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.duration_minutes).to.be.equal(10);\r",
+											"    pm.expect(res.detection_mode).to.be.equal(\"INTERVAL\");\r",
+											"    pm.expect(res.diffusion_option).to.be.equal(\"MATCH_MOOD\");\r",
+											"\r",
+											"    pm.environment.set(\"SESSION_ID\", res.id)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"id": "f37fb752-fb80-4ba0-b48d-e6211a2cc2fc",
 							"request": {
-								"method": "GET",
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Missing duration_minutes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dc39a364-8ef8-4116-a09b-5d9b0e8f982b",
+										"exec": [
+											"pm.test(\"Reject if missing duration_minutes\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing duration_minutes\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7d6ff394-9655-41de-8256-020278d261cf",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Missing detection_mode",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f469ea5f-ccc7-4043-b7ed-7d5ec5f83d38",
+										"exec": [
+											"pm.test(\"Reject if missing detection_mode\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing detection_mode\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "52eb0b81-8ad5-408f-a820-55f5c7b528b5",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Missing duration_minutes Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dc39a364-8ef8-4116-a09b-5d9b0e8f982b",
+										"exec": [
+											"pm.test(\"Reject if missing duration_minutes\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing duration_minutes\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "92d2a147-08eb-4cc3-8dcb-e81f16d5dad0",
+							"request": {
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
