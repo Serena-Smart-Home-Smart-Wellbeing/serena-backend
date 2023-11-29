@@ -2010,9 +2010,32 @@
 					"item": [
 						{
 							"name": "200 Successfully updated slot A status to true",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1ac07419-cb89-4e08-b68b-17b7692117eb",
+										"exec": [
+											"pm.test(\"Slot A status is true\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"serenBoxId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.slotA).to.be.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"id": "52a39009-75da-4f44-9fd3-a487b94dafda",
 							"request": {
-								"method": "GET",
+								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -2024,6 +2047,212 @@
 									}
 								},
 								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/A"
+							},
+							"response": []
+						},
+						{
+							"name": "200 Successfully updated slot A status to false",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b4af3d4a-1537-418b-9c65-bfef175955be",
+										"exec": [
+											"pm.test(\"Slot A status is false\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"serenBoxId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.slotA).to.be.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "6c4b8ba8-2a76-419d-972f-e1d0ed93c33d",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"is_active\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/A"
+							},
+							"response": []
+						},
+						{
+							"name": "200 Successfully updated slot B status to true",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5f943f5b-4dc9-40ec-9fbc-2e1dc5e54a03",
+										"exec": [
+											"pm.test(\"Slot B status is true\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"serenBoxId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.slotB).to.be.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "9668bf35-e31c-44dc-b69e-93eee02bd2d5",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"is_active\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/B"
+							},
+							"response": []
+						},
+						{
+							"name": "200 Successfully updated slot B status to false",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "36494485-a4f6-473e-9436-29181bf9381a",
+										"exec": [
+											"pm.test(\"Slot B status is false\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"serenBoxId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.slotB).to.be.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "d1b3f68a-2397-4a6c-a1b0-f957f3016fb0",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"is_active\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/B"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Invalid Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b7ffda14-d79b-4c7d-afad-133badfe6eaf",
+										"exec": [
+											"pm.test(\"Reject if token is invalid\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "83441359-7c47-4686-a3d7-2e5c7e902783",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "meow.meow.meow"
+									}
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"is_active\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/B"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Invalid Token Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b7ffda14-d79b-4c7d-afad-133badfe6eaf",
+										"exec": [
+											"pm.test(\"Reject if token is invalid\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "d49b12da-380d-4625-ae5e-1b7632da6ed6",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "meow.meow.meow"
+									}
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"is_active\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/B"
 							},
 							"response": []
 						}
