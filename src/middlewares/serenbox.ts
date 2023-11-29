@@ -1,4 +1,8 @@
-import { addSerenBox, changeSerenBoxSlotStatus } from "@/controllers/serenbox";
+import {
+    addSerenBox,
+    changeSerenBoxSlotStatus,
+    finishSerenBoxSession
+} from "@/controllers/serenbox";
 import {
     SerenBoxRouterParams,
     SerenBoxSessionRouterParams,
@@ -278,6 +282,30 @@ export const handleGetSerenBoxSession: RequestHandler<
         }
 
         res.status(200).json(serenBoxSession);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const handleFinishSerenBoxSession: RequestHandler<
+    SerenBoxSessionRouterParams,
+    SerenBoxSession
+> = async (req, res, next) => {
+    try {
+        const { sessionId } = req.params;
+
+        const serenBoxSession = await prisma.serenBoxSession.findUnique({
+            where: {
+                id: sessionId
+            }
+        });
+        if (!serenBoxSession) {
+            throw new HttpError(404, "SerenBox session not found");
+        }
+
+        const finishedSession = await finishSerenBoxSession(sessionId);
+
+        res.status(200).json(finishedSession);
     } catch (err) {
         next(err);
     }

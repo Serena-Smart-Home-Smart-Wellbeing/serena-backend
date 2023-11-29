@@ -82,3 +82,16 @@ export const changeSerenBoxSlotStatus = async (
         slotB: updatedSerenBox.slotB.is_active
     };
 };
+
+export const finishSerenBoxSession = async (sessionId: string) => {
+    const finishedSession = await prisma.serenBoxSession.update({
+        where: {
+            id: sessionId
+        },
+        data: {
+            is_running: false
+        }
+    });
+
+    return finishedSession;
+};

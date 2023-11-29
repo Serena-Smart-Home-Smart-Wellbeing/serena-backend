@@ -4,6 +4,7 @@ import {
     handleChangeSerenBoxSlotStatus,
     handleCreateSerenBoxSession,
     handleDeleteSerenBox,
+    handleFinishSerenBoxSession,
     handleGetSerenBox,
     handleGetSerenBoxSession,
     handleGetSerenBoxes,
@@ -48,5 +49,9 @@ serenBoxRouter
 serenBoxRouter
     .route("/:serenboxId/sessions/:sessionId")
     .get(parseToken, validateSerenBoxById, handleGetSerenBoxSession);
+
+serenBoxRouter
+    .route("/:serenboxId/sessions/:sessionId/finish")
+    .get(parseToken, validateSerenBoxById, handleFinishSerenBoxSession);
 
 export default serenBoxRouter;
