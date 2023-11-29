@@ -262,6 +262,26 @@
                         }
                     }
                 ]
+            },
+            "SerenBoxSlotStatus": {
+                "type": "object",
+                "properties": {
+                    "serenBoxId": {
+                        "type": "string",
+                        "description": "SerenBox id",
+                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                    },
+                    "slotA": {
+                        "type": "string",
+                        "enum": [true, false],
+                        "example": true
+                    },
+                    "slotB": {
+                        "type": "string",
+                        "enum": [true, false],
+                        "example": false
+                    }
+                }
             }
         }
     },
@@ -1054,6 +1074,89 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SerenBoxServerData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/serenbox/{serenboxId}/slots/{slotOption}": {
+            "parameters": [
+                {
+                    "name": "serenboxId",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                },
+                {
+                    "name": "slotOption",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "enum": ["A", "B"]
+                    },
+                    "example": "A"
+                }
+            ],
+            "patch": {
+                "tags": ["SerenBox Slot"],
+                "summary": "Update a SerenBox diffuser slot state",
+                "description": "Update a SerenBox diffuser slot state",
+                "operationId": "handleUpdateSerenBoxSlot",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxSlotStatus"
                                 }
                             }
                         }
