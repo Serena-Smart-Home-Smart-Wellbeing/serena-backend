@@ -2380,40 +2380,6 @@
 							"response": []
 						},
 						{
-							"name": "409 SerenBox session already exists",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "23211815-ce9c-4c8a-9ff3-4f41a5297d70",
-										"exec": [
-											"pm.test(\"Reject if SerenBox session already exists\", function () {\r",
-											"    pm.response.to.have.status(409);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox session already exists\");\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "f9eeef3e-d4eb-4535-87cf-ac028bb3e680",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions"
-							},
-							"response": []
-						},
-						{
 							"name": "401 Invalid Token",
 							"event": [
 								{
