@@ -2177,6 +2177,48 @@
 							"response": []
 						},
 						{
+							"name": "200 Successfully updated slot B status to false Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "36494485-a4f6-473e-9436-29181bf9381a",
+										"exec": [
+											"pm.test(\"Slot B status is false\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"serenBoxId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.slotB).to.be.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c2bc66c6-5061-4b9c-8079-d869c687d846",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"is_active\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/B"
+							},
+							"response": []
+						},
+						{
 							"name": "401 Invalid Token",
 							"event": [
 								{
