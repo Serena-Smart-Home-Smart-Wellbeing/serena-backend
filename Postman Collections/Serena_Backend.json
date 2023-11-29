@@ -2911,7 +2911,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2d718af9-5523-46af-8d59-c37f057f93b1",
+										"id": "179cbf70-54fd-4e42-b820-1b9ccb757105",
 										"exec": [
 											"pm.test(\"Finish an existing SerenBox session\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2928,6 +2928,7 @@
 											"        \"is_running\"\r",
 											"    );\r",
 											"    pm.expect(res.is_running).to.equal(false);\r",
+											"    pm.expect(res.end_time).to.be.instanceOf(Date);\r",
 											"\r",
 											"    pm.environment.set(\"SESSION_ID\", res.id)\r",
 											"});"
