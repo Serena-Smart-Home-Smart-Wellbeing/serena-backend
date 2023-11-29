@@ -1,7 +1,8 @@
 import { addSerenBox, changeSerenBoxSlotStatus } from "@/controllers/serenbox";
+import { SerenBoxRouterParams, SerenBoxSlotRouterParams } from "@/routers/serenbox";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
-import { SerenBox, SerenBoxSlots } from "@prisma/client";
+import { SerenBox, SerenBoxSession, SerenBoxSlots } from "@prisma/client";
 import { RequestHandler } from "express";
 
 interface HandleAddSerenBoxBody {
@@ -157,13 +158,8 @@ export const handleDeleteSerenBox: RequestHandler<{ serenboxId: string }> = asyn
     }
 };
 
-interface SerenBoxSlotParams {
-    serenboxId: string;
-    slotOption: string;
-}
-
 export const handleChangeSerenBoxSlotStatus: RequestHandler<
-    SerenBoxSlotParams,
+    SerenBoxSlotRouterParams,
     unknown,
     { is_active: true }
 > = async (req, res, next) => {
@@ -193,6 +189,55 @@ export const handleChangeSerenBoxSlotStatus: RequestHandler<
         );
 
         res.status(200).json(updatedSerenBox);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const handleCreateSerenBoxSession: RequestHandler<
+    SerenBoxRouterParams,
+    SerenBoxSession,
+    Pick<SerenBoxSession, "duration_minutes" | "detection_mode" | "diffusion_option">
+> = async (req, res, next) => {
+    try {
+        const { serenboxId } = req.params;
+        const { detection_mode, diffusion_option, duration_minutes } = req.body;
+        if (!detection_mode) {
+            throw new HttpError(400, "Missing detection_mode");
+        }
+        if (!diffusion_option) {
+            throw new HttpError(400, "Missing diffusion_option");
+        }
+        if (!duration_minutes) {
+            throw new HttpError(400, "Missing duration_minutes");
+        }
+
+        const serenBox = await prisma.serenBox.findUnique({
+            where: {
+                id: serenboxId
+            }
+        });
+        if (!serenBox) {
+            throw new HttpError(404, "SerenBox not found");
+        }
+        if (serenBox.userId !== req.user?.id) {
+            throw new HttpError(403, "Forbidden");
+        }
+
+        const serenBoxSession = await prisma.serenBoxSession.create({
+            data: {
+                serenBox: {
+                    connect: {
+                        id: serenboxId
+                    }
+                },
+                duration_minutes,
+                detection_mode,
+                diffusion_option
+            }
+        });
+
+        res.status(201).json(serenBoxSession);
     } catch (err) {
         next(err);
     }

@@ -1419,20 +1419,6 @@
                                 }
                             }
                         }
-                    },
-                    "409": {
-                        "description": "SerenBox session already exists",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HttpError"
-                                },
-                                "example": {
-                                    "status": 409,
-                                    "message": "SerenBox session already exists"
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -1503,15 +1489,27 @@
                         }
                     },
                     "404": {
-                        "description": "SerenBox not found",
+                        "description": "Not Found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HttpError"
                                 },
-                                "example": {
-                                    "message": "SerenBox not found",
-                                    "status": 404
+                                "examples": {
+                                    "SerenBox not found": {
+                                        "summary": "SerenBox not found",
+                                        "value": {
+                                            "message": "SerenBox not found",
+                                            "status": 404
+                                        }
+                                    },
+                                    "SerenBox session not found": {
+                                        "summary": "SerenBox session not found",
+                                        "value": {
+                                            "message": "SerenBox session not found",
+                                            "status": 404
+                                        }
+                                    }
                                 }
                             }
                         }
