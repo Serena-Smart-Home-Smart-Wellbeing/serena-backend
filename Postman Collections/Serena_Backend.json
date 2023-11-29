@@ -501,7 +501,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "1b7a0820-e3a5-443a-841c-af469c9e2695",
+										"id": "6b623ca2-3d1d-47c2-aba7-b837b11c737a",
 										"exec": [
 											"const secondUserCreds = {\r",
 											"    email: \"test_second_user@test.com\",\r",
@@ -558,8 +558,6 @@
 											"                                res.accessToken\r",
 											"                            );\r",
 											"                            pm.environment.set(\"SECOND_USER_ID\", res.userId);\r",
-											"                                \r",
-											"                             \r",
 											"                        }\r",
 											"                    }\r",
 											"                );\r",
@@ -575,7 +573,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "60928b30-f234-49e7-919f-a6ee15e2e174",
+										"id": "8c092b06-e075-4ef5-9998-ba882cec17ee",
 										"exec": [
 											"pm.test(\"reject 403 when using a token that doesn't correspond to the user id in the path parameter\", () => {\r",
 											"    pm.response.to.have.status(403);\r",
@@ -2326,6 +2324,110 @@
 						}
 					],
 					"id": "3c1c22c6-0567-432a-a84c-2e4a863b76ec"
+				},
+				{
+					"name": "Create SerenBox session",
+					"item": [
+						{
+							"name": "200 Created SerenBox session",
+							"id": "f37fb752-fb80-4ba0-b48d-e6211a2cc2fc",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"duration_minutes\": 10,\r\n    \"detection_mode\": \"INTERVAL\",\r\n    \"diffusion_option\": \"MATCH_MOOD\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/sessions/{{SESSION_ID}}"
+							},
+							"response": []
+						}
+					],
+					"id": "0573565a-f3be-4861-80b7-da282b9b2b20",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "03acd11b-29ca-41ed-b6d8-4c6b1be833ec",
+								"exec": [
+									"const secondUserCreds = {\r",
+									"    email: \"test_second_user@test.com\",\r",
+									"    username: \"test_second_user\",\r",
+									"    password: \"12345678\"\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        method: \"POST\",\r",
+									"        url: `${pm.environment.get(\"HOST\")}/users`,\r",
+									"        body: {\r",
+									"            mode: \"raw\",\r",
+									"            raw: JSON.stringify(secondUserCreds)\r",
+									"        },\r",
+									"        header: {\r",
+									"            \"Content-Type\": \"application/json\"\r",
+									"        }\r",
+									"    },\r",
+									"    function (err, response) {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        } else {\r",
+									"            const res = response.json();\r",
+									"\r",
+									"            if (res.accessToken && res.userId) {\r",
+									"                console.log(\"Registered User\");\r",
+									"\r",
+									"                pm.environment.set(\"SECOND_ACCESS_TOKEN\", res.accessToken);\r",
+									"                pm.environment.set(\"SECOND_USER_ID\", res.userId);\r",
+									"            } else {\r",
+									"                pm.sendRequest(\r",
+									"                    {\r",
+									"                        method: \"POST\",\r",
+									"                        url: `${pm.environment.get(\"HOST\")}/users/login`,\r",
+									"                        body: {\r",
+									"                            mode: \"raw\",\r",
+									"                            raw: JSON.stringify(secondUserCreds)\r",
+									"                        },\r",
+									"                        header: {\r",
+									"                            \"Content-Type\": \"application/json\"\r",
+									"                        }\r",
+									"                    },\r",
+									"                    (err, response) => {\r",
+									"                        console.log(\"Logged In\");\r",
+									"                        if (err) {\r",
+									"                            console.log(err);\r",
+									"                        } else {\r",
+									"                            const res = response.json();\r",
+									"                            if (res.status) return console.log(res);\r",
+									"\r",
+									"                            pm.environment.set(\r",
+									"                                \"SECOND_ACCESS_TOKEN\",\r",
+									"                                res.accessToken\r",
+									"                            );\r",
+									"                            pm.environment.set(\"SECOND_USER_ID\", res.userId);\r",
+									"                        }\r",
+									"                    }\r",
+									"                );\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Finish SerenBox session",
+					"item": [],
+					"id": "28a8a04d-0e11-450e-b655-e37496c69950"
 				}
 			],
 			"id": "95697787-dcde-4e45-bce8-a3a78277ba69",
