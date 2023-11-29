@@ -2004,6 +2004,22 @@
 						}
 					],
 					"id": "1a41d2c9-e2d8-4b33-95ea-e62332bc77a8"
+				},
+				{
+					"name": "Update diffuser slot status",
+					"item": [
+						{
+							"name": "New request",
+							"id": "52a39009-75da-4f44-9fd3-a487b94dafda",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/A"
+							},
+							"response": []
+						}
+					],
+					"id": "3c1c22c6-0567-432a-a84c-2e4a863b76ec"
 				}
 			],
 			"id": "95697787-dcde-4e45-bce8-a3a78277ba69",
