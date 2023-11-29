@@ -1,5 +1,10 @@
 import prisma from "@/utils/prisma";
-import { SerenBox, SerenBoxLabels, SerenBoxSlots } from "@prisma/client";
+import {
+    SerenBox,
+    SerenBoxLabels,
+    SerenBoxSlot,
+    SerenBoxSlots
+} from "@prisma/client";
 
 export const addSerenBox = async (
     data: Pick<SerenBox, "credentials" | "name" | "userId"> & Partial<SerenBox>
@@ -38,4 +43,56 @@ export const addSerenBox = async (
     });
 
     return newSerenBox;
+};
+
+export const changeSerenBoxSlotStatus = async (
+    serenBoxId: string,
+    slot: SerenBoxSlots,
+    status: boolean
+) => {
+    const updatedSerenBox = await prisma.serenBox.update({
+        where: {
+            id: serenBoxId
+        },
+        data: {
+            [`slot${slot}`]: {
+                update: {
+                    is_active: status
+                } as SerenBoxSlot
+            }
+        },
+        select: {
+            id: true,
+            slotA: {
+                select: {
+                    is_active: true
+                }
+            },
+            slotB: {
+                select: {
+                    is_active: true
+                }
+            }
+        }
+    });
+
+    return {
+        serenBoxId: updatedSerenBox.id,
+        slotA: updatedSerenBox.slotA.is_active,
+        slotB: updatedSerenBox.slotB.is_active
+    };
+};
+
+export const finishSerenBoxSession = async (sessionId: string) => {
+    const finishedSession = await prisma.serenBoxSession.update({
+        where: {
+            id: sessionId
+        },
+        data: {
+            is_running: false,
+            end_time: new Date()
+        }
+    });
+
+    return finishedSession;
 };

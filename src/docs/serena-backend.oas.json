@@ -262,6 +262,82 @@
                         }
                     }
                 ]
+            },
+            "SerenBoxSlotStatus": {
+                "type": "object",
+                "properties": {
+                    "serenBoxId": {
+                        "type": "string",
+                        "description": "SerenBox id",
+                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                    },
+                    "slotA": {
+                        "type": "string",
+                        "enum": [true, false],
+                        "example": true
+                    },
+                    "slotB": {
+                        "type": "string",
+                        "enum": [true, false],
+                        "example": false
+                    }
+                }
+            },
+            "SerenBoxSessionData": {
+                "type": "object",
+                "properties": {
+                    "duration_minutes": {
+                        "type": "number",
+                        "example": 10
+                    },
+                    "detection_mode": {
+                        "enum": ["INTERVAL", "ONCE"],
+                        "example": "INTERVAL"
+                    },
+                    "diffusion_option": {
+                        "enum": ["MATCH_MOOD", "OPPOSITE_MOOD", "AUTO"],
+                        "example": "MATCH_MOOD"
+                    }
+                }
+            },
+            "SerenBoxSessionServerData": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/SerenBoxSessionData"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "Session id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "serenBoxId": {
+                                "type": "string",
+                                "description": "SerenBox id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "start_time": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Session start time",
+                                "example": "2022-01-01T00:00:00.000Z"
+                            },
+                            "end_time": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Session end time",
+                                "example": "2022-01-01T01:00:00.000Z"
+                            },
+                            "is_running": {
+                                "type": "boolean",
+                                "description": "Flag indicating if the session is currently running",
+                                "example": true
+                            }
+                        }
+                    }
+                ]
             }
         }
     },
@@ -1096,6 +1172,438 @@
                                 "example": {
                                     "message": "SerenBox not found",
                                     "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/serenbox/{serenboxId}/slots/{slotOption}": {
+            "parameters": [
+                {
+                    "name": "serenboxId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                },
+                {
+                    "name": "slotOption",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "enum": ["A", "B"]
+                    },
+                    "example": "A"
+                }
+            ],
+            "patch": {
+                "tags": ["SerenBox Slot"],
+                "summary": "Update a SerenBox diffuser slot state",
+                "description": "Update a SerenBox diffuser slot state",
+                "operationId": "handleChangeSerenBoxSlotStatus",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "is_active": {
+                                        "type": "string",
+                                        "enum": [true, false]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxSlotStatus"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Wrong slot option": {
+                                        "summary": "Wrong slot option",
+                                        "value": {
+                                            "message": "Wrong slot option",
+                                            "status": 400
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/serenbox/{serenboxId}/sessions": {
+            "parameters": [
+                {
+                    "name": "serenboxId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                },
+                {
+                    "name": "sessionId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                }
+            ],
+            "post": {
+                "tags": ["SerenBox Session"],
+                "summary": "Create a SerenBox session",
+                "description": "Create a SerenBox session",
+                "operationId": "handleCreateSerenBoxSession",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SerenBoxSessionData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxSessionServerData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing duration_minutes": {
+                                        "summary": "Missing duration_minutes",
+                                        "value": {
+                                            "message": "Missing duration_minutes",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Incorrect detection_mode": {
+                                        "summary": "Incorrect detection_mode",
+                                        "value": {
+                                            "message": "Incorrect detection_mode",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Incorrect diffusion_option": {
+                                        "summary": "Incorrect diffusion_option",
+                                        "value": {
+                                            "message": "Incorrect diffusion_option",
+                                            "status": 400
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/serenbox/{serenboxId}/sessions/{sessionId}": {
+            "parameters": [
+                {
+                    "name": "serenboxId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                },
+                {
+                    "name": "sessionId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                }
+            ],
+            "get": {
+                "tags": ["SerenBox Session"],
+                "summary": "Get a SerenBox session",
+                "description": "Get a SerenBox session",
+                "operationId": "handleGetSerenBoxSession",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxSessionServerData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "SerenBox not found": {
+                                        "summary": "SerenBox not found",
+                                        "value": {
+                                            "message": "SerenBox not found",
+                                            "status": 404
+                                        }
+                                    },
+                                    "SerenBox session not found": {
+                                        "summary": "SerenBox session not found",
+                                        "value": {
+                                            "message": "SerenBox session not found",
+                                            "status": 404
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/serenbox/{serenboxId}/sessions/{sessionId}/finish": {
+            "parameters": [
+                {
+                    "name": "serenboxId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                },
+                {
+                    "name": "sessionId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                }
+            ],
+            "get": {
+                "tags": ["SerenBox Session"],
+                "summary": "Finish a SerenBox session",
+                "description": "Finish a SerenBox session",
+                "operationId": "handleFinishSerenBoxSession",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxSessionServerData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "SerenBox not found": {
+                                        "summary": "SerenBox not found",
+                                        "value": {
+                                            "message": "SerenBox not found",
+                                            "status": 404
+                                        }
+                                    },
+                                    "SerenBox session not found": {
+                                        "summary": "SerenBox session not found",
+                                        "value": {
+                                            "message": "SerenBox session not found",
+                                            "status": 404
+                                        }
+                                    }
                                 }
                             }
                         }
