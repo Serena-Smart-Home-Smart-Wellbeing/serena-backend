@@ -2014,7 +2014,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "1ac07419-cb89-4e08-b68b-17b7692117eb",
+										"id": "e0426b7b-0b1b-4c52-a305-3dbd1f89dcd8",
 										"exec": [
 											"pm.test(\"Slot A status is true\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2177,24 +2177,16 @@
 							"response": []
 						},
 						{
-							"name": "200 Successfully updated slot B status to false Copy",
+							"name": "400 Wrong slot option",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "36494485-a4f6-473e-9436-29181bf9381a",
+										"id": "42014825-b851-4d8e-90bb-04e1ab265ebe",
 										"exec": [
-											"pm.test(\"Slot B status is false\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"    const res = pm.response.json();\r",
-											"\r",
-											"    pm.expect(res).to.have.keys(\r",
-											"        \"serenBoxId\",\r",
-											"        \"slotA\",\r",
-											"        \"slotB\"\r",
-											"    );\r",
-											"\r",
-											"    pm.expect(res.slotB).to.be.equal(false);\r",
+											"pm.test(\"Slot option is wrong\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Wrong slot option\");\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -2214,7 +2206,7 @@
 										}
 									}
 								},
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/B"
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}/slots/Z"
 							},
 							"response": []
 						},
