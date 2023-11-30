@@ -1284,7 +1284,7 @@
                 "tags": ["SerenBox Slot"],
                 "summary": "Check a SerenBox's slots active status",
                 "description": "Check a SerenBox's slots active status",
-                "operationId": "handleGetSerenBoxSlotStatus",
+                "operationId": "handleGetSerenBoxSlotStatusByCredentials",
                 "responses": {
                     "200": {
                         "description": "OK",

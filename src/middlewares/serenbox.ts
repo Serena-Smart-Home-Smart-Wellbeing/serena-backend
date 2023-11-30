@@ -2,11 +2,13 @@ import {
     addSerenBox,
     changeSerenBoxSlotStatus,
     finishSerenBoxSession,
+    getSerenBoxSlotStatusByCredentials,
     verifySerenBoxConnection
 } from "@/controllers/serenbox";
 import {
     SerenBoxRouterParams,
     SerenBoxSessionRouterParams,
+    SerenBoxSlotCredentialsRouterParams,
     SerenBoxSlotRouterParams
 } from "@/routers/serenbox";
 import { HttpError } from "@/utils/errors";
@@ -335,6 +337,22 @@ export const handleFinishSerenBoxSession: RequestHandler<
         const finishedSession = await finishSerenBoxSession(sessionId);
 
         res.status(200).json(finishedSession);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const handleGetSerenBoxSlotStatusByCredentials: RequestHandler<
+    SerenBoxSlotCredentialsRouterParams
+> = async (req, res, next) => {
+    try {
+        const { credentials } = req.params;
+
+        const serenBoxSlotStatus = await getSerenBoxSlotStatusByCredentials(
+            credentials
+        );
+
+        res.status(200).json(serenBoxSlotStatus);
     } catch (err) {
         next(err);
     }

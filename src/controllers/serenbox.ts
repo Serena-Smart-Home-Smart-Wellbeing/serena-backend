@@ -99,6 +99,39 @@ export const changeSerenBoxSlotStatus = async (
     };
 };
 
+export const getSerenBoxSlotStatusByCredentials = async (
+    credentials: SerenBox["credentials"]
+) => {
+    const serenBox = await prisma.serenBox.findUnique({
+        where: {
+            credentials
+        },
+        select: {
+            id: true,
+            slotA: {
+                select: {
+                    is_active: true
+                }
+            },
+            slotB: {
+                select: {
+                    is_active: true
+                }
+            }
+        }
+    });
+
+    if (!serenBox) {
+        throw new HttpError(404, "SerenBox not found");
+    }
+
+    return {
+        serenBoxId: serenBox.id,
+        slotA: serenBox.slotA.is_active,
+        slotB: serenBox.slotB.is_active
+    };
+};
+
 export const finishSerenBoxSession = async (sessionId: string) => {
     const finishedSession = await prisma.serenBoxSession.update({
         where: {
