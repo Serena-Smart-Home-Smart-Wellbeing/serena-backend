@@ -3465,7 +3465,7 @@
 					"name": "Get user emotion",
 					"item": [
 						{
-							"name": "200 One user emotion",
+							"name": "200 Get user emotion",
 							"event": [
 								{
 									"listen": "test",
@@ -3520,6 +3520,136 @@
 							"response": []
 						},
 						{
+							"name": "401 Invalid Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3167a89f-14eb-481f-8497-0a3a7c7f902c",
+										"exec": [
+											"pm.test(\"Reject if token is invalid\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "1084a28f-bebf-4efb-88f7-775c7710cca6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "meow.meow.meow"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "403 Forbidden",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9a9926bf-c599-406d-a027-4b67da5a4bd6",
+										"exec": [
+											"pm.test(\"Reject if access token doesn't match userId\", () => {\r",
+											"    pm.response.to.have.status(403);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Forbidden\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7fb8691c-a756-4981-81ab-49f0dada830c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{SECOND_ACCESS_TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "404 User not Found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "11bfaf0f-1b66-44f3-8ff2-4c6e0781e45f",
+										"exec": [
+											"pm.test(\"Reject if user not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"User not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7bb9fae9-1c7b-441e-b8f0-3ddb808c48c9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/NOTFOUNDDDD/emotions/{{EMOTION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "404 Emotion not Found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "11bfaf0f-1b66-44f3-8ff2-4c6e0781e45f",
+										"exec": [
+											"pm.test(\"Reject if emotion result not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Emotion result not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "201a3085-b87e-4763-8c9b-e0d58ea8627f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/NOTFOUNDDDD"
+							},
+							"response": []
+						}
+					],
+					"id": "28059a96-7582-4e36-af0d-4d506ba5315b"
+				},
+				{
+					"name": "List user emotions",
+					"item": [
+						{
 							"name": "200 List user's emotions",
 							"event": [
 								{
@@ -3572,41 +3702,7 @@
 							"response": []
 						},
 						{
-							"name": "401 Invalid Token for gettting one user emotion",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "3167a89f-14eb-481f-8497-0a3a7c7f902c",
-										"exec": [
-											"pm.test(\"Reject if token is invalid\", () => {\r",
-											"    pm.response.to.have.status(401);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "1084a28f-bebf-4efb-88f7-775c7710cca6",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": {
-										"token": "meow.meow.meow"
-									}
-								},
-								"method": "GET",
-								"header": [],
-								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
-							},
-							"response": []
-						},
-						{
-							"name": "401 Invalid Token for gettting multiple user emotion",
+							"name": "401 Invalid Token",
 							"event": [
 								{
 									"listen": "test",
@@ -3647,7 +3743,7 @@
 									"script": {
 										"id": "9a9926bf-c599-406d-a027-4b67da5a4bd6",
 										"exec": [
-											"pm.test(\"Reject if access token doesn't match SerenBox's userId\", () => {\r",
+											"pm.test(\"Reject if access token doesn't match userId\", () => {\r",
 											"    pm.response.to.have.status(403);\r",
 											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Forbidden\");\r",
 											"});"
@@ -3656,7 +3752,10 @@
 									}
 								}
 							],
-							"id": "7fb8691c-a756-4981-81ab-49f0dada830c",
+							"id": "a5b0e434-1cb7-4adb-b9d0-ae1720898366",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -3666,37 +3765,40 @@
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}"
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions"
 							},
 							"response": []
 						},
 						{
-							"name": "404 Not Found",
+							"name": "404 User not Found",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"id": "11bfaf0f-1b66-44f3-8ff2-4c6e0781e45f",
 										"exec": [
-											"pm.test(\"Reject if SerenBox not found\", () => {\r",
+											"pm.test(\"Reject if user not found\", () => {\r",
 											"    pm.response.to.have.status(404);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox not found\");\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"User not found\");\r",
 											"});"
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
-							"id": "7bb9fae9-1c7b-441e-b8f0-3ddb808c48c9",
+							"id": "f18afefb-c841-43a2-9b90-76d817bb70d9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/MEOWMEOWMOEMOMOWMOW"
+								"url": "{{HOST}}/users/NOTFOUNDDDD/emotions/{{EMOTION_ID}}"
 							},
 							"response": []
 						}
 					],
-					"id": "28059a96-7582-4e36-af0d-4d506ba5315b"
+					"id": "123a7beb-58d0-4633-93ea-b9990f8bb04d"
 				}
 			],
 			"id": "5886007b-a442-4cb3-a230-0f746f386f19"
