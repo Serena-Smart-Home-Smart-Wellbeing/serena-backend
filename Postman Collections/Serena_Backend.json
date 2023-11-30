@@ -3462,7 +3462,7 @@
 			"name": "User Emotions API",
 			"item": [
 				{
-					"name": "Get user emotions",
+					"name": "Get user emotion",
 					"item": [
 						{
 							"name": "200 One user emotion",
@@ -3470,26 +3470,37 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "de500239-5e52-40e7-a062-7b59f58be827",
+										"id": "a16718bf-7a71-46c4-8f22-b2a08a703b33",
 										"exec": [
-											"pm.test(\"Return an existing SerenBox\", () => {\r",
+											"pm.test(\"Return one user emotion\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
 											"    const res = pm.response.json();\r",
 											"\r",
 											"    pm.expect(res).to.have.keys(\r",
-											"        \"credentials\",\r",
-											"        \"name\",\r",
 											"        \"id\",\r",
 											"        \"userId\",\r",
-											"        \"added\",\r",
-											"        \"slotAId\",\r",
-											"        \"slotBId\",\r",
-											"        \"image_name\",\r",
-											"        \"ip_address\"\r",
+											"        \"created_time\",\r",
+											"        \"user_photo\",\r",
+											"        \"energetic\",\r",
+											"        \"relax\"\r",
 											"    );\r",
 											"\r",
-											"     pm.environment.set(\"SERENBOX_ID\", res.id)\r",
-											"    pm.environment.set(\"SERENBOX_CREDENTIALS\", res.credentials)\r",
+											"    pm.expect(res.energetic).to.have.keys(\r",
+											"        \"anger\",\r",
+											"        \"fear\",\r",
+											"        \"surprise\",\r",
+											"        \"total\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.relax).to.have.keys(\r",
+											"        \"disgust\",\r",
+											"        \"joy\",\r",
+											"        \"neutral\",\r",
+											"        \"sadness\",\r",
+											"        \"total\"\r",
+											"    );\r",
+											"\r",
+											"    pm.environment.set(\"EMOTION_ID\", res.id);\r",
 											"});\r",
 											""
 										],
@@ -3509,31 +3520,37 @@
 							"response": []
 						},
 						{
-							"name": "200 Current User's SerenBoxes",
+							"name": "200 List user's emotions",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "02cd7773-06d8-42a2-a402-8ff2a8b127e2",
+										"id": "081ccfce-65ef-4c86-8acc-afeee30650fb",
 										"exec": [
-											"pm.test(\"Return current user's SerenBoxes\", () => {\r",
+											"\r",
+											"pm.test(\"List user's emotion results\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
 											"    const res = pm.response.json();\r",
 											"\r",
 											"    pm.expect(res).to.be.a(\"array\");\r",
 											"    res.forEach(res => {\r",
-											"        const currentUserId = pm.environment.get(\"USER_ID\");\r",
-											"        pm.expect(res.userId).to.be.equal(currentUserId);\r",
 											"        pm.expect(res).to.have.keys(\r",
-											"            \"credentials\",\r",
-											"            \"name\",\r",
 											"            \"id\",\r",
 											"            \"userId\",\r",
-											"            \"added\",\r",
-											"            \"slotAId\",\r",
-											"            \"slotBId\",\r",
-											"            \"image_name\",\r",
-											"            \"ip_address\"\r",
+											"            \"created_time\",\r",
+											"            \"user_photo\",\r",
+											"            \"energetic\",\r",
+											"            \"relax\"\r",
+											"        );\r",
+											"\r",
+											"        pm.expect(res.energetic).to.have.keys(\"anger\", \"fear\", \"surprise\", \"total\");\r",
+											"\r",
+											"        pm.expect(res.relax).to.have.keys(\r",
+											"            \"disgust\",\r",
+											"            \"joy\",\r",
+											"            \"neutral\",\r",
+											"            \"sadness\",\r",
+											"            \"total\"\r",
 											"        );\r",
 											"    });\r",
 											"});\r",
@@ -3544,20 +3561,23 @@
 								}
 							],
 							"id": "122cb2c9-2237-4dfc-bd91-576d86d89b3b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox"
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions"
 							},
 							"response": []
 						},
 						{
-							"name": "401 Invalid Token for gettting one SerenBox",
+							"name": "401 Invalid Token for gettting one user emotion",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "9b6b7b27-8b7f-4df8-9d0b-7fc0aa11c6f5",
+										"id": "3167a89f-14eb-481f-8497-0a3a7c7f902c",
 										"exec": [
 											"pm.test(\"Reject if token is invalid\", () => {\r",
 											"    pm.response.to.have.status(401);\r",
@@ -3569,6 +3589,9 @@
 								}
 							],
 							"id": "1084a28f-bebf-4efb-88f7-775c7710cca6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -3578,17 +3601,17 @@
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}"
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
 							},
 							"response": []
 						},
 						{
-							"name": "401 Invalid Token for gettting multiple SerenBoxes",
+							"name": "401 Invalid Token for gettting multiple user emotion",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "3ffe571c-e2c2-4fed-aa5d-8810266fe672",
+										"id": "4d2193ab-8e55-404b-a5e3-e955009f993d",
 										"exec": [
 											"pm.test(\"Reject if token is invalid\", () => {\r",
 											"    pm.response.to.have.status(401);\r",
@@ -3600,6 +3623,9 @@
 								}
 							],
 							"id": "a6c8c906-bd9b-4aa6-8e8e-f9fcd0f2d04c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -3609,7 +3635,7 @@
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox"
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions"
 							},
 							"response": []
 						},
