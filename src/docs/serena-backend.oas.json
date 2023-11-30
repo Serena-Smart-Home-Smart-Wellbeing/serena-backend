@@ -161,6 +161,39 @@
                     }
                 }
             },
+            "UserEmotionServerData": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/UserEmotion"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "User emotion id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "userId": {
+                                "type": "string",
+                                "description": "User id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "created_time": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "User emotion created date",
+                                "example": "2022-01-01T00:00:00.000Z"
+                            },
+                            "user_photo": {
+                                "type": "string",
+                                "description": "User photo path",
+                                "example": "users/1982939/emotions/user.jpg"
+                            }
+                        }
+                    }
+                ]
+            },
             "MusicRecommendation": {
                 "type": "object",
                 "properties": {
@@ -1050,7 +1083,7 @@
             "parameters": [
                 {
                     "name": "serenboxId",
-                    "in": "query",
+                    "in": "path",
                     "required": true,
                     "schema": {
                         "type": "string"
@@ -1183,7 +1216,7 @@
             "parameters": [
                 {
                     "name": "serenboxId",
-                    "in": "query",
+                    "in": "path",
                     "required": true,
                     "schema": {
                         "type": "string"
@@ -1735,6 +1768,176 @@
                                         "summary": "SerenBox session not found",
                                         "value": {
                                             "message": "SerenBox session not found",
+                                            "status": 404
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}/emotions": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                }
+            ],
+            "get": {
+                "tags": ["User Emotions"],
+                "summary": "Get a list of user's emotions",
+                "description": "Get a list of user's emotions",
+                "operationId": "getUserEmotions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserEmotionServerData"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "User not found",
+                                    "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}/emotions/{emotionId}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                },
+                {
+                    "name": "emotionId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                }
+            ],
+            "get": {
+                "tags": ["User Emotions"],
+                "summary": "Get a user's emotions",
+                "description": "Get a user's emotions",
+                "operationId": "getUserEmotion",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserEmotionServerData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "User not found": {
+                                        "summary": "User not found",
+                                        "value": {
+                                            "message": "User not found",
+                                            "status": 404
+                                        }
+                                    },
+                                    "Emotion result not found": {
+                                        "summary": "Emotion result not found",
+                                        "value": {
+                                            "message": "Emotion result not found",
                                             "status": 404
                                         }
                                     }
