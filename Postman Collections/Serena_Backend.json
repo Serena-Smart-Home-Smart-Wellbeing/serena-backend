@@ -3457,6 +3457,223 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "User Emotions API",
+			"item": [
+				{
+					"name": "Get user emotions",
+					"item": [
+						{
+							"name": "200 One user emotion",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "de500239-5e52-40e7-a062-7b59f58be827",
+										"exec": [
+											"pm.test(\"Return an existing SerenBox\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"credentials\",\r",
+											"        \"name\",\r",
+											"        \"id\",\r",
+											"        \"userId\",\r",
+											"        \"added\",\r",
+											"        \"slotAId\",\r",
+											"        \"slotBId\",\r",
+											"        \"image_name\",\r",
+											"        \"ip_address\"\r",
+											"    );\r",
+											"\r",
+											"     pm.environment.set(\"SERENBOX_ID\", res.id)\r",
+											"    pm.environment.set(\"SERENBOX_CREDENTIALS\", res.credentials)\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "686bfe15-41ec-4361-b0ed-0e60bae0c1bc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "200 Current User's SerenBoxes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "02cd7773-06d8-42a2-a402-8ff2a8b127e2",
+										"exec": [
+											"pm.test(\"Return current user's SerenBoxes\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.be.a(\"array\");\r",
+											"    res.forEach(res => {\r",
+											"        const currentUserId = pm.environment.get(\"USER_ID\");\r",
+											"        pm.expect(res.userId).to.be.equal(currentUserId);\r",
+											"        pm.expect(res).to.have.keys(\r",
+											"            \"credentials\",\r",
+											"            \"name\",\r",
+											"            \"id\",\r",
+											"            \"userId\",\r",
+											"            \"added\",\r",
+											"            \"slotAId\",\r",
+											"            \"slotBId\",\r",
+											"            \"image_name\",\r",
+											"            \"ip_address\"\r",
+											"        );\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "122cb2c9-2237-4dfc-bd91-576d86d89b3b",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Invalid Token for gettting one SerenBox",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9b6b7b27-8b7f-4df8-9d0b-7fc0aa11c6f5",
+										"exec": [
+											"pm.test(\"Reject if token is invalid\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "1084a28f-bebf-4efb-88f7-775c7710cca6",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "meow.meow.meow"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Invalid Token for gettting multiple SerenBoxes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3ffe571c-e2c2-4fed-aa5d-8810266fe672",
+										"exec": [
+											"pm.test(\"Reject if token is invalid\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "a6c8c906-bd9b-4aa6-8e8e-f9fcd0f2d04c",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "meow.meow.meow"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox"
+							},
+							"response": []
+						},
+						{
+							"name": "403 Forbidden",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9a9926bf-c599-406d-a027-4b67da5a4bd6",
+										"exec": [
+											"pm.test(\"Reject if access token doesn't match SerenBox's userId\", () => {\r",
+											"    pm.response.to.have.status(403);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Forbidden\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7fb8691c-a756-4981-81ab-49f0dada830c",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{SECOND_ACCESS_TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "404 Not Found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "11bfaf0f-1b66-44f3-8ff2-4c6e0781e45f",
+										"exec": [
+											"pm.test(\"Reject if SerenBox not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7bb9fae9-1c7b-441e-b8f0-3ddb808c48c9",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/MEOWMEOWMOEMOMOWMOW"
+							},
+							"response": []
+						}
+					],
+					"id": "28059a96-7582-4e36-af0d-4d506ba5315b"
+				}
+			],
+			"id": "5886007b-a442-4cb3-a230-0f746f386f19"
 		}
 	],
 	"auth": {
