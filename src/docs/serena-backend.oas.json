@@ -1326,6 +1326,52 @@
                 }
             }
         },
+        "/devices/serenbox/{credentials}/slots": {
+            "parameters": [
+                {
+                    "name": "credentials",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "00:0a:95:9d:68:16"
+                }
+            ],
+            "get": {
+                "security": [],
+                "tags": ["SerenBox Slot"],
+                "summary": "Check a SerenBox's slots active status",
+                "description": "Check a SerenBox's slots active status",
+                "operationId": "handleGetSerenBoxSlotStatus",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenBoxSlotStatus"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/devices/serenbox/{serenboxId}/slots/{slotOption}": {
             "parameters": [
                 {
