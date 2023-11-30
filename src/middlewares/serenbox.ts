@@ -193,6 +193,10 @@ export const handleDeleteSerenBox: RequestHandler<{ serenboxId: string }> = asyn
     }
 };
 
+/**
+ *
+ * @deprecated SerenBox uses pub/sub to communicate with the server, so the server doesn't make any requests to the SerenBox
+ */
 export const handleVerifySerenBoxConnection: RequestHandler<
     SerenBoxRouterParams
 > = async (req, res, next) => {

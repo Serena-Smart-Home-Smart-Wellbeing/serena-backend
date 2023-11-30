@@ -47,6 +47,10 @@ export const addSerenBox = async (
     return newSerenBox;
 };
 
+/**
+ *
+ * @deprecated SerenBox uses pub/sub to communicate with the server, so the server doesn't make any requests to the SerenBox
+ */
 export const verifySerenBoxConnection = async (ip: SerenBox["ip_address"]) => {
     try {
         const res = await axios.get(`${ip}/ping`);
@@ -62,19 +66,6 @@ export const changeSerenBoxSlotStatus = async (
     slot: SerenBoxSlots,
     status: boolean
 ) => {
-    try {
-        const path = `/diffusers/${slot}`;
-        const res = await axios.get(path, {
-            params: {
-                state: status ? "on" : "off"
-            }
-        });
-
-        console.log(res);
-    } catch (err) {
-        console.error(err);
-    }
-
     const updatedSerenBox = await prisma.serenBox.update({
         where: {
             id: serenBoxId

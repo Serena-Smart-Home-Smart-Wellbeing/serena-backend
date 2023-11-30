@@ -1196,6 +1196,7 @@
                 "summary": "Check if a SerenBox is connected to the server",
                 "description": "Check if a SerenBox is connected to the server",
                 "operationId": "handleVerifySerenBoxConnection",
+                "deprecated": true,
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1259,66 +1260,6 @@
                                 "example": {
                                     "message": "SerenBox unavailable",
                                     "status": 503
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": ["SerenBox"],
-                "summary": "Delete a SerenBox",
-                "description": "Delete a SerenBox",
-                "operationId": "handleDeleteSerenBox",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SerenBoxServerData"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HttpError"
-                                },
-                                "example": {
-                                    "message": "Invalid token",
-                                    "status": 401
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HttpError"
-                                },
-                                "example": {
-                                    "message": "Forbidden",
-                                    "status": 403
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "SerenBox not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HttpError"
-                                },
-                                "example": {
-                                    "message": "SerenBox not found",
-                                    "status": 404
                                 }
                             }
                         }

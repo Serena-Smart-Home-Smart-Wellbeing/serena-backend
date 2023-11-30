@@ -31,9 +31,8 @@ serenBoxRouter
     .get(parseToken, handleGetSerenBox)
     .delete(parseToken, handleDeleteSerenBox);
 
-serenBoxRouter
-    .route("/:serenboxId/status")
-    .get(parseToken, validateSerenBoxById, handleVerifySerenBoxConnection);
+serenBoxRouter.route("/:serenboxId/status");
+// .get(parseToken, validateSerenBoxById, handleVerifySerenBoxConnection);
 
 export interface SerenBoxSlotRouterParams extends SerenBoxRouterParams {
     slotOption: string;
