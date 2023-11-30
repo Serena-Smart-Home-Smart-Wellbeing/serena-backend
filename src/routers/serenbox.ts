@@ -7,11 +7,13 @@ import {
     handleFinishSerenBoxSession,
     handleGetSerenBox,
     handleGetSerenBoxSession,
+    handleGetSerenBoxSlotStatusByCredentials,
     handleGetSerenBoxes,
     handlePatchSerenBoxIpAddress,
     handleVerifySerenBoxConnection,
     validateSerenBoxById
 } from "@/middlewares/serenbox";
+import { SerenBox } from "@prisma/client";
 import express from "express";
 
 const serenBoxRouter = express.Router({ mergeParams: true });
@@ -31,13 +33,20 @@ serenBoxRouter
     .get(parseToken, handleGetSerenBox)
     .delete(parseToken, handleDeleteSerenBox);
 
-serenBoxRouter
-    .route("/:serenboxId/status")
-    .get(parseToken, validateSerenBoxById, handleVerifySerenBoxConnection);
+serenBoxRouter.route("/:serenboxId/status");
+// .get(parseToken, validateSerenBoxById, handleVerifySerenBoxConnection);
 
 export interface SerenBoxSlotRouterParams extends SerenBoxRouterParams {
     slotOption: string;
 }
+
+export interface SerenBoxSlotCredentialsRouterParams {
+    credentials: SerenBox["credentials"];
+}
+
+serenBoxRouter
+    .route("/:credentials/slots")
+    .get(handleGetSerenBoxSlotStatusByCredentials);
 
 serenBoxRouter
     .route("/:serenboxId/slots/:slotOption")

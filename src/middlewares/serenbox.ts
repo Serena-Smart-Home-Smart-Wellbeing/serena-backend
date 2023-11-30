@@ -2,11 +2,13 @@ import {
     addSerenBox,
     changeSerenBoxSlotStatus,
     finishSerenBoxSession,
+    getSerenBoxSlotStatusByCredentials,
     verifySerenBoxConnection
 } from "@/controllers/serenbox";
 import {
     SerenBoxRouterParams,
     SerenBoxSessionRouterParams,
+    SerenBoxSlotCredentialsRouterParams,
     SerenBoxSlotRouterParams
 } from "@/routers/serenbox";
 import { HttpError } from "@/utils/errors";
@@ -193,6 +195,10 @@ export const handleDeleteSerenBox: RequestHandler<{ serenboxId: string }> = asyn
     }
 };
 
+/**
+ *
+ * @deprecated SerenBox uses pub/sub to communicate with the server, so the server doesn't make any requests to the SerenBox
+ */
 export const handleVerifySerenBoxConnection: RequestHandler<
     SerenBoxRouterParams
 > = async (req, res, next) => {
@@ -331,6 +337,22 @@ export const handleFinishSerenBoxSession: RequestHandler<
         const finishedSession = await finishSerenBoxSession(sessionId);
 
         res.status(200).json(finishedSession);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const handleGetSerenBoxSlotStatusByCredentials: RequestHandler<
+    SerenBoxSlotCredentialsRouterParams
+> = async (req, res, next) => {
+    try {
+        const { credentials } = req.params;
+
+        const serenBoxSlotStatus = await getSerenBoxSlotStatusByCredentials(
+            credentials
+        );
+
+        res.status(200).json(serenBoxSlotStatus);
     } catch (err) {
         next(err);
     }

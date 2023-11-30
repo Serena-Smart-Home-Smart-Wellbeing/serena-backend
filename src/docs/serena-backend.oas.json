@@ -1196,6 +1196,7 @@
                 "summary": "Check if a SerenBox is connected to the server",
                 "description": "Check if a SerenBox is connected to the server",
                 "operationId": "handleVerifySerenBoxConnection",
+                "deprecated": true,
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1264,47 +1265,33 @@
                         }
                     }
                 }
-            },
-            "delete": {
-                "tags": ["SerenBox"],
-                "summary": "Delete a SerenBox",
-                "description": "Delete a SerenBox",
-                "operationId": "handleDeleteSerenBox",
+            }
+        },
+        "/devices/serenbox/{credentials}/slots": {
+            "parameters": [
+                {
+                    "name": "credentials",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "00:0a:95:9d:68:16"
+                }
+            ],
+            "get": {
+                "security": [],
+                "tags": ["SerenBox Slot"],
+                "summary": "Check a SerenBox's slots active status",
+                "description": "Check a SerenBox's slots active status",
+                "operationId": "handleGetSerenBoxSlotStatusByCredentials",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SerenBoxServerData"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HttpError"
-                                },
-                                "example": {
-                                    "message": "Invalid token",
-                                    "status": 401
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden when using a token that doesn't correspond to the userId in the SerenBox data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HttpError"
-                                },
-                                "example": {
-                                    "message": "Forbidden",
-                                    "status": 403
+                                    "$ref": "#/components/schemas/SerenBoxSlotStatus"
                                 }
                             }
                         }

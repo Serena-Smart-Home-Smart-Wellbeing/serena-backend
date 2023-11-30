@@ -47,6 +47,10 @@ export const addSerenBox = async (
     return newSerenBox;
 };
 
+/**
+ *
+ * @deprecated SerenBox uses pub/sub to communicate with the server, so the server doesn't make any requests to the SerenBox
+ */
 export const verifySerenBoxConnection = async (ip: SerenBox["ip_address"]) => {
     try {
         const res = await axios.get(`${ip}/ping`);
@@ -62,19 +66,6 @@ export const changeSerenBoxSlotStatus = async (
     slot: SerenBoxSlots,
     status: boolean
 ) => {
-    try {
-        const path = `/diffusers/${slot}`;
-        const res = await axios.get(path, {
-            params: {
-                state: status ? "on" : "off"
-            }
-        });
-
-        console.log(res);
-    } catch (err) {
-        console.error(err);
-    }
-
     const updatedSerenBox = await prisma.serenBox.update({
         where: {
             id: serenBoxId
@@ -105,6 +96,39 @@ export const changeSerenBoxSlotStatus = async (
         serenBoxId: updatedSerenBox.id,
         slotA: updatedSerenBox.slotA.is_active,
         slotB: updatedSerenBox.slotB.is_active
+    };
+};
+
+export const getSerenBoxSlotStatusByCredentials = async (
+    credentials: SerenBox["credentials"]
+) => {
+    const serenBox = await prisma.serenBox.findUnique({
+        where: {
+            credentials
+        },
+        select: {
+            id: true,
+            slotA: {
+                select: {
+                    is_active: true
+                }
+            },
+            slotB: {
+                select: {
+                    is_active: true
+                }
+            }
+        }
+    });
+
+    if (!serenBox) {
+        throw new HttpError(404, "SerenBox not found");
+    }
+
+    return {
+        serenBoxId: serenBox.id,
+        slotA: serenBox.slotA.is_active,
+        slotB: serenBox.slotB.is_active
     };
 };
 
