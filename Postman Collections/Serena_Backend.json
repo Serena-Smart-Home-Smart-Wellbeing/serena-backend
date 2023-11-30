@@ -1880,22 +1880,16 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "55dfe04a-13d0-478f-a65c-98b9707925a6",
+										"id": "db81bea7-94df-4134-bc14-2b25cd5bf266",
 										"exec": [
-											"pm.test(\"Return an available existing SerenBox\", () => {\r",
+											"pm.test(\"Return an available existing SerenBox slots status\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
 											"    const res = pm.response.json();\r",
 											"\r",
 											"    pm.expect(res).to.have.keys(\r",
-											"        \"credentials\",\r",
-											"        \"name\",\r",
-											"        \"id\",\r",
-											"        \"userId\",\r",
-											"        \"added\",\r",
-											"        \"slotAId\",\r",
-											"        \"slotBId\",\r",
-											"        \"image_name\",\r",
-											"        \"ip_address\"\r",
+											"        \"serenBoxId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\"\r",
 											"    );\r",
 											"});\r",
 											""
@@ -1921,7 +1915,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "fc832d9d-80b7-4061-90dd-76b2fd9d1c56",
+										"id": "0aa222e8-1f51-4597-98c5-f6649bca86dc",
 										"exec": [
 											"pm.test(\"Reject if SerenBox not found\", () => {\r",
 											"    pm.response.to.have.status(404);\r",
@@ -1933,10 +1927,13 @@
 								}
 							],
 							"id": "028d4097-f0f9-4002-bdcd-d1adb64cf0de",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/MEOWMEOWMOEMOMOWMOW/status"
+								"url": "{{HOST}}/devices/serenbox/MEOMOEMOEMOEMEOEMO/slots"
 							},
 							"response": []
 						}
