@@ -1420,7 +1420,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4cbd6dc3-723c-4305-940d-22cf0a996575",
+										"id": "ca0254bb-df11-4b28-b70f-58dac175c3c7",
 										"exec": [
 											"pm.test(\"Added new SerenBox\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -1440,6 +1440,7 @@
 											"        \"ip_address\"\r",
 											"    );\r",
 											"    pm.environment.set(\"SERENBOX_ID\", serenbox.id)\r",
+											"    pm.environment.set(\"SERENBOX_CREDENTIALS\", serenbox.credentials)\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -1447,6 +1448,9 @@
 								}
 							],
 							"id": "9963e3b3-2d0f-47ea-b4b4-5656c06ee2d8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -1509,7 +1513,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2752d9d3-758c-4d46-b26e-aa114c06af76",
+										"id": "55efaf38-dd07-491a-a11a-05acd1d7c5bb",
 										"exec": [
 											"pm.test(\"Return an existing SerenBox\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1526,6 +1530,9 @@
 											"        \"image_name\",\r",
 											"        \"ip_address\"\r",
 											"    );\r",
+											"\r",
+											"     pm.environment.set(\"SERENBOX_ID\", res.id)\r",
+											"    pm.environment.set(\"SERENBOX_CREDENTIALS\", res.credentials)\r",
 											"});\r",
 											""
 										],
@@ -1534,6 +1541,9 @@
 								}
 							],
 							"id": "257c4585-3e9b-45ba-a22d-70b9f7191565",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -1860,6 +1870,78 @@
 						}
 					],
 					"id": "7a33e414-eadd-4e8d-b183-d9339752a480"
+				},
+				{
+					"name": "Get SerenBox slot status",
+					"item": [
+						{
+							"name": "200 Available SerenBox",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "55dfe04a-13d0-478f-a65c-98b9707925a6",
+										"exec": [
+											"pm.test(\"Return an available existing SerenBox\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"credentials\",\r",
+											"        \"name\",\r",
+											"        \"id\",\r",
+											"        \"userId\",\r",
+											"        \"added\",\r",
+											"        \"slotAId\",\r",
+											"        \"slotBId\",\r",
+											"        \"image_name\",\r",
+											"        \"ip_address\"\r",
+											"    );\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "8dcf1356-5d18-435f-8ae2-766c2a2a4297",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_CREDENTIALS}}/slots"
+							},
+							"response": []
+						},
+						{
+							"name": "404 Not Found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fc832d9d-80b7-4061-90dd-76b2fd9d1c56",
+										"exec": [
+											"pm.test(\"Reject if SerenBox not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"SerenBox not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "028d4097-f0f9-4002-bdcd-d1adb64cf0de",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/devices/serenbox/MEOWMEOWMOEMOMOWMOW/status"
+							},
+							"response": []
+						}
+					],
+					"id": "d21ba2f3-fc80-417b-8be4-397656bc87b7"
 				},
 				{
 					"name": "Update SerenBox IP Address",
