@@ -1,19 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, UserEmotionResult } from "@prisma/client";
+
 const prisma = new PrismaClient().$extends({
     model: {
         userEmotionResult: {
-            async getFormattedData(emotionId: string) {
-                const emotion = await prisma.userEmotionResult.findUnique({
-                    where: {
-                        id: emotionId
-                    }
-                });
-
-                if (!emotion) {
-                    return null;
-                }
-
-                const formattedEmotion = {
+            formatEmotion(emotion: UserEmotionResult) {
+                return {
                     energetic: {
                         anger: emotion.anger,
                         fear: emotion.fear,
@@ -36,8 +27,37 @@ const prisma = new PrismaClient().$extends({
                     created_time: emotion.created_time,
                     user_photo: emotion.user_photo
                 };
+            },
+            async getFormattedEmotion(emotionId: string) {
+                const emotion = await prisma.userEmotionResult.findUnique({
+                    where: {
+                        id: emotionId
+                    }
+                });
+
+                if (!emotion) {
+                    return null;
+                }
+
+                const formattedEmotion = this.formatEmotion(emotion);
 
                 return formattedEmotion;
+            },
+            async getFormattedEmotions(userId: string) {
+                const emotions = await prisma.userEmotionResult.findMany({
+                    where: {
+                        userId
+                    },
+                    orderBy: {
+                        created_time: "desc"
+                    }
+                });
+
+                const formattedEmotions = emotions.map(emotion =>
+                    this.formatEmotion(emotion)
+                );
+
+                return formattedEmotions;
             }
         }
     }
