@@ -591,7 +591,7 @@
                 "tags": ["Users"],
                 "summary": "Get a user's data",
                 "description": "Get a user's data",
-                "operationId": "getUserData",
+                "operationId": "handleGetUserData",
                 "parameters": [
                     {
                         "name": "userId",
@@ -736,7 +736,7 @@
                 "tags": ["SerenPlace"],
                 "summary": "Get all products",
                 "description": "Get all products",
-                "operationId": "getSerenPlaceProducts",
+                "operationId": "handleGetSerenPlaceProducts",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -757,7 +757,7 @@
                 "tags": ["SerenPlace"],
                 "summary": "Get a product's data",
                 "description": "Get a product's data",
-                "operationId": "getSerenPlaceProduct",
+                "operationId": "handleGetSerenPlaceProduct",
                 "parameters": [
                     {
                         "name": "productId",
@@ -803,7 +803,7 @@
                 "tags": ["Music Recommender"],
                 "summary": "Recommend music based on user's emotion",
                 "description": "Get energetic and relax from `UserEmotion.energetic.total` or `UserEmotion.relax.total`. Energetic + relax cannot be more than 1",
-                "operationId": "getRecommendations",
+                "operationId": "handleGetRecommendations",
                 "parameters": [
                     {
                         "name": "energetic",
@@ -884,7 +884,7 @@
                 "tags": ["SerenBox"],
                 "summary": "Get a list of user's SerenBoxes",
                 "description": "Get a list of user's SerenBoxes",
-                "operationId": "getSerenBoxes",
+                "operationId": "handleGetSerenBoxes",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1794,7 +1794,7 @@
                 "tags": ["User Emotions"],
                 "summary": "Get a list of user's emotions",
                 "description": "Get a list of user's emotions",
-                "operationId": "getUserEmotions",
+                "operationId": "handleGetUserEmotions",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1879,7 +1879,7 @@
                 "tags": ["User Emotions"],
                 "summary": "Get a user's emotions",
                 "description": "Get a user's emotions",
-                "operationId": "getUserEmotion",
+                "operationId": "handleGetUserEmotion",
                 "responses": {
                     "200": {
                         "description": "OK",
