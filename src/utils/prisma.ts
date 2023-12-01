@@ -3,7 +3,10 @@ import { PrismaClient, UserEmotionResult } from "@prisma/client";
 const prisma = new PrismaClient().$extends({
     model: {
         userEmotionResult: {
-            formatEmotion(emotion: UserEmotionResult) {
+            formatEmotion(
+                emotion: UserEmotionResult,
+                user_photo = emotion.user_photo
+            ) {
                 return {
                     energetic: {
                         anger: emotion.anger,
@@ -25,10 +28,13 @@ const prisma = new PrismaClient().$extends({
                     id: emotion.id,
                     userId: emotion.userId,
                     created_time: emotion.created_time,
-                    user_photo: emotion.user_photo
+                    user_photo: user_photo
                 };
             },
-            async getFormattedEmotion(emotionId: string) {
+            async getFormattedEmotion(
+                emotionId: string,
+                user_photo?: UserEmotionResult["user_photo"]
+            ) {
                 const emotion = await prisma.userEmotionResult.findUnique({
                     where: {
                         id: emotionId
@@ -39,7 +45,7 @@ const prisma = new PrismaClient().$extends({
                     return null;
                 }
 
-                const formattedEmotion = this.formatEmotion(emotion);
+                const formattedEmotion = this.formatEmotion(emotion, user_photo);
 
                 return formattedEmotion;
             },
