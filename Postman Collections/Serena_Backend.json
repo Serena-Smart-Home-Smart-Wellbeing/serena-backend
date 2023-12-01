@@ -860,7 +860,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "96b65bf9-77f6-461d-824e-8cd27aa70c76",
+										"id": "e7af8983-753a-42eb-a249-988920ab8251",
 										"exec": [
 											"const toBeDeletedUserCred = {\r",
 											"    email: \"DELETE_MEEEEE@test.com\",\r",
@@ -874,7 +874,7 @@
 											"        url: `${pm.environment.get(\"HOST\")}/users`,\r",
 											"        body: {\r",
 											"            mode: \"raw\",\r",
-											"            raw: JSON.stringify(secondUserCreds)\r",
+											"            raw: JSON.stringify(toBeDeletedUserCred)\r",
 											"        },\r",
 											"        header: {\r",
 											"            \"Content-Type\": \"application/json\"\r",
@@ -886,41 +886,10 @@
 											"        } else {\r",
 											"            const res = response.json();\r",
 											"\r",
-											"            if (res.accessToken && res.userId) {\r",
-											"                console.log(\"Registered User\");\r",
+											"            console.log(\"Registered User\");\r",
 											"\r",
-											"                pm.environment.set(\"SECOND_ACCESS_TOKEN\", res.accessToken);\r",
-											"                pm.environment.set(\"SECOND_USER_ID\", res.userId);\r",
-											"            } else {\r",
-											"                pm.sendRequest(\r",
-											"                    {\r",
-											"                        method: \"POST\",\r",
-											"                        url: `${pm.environment.get(\"HOST\")}/users/login`,\r",
-											"                        body: {\r",
-											"                            mode: \"raw\",\r",
-											"                            raw: JSON.stringify(secondUserCreds)\r",
-											"                        },\r",
-											"                        header: {\r",
-											"                            \"Content-Type\": \"application/json\"\r",
-											"                        }\r",
-											"                    },\r",
-											"                    (err, response) => {\r",
-											"                        console.log(\"Logged In\");\r",
-											"                        if (err) {\r",
-											"                            console.log(err);\r",
-											"                        } else {\r",
-											"                            const res = response.json();\r",
-											"                            if (res.status) return console.log(res);\r",
-											"\r",
-											"                            pm.environment.set(\r",
-											"                                \"SECOND_ACCESS_TOKEN\",\r",
-											"                                res.accessToken\r",
-											"                            );\r",
-											"                            pm.environment.set(\"SECOND_USER_ID\", res.userId);  \r",
-											"                        }\r",
-											"                    }\r",
-											"                );\r",
-											"            }\r",
+											"            pm.environment.set(\"DELETED_USER_ACCESS_TOKEN\", res.accessToken);\r",
+											"            pm.environment.set(\"DELETED_USER_ID\", res.userId);\r",
 											"        }\r",
 											"    }\r",
 											");\r",
@@ -932,7 +901,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "00497c69-b996-41dc-a575-1db2819246fb",
+										"id": "40e9134e-1325-43ce-9bc9-b5fd8e430a02",
 										"exec": [
 											"pm.test(\"return user if successfully deleted\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -955,12 +924,12 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{ACCESS_TOKEN}}"
+										"token": "{{DELETED_USER_ACCESS_TOKEN}}"
 									}
 								},
 								"method": "DELETE",
 								"header": [],
-								"url": "{{HOST}}/users/{{USER_ID}}"
+								"url": "{{HOST}}/users/{{DELETED_USER_ID}}"
 							},
 							"response": []
 						},
