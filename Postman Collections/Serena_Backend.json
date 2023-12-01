@@ -3526,6 +3526,37 @@
 							"response": []
 						},
 						{
+							"name": "400 Missing image",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0065e021-2a20-4562-9890-402ff81b9519",
+										"exec": [
+											"pm.test(\"Reject if missing image\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing image\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "9ac03d4e-91cd-4d1d-a177-82741f8008e0",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "reyhan-smile.jpg"
+									}
+								},
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
+							},
+							"response": []
+						},
+						{
 							"name": "401 Invalid Token",
 							"event": [
 								{
@@ -3555,6 +3586,12 @@
 								},
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "reyhan-smile.jpg"
+									}
+								},
 								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
 							},
 							"response": []
@@ -3589,6 +3626,12 @@
 								},
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "reyhan-smile.jpg"
+									}
+								},
 								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
 							},
 							"response": []
@@ -3617,6 +3660,12 @@
 							"request": {
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "reyhan-smile.jpg"
+									}
+								},
 								"url": "{{HOST}}/users/NOTFOUNDDDD/emotions/detect"
 							},
 							"response": []
