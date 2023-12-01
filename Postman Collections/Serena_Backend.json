@@ -3470,7 +3470,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0837070e-5373-48be-a3e8-27fcfda21fbc",
+										"id": "15f6c3be-bb45-4f04-bff7-5931e4875cf9",
 										"exec": [
 											"pm.test(\"Successfully analyzed user emotions\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -3524,7 +3524,7 @@
 											"id": 0,
 											"fileUploadError": "",
 											"src": [
-												"C:\\Users\\emuia\\OneDrive\\Gambar\\_e4da666e-93a0-4a20-8bd6-ee805f337430.jpeg"
+												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
 											]
 										}
 									]
