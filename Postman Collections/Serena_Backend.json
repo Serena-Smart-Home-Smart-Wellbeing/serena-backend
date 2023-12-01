@@ -3470,7 +3470,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "90d472bf-b6be-4e31-a3bb-afeb96b56303",
+										"id": "0837070e-5373-48be-a3e8-27fcfda21fbc",
 										"exec": [
 											"pm.test(\"Successfully analyzed user emotions\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -3521,7 +3521,11 @@
 										{
 											"key": "image",
 											"type": "file",
-											"src": "reyhan-smile.jpg"
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"C:\\Users\\emuia\\OneDrive\\Gambar\\_e4da666e-93a0-4a20-8bd6-ee805f337430.jpeg"
+											]
 										}
 									]
 								},
