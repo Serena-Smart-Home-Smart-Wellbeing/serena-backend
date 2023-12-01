@@ -3518,7 +3518,7 @@
 								"body": {
 									"mode": "file",
 									"file": {
-										"src": "C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
+										"src": "reyhan-smile.jpg"
 									}
 								},
 								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
@@ -3553,9 +3553,9 @@
 										"token": "meow.meow.meow"
 									}
 								},
-								"method": "GET",
+								"method": "POST",
 								"header": [],
-								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
 							},
 							"response": []
 						},
@@ -3587,9 +3587,9 @@
 										"token": "{{SECOND_ACCESS_TOKEN}}"
 									}
 								},
-								"method": "GET",
+								"method": "POST",
 								"header": [],
-								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
 							},
 							"response": []
 						},
@@ -3615,37 +3615,9 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
-								"url": "{{HOST}}/users/NOTFOUNDDDD/emotions/{{EMOTION_ID}}"
-							},
-							"response": []
-						},
-						{
-							"name": "404 Emotion not Found",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "11bfaf0f-1b66-44f3-8ff2-4c6e0781e45f",
-										"exec": [
-											"pm.test(\"Reject if emotion result not found\", () => {\r",
-											"    pm.response.to.have.status(404);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Emotion result not found\");\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "f8bfbee7-a10a-4398-8c0d-48d27af7258c",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": "{{HOST}}/users/{{USER_ID}}/emotions/NOTFOUNDDDD"
+								"url": "{{HOST}}/users/NOTFOUNDDDD/emotions/detect"
 							},
 							"response": []
 						}
