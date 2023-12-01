@@ -195,9 +195,14 @@
                 ]
             },
             "EmotionAnalysisRequest": {
-                "type": "string",
-                "format": "binary",
-                "description": "User photo"
+                "type": "object",
+                "properties": {
+                    "image": {
+                        "type": "string",
+                        "format": "binary",
+                        "description": "User photo"
+                    }
+                }
             },
             "MusicRecommendation": {
                 "type": "object",
@@ -1973,7 +1978,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "image/jpeg": {
+                        "multipart/form-data": {
                             "schema": {
                                 "$ref": "#/components/schemas/EmotionAnalysisRequest"
                             }

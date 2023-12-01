@@ -11,12 +11,12 @@ export interface UserEndpointParams {
     userId: string;
 }
 
+usersRouter.post("/login", login);
+
 usersRouter.use("/:userId", parseToken);
 usersRouter.use("/:userId", validateUserById);
 
 usersRouter.route("/:userId").get(getUserData).delete(deleteUser);
-
-usersRouter.post("/login", login);
 
 usersRouter.use("/:userId/emotions", userEmotionRouter);
 
