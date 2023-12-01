@@ -1,7 +1,7 @@
 import prisma from "@/utils/prisma";
 
 export const getSerenPlaceProducts = async () => {
-    const products = await prisma.serenPlaceProduct.findMany();
+    const products = await prisma.serenPlaceProduct.findManyAndGetPublicURL();
 
     return products;
 };

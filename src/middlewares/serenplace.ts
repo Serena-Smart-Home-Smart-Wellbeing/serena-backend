@@ -1,3 +1,4 @@
+import { serenaAppStorage } from "@/config/cloud-storage";
 import {
     getSerenPlaceProducts,
     getSerenPlaceProduct
@@ -28,6 +29,8 @@ export const handleGetSerenPlaceProduct: RequestHandler<{
         if (!product) {
             throw new HttpError(404, "Product not found");
         }
+
+        product.image_name = serenaAppStorage.file(product.image_name).publicUrl();
 
         res.status(200).json(product);
     } catch (err) {

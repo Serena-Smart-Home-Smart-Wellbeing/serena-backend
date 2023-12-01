@@ -85,10 +85,7 @@ export const handleAnalyzeUserEmotion: RequestHandler<
         });
 
         const formattedUserEmotionResult =
-            await prisma.userEmotionResult.getFormattedEmotion(
-                userEmotionResult.id,
-                publicUrl
-            );
+            await prisma.userEmotionResult.getFormattedEmotion(userEmotionResult.id);
 
         res.status(201).send(formattedUserEmotionResult);
     } catch (err) {

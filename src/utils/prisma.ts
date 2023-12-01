@@ -1,12 +1,10 @@
+import { serenaAppStorage } from "@/config/cloud-storage";
 import { PrismaClient, UserEmotionResult } from "@prisma/client";
 
 const prisma = new PrismaClient().$extends({
     model: {
         userEmotionResult: {
-            formatEmotion(
-                emotion: UserEmotionResult,
-                user_photo = emotion.user_photo
-            ) {
+            formatEmotion(emotion: UserEmotionResult) {
                 return {
                     energetic: {
                         anger: emotion.anger,
@@ -28,13 +26,10 @@ const prisma = new PrismaClient().$extends({
                     id: emotion.id,
                     userId: emotion.userId,
                     created_time: emotion.created_time,
-                    user_photo: user_photo
+                    user_photo: serenaAppStorage.file(emotion.user_photo).publicUrl()
                 };
             },
-            async getFormattedEmotion(
-                emotionId: string,
-                user_photo?: UserEmotionResult["user_photo"]
-            ) {
+            async getFormattedEmotion(emotionId: string) {
                 const emotion = await prisma.userEmotionResult.findUnique({
                     where: {
                         id: emotionId
@@ -45,7 +40,7 @@ const prisma = new PrismaClient().$extends({
                     return null;
                 }
 
-                const formattedEmotion = this.formatEmotion(emotion, user_photo);
+                const formattedEmotion = this.formatEmotion(emotion);
 
                 return formattedEmotion;
             },
@@ -64,6 +59,40 @@ const prisma = new PrismaClient().$extends({
                 );
 
                 return formattedEmotions;
+            }
+        },
+        serenPlaceProduct: {
+            async findManyAndGetPublicURL() {
+                const products = await prisma.serenPlaceProduct.findMany();
+
+                const productsWithPublicURL = products.map(product => {
+                    product.image_name = serenaAppStorage
+                        .file(product.image_name)
+                        .publicUrl();
+
+                    return product;
+                });
+
+                return productsWithPublicURL;
+            }
+        },
+        serenBox: {
+            async findManyByUserIdAndGetPublicURL(userId: string) {
+                const serenBoxes = await prisma.serenBox.findMany({
+                    where: {
+                        userId
+                    }
+                });
+
+                const serenBoxesWithPublicURL = serenBoxes.map(serenBox => {
+                    serenBox.image_name = serenaAppStorage
+                        .file(serenBox.image_name)
+                        .publicUrl();
+
+                    return serenBox;
+                });
+
+                return serenBoxesWithPublicURL;
             }
         }
     }
