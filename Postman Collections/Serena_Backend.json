@@ -643,7 +643,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "91005b4e-aa3f-48e5-bd00-2553ecd011f3",
+										"id": "730d94a0-54a3-43ee-a2ba-3150d72e07b1",
 										"exec": [
 											"pm.test(\"return user if exists\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -651,7 +651,7 @@
 											"    pm.expect(res.id).to.be.a(\"string\");\r",
 											"    pm.expect(res.email).to.be.a(\"string\");\r",
 											"    pm.expect(res.username).to.be.a(\"string\");\r",
-											"    pm.expect(res.image_name).to.be.a(\"string\");\r",
+											"    pm.expect(res.image_name).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -860,7 +860,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "e7af8983-753a-42eb-a249-988920ab8251",
+										"id": "f5f5ae17-3cce-4039-a7f4-822d1be0a719",
 										"exec": [
 											"const toBeDeletedUserCred = {\r",
 											"    email: \"DELETE_MEEEEE@test.com\",\r",
@@ -901,7 +901,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "40e9134e-1325-43ce-9bc9-b5fd8e430a02",
+										"id": "cf7827d2-98e6-4d1f-8e94-f09842e9b9f4",
 										"exec": [
 											"pm.test(\"return user if successfully deleted\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -909,7 +909,7 @@
 											"    pm.expect(res.id).to.be.a(\"string\");\r",
 											"    pm.expect(res.email).to.be.a(\"string\");\r",
 											"    pm.expect(res.username).to.be.a(\"string\");\r",
-											"    pm.expect(res.image_name).to.be.a(\"string\");\r",
+											"    pm.expect(res.image_name).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -1017,7 +1017,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ab5edb97-8c6d-4ec0-b1a6-4f35a71c91f0",
+										"id": "629b20e8-152b-4966-af57-56e328054f71",
 										"exec": [
 											"pm.test(\"return SerenPlace products\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1034,6 +1034,7 @@
 											"            \"description\",\r",
 											"            \"type\"\r",
 											"        );\r",
+											"        pm.expect(product.image_name).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
 											"    });\r",
 											"});\r",
 											""
@@ -1043,6 +1044,9 @@
 								}
 							],
 							"id": "fa99b96a-8a69-44d8-b817-0e792fa6556f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -1056,7 +1060,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0a2841a3-5594-47ea-a693-68110348be69",
+										"id": "d9bb8150-7fd5-494c-90b8-5de28692a07c",
 										"exec": [
 											"pm.test(\"return an existing SerenPlace product\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1071,6 +1075,8 @@
 											"        \"description\",\r",
 											"        \"type\"\r",
 											"    );\r",
+											"\r",
+											"    pm.expect(product.image_name).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
 											"});\r",
 											""
 										],
@@ -1079,6 +1085,9 @@
 								}
 							],
 							"id": "ea1eee88-67c8-44d9-8da0-967538fb5e7d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
