@@ -1,7 +1,7 @@
 import { deleteUser, getUserData, login, registerUser } from "@/controllers/users";
 import { parseToken, validateUserById } from "@/middlewares/auth";
 import express from "express";
-import userEmotionResultRouter from "./user-emotion-result";
+import userEmotionRouter from "./user-emotions";
 
 const usersRouter = express.Router({ mergeParams: true });
 
@@ -18,6 +18,6 @@ usersRouter.route("/:userId").get(getUserData).delete(deleteUser);
 
 usersRouter.post("/login", login);
 
-usersRouter.use("/:userId/emotions", userEmotionResultRouter);
+usersRouter.use("/:userId/emotions", userEmotionRouter);
 
 export default usersRouter;

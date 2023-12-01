@@ -1,4 +1,4 @@
-import { UserEmotionResultEndpointParams } from "@/routers/user-emotion-result";
+import { UserEmotionResultEndpointParams } from "@/routers/user-emotions";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
 import { RequestHandler } from "express";
