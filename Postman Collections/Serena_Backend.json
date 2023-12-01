@@ -3531,7 +3531,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0065e021-2a20-4562-9890-402ff81b9519",
+										"id": "17dadc89-ad96-4280-a3b9-321fa448934f",
 										"exec": [
 											"pm.test(\"Reject if missing image\", function () {\r",
 											"    pm.response.to.have.status(400);\r",
@@ -3543,13 +3543,16 @@
 								}
 							],
 							"id": "9ac03d4e-91cd-4d1d-a177-82741f8008e0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "file",
 									"file": {
-										"src": "reyhan-smile.jpg"
+										"src": ""
 									}
 								},
 								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
