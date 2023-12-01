@@ -643,7 +643,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "71150796-15e3-411c-b65c-6146ec63a5cd",
+										"id": "24f7e717-a4de-4729-b974-c4f13666166c",
 										"exec": [
 											"pm.test(\"return user if exists\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -651,6 +651,7 @@
 											"    pm.expect(res.id).to.be.a(\"string\");\r",
 											"    pm.expect(res.email).to.be.a(\"string\");\r",
 											"    pm.expect(res.username).to.be.a(\"string\");\r",
+											"    pm.expect(res.image_name).to.be.a(\"string\");\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -859,7 +860,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "47273362-0530-4fdb-a8d7-f25bf3abe6ac",
+										"id": "4b7fcf5a-f25a-41e9-b534-08ef00981009",
 										"exec": [
 											"pm.test(\"return user if successfully deleted\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -867,6 +868,7 @@
 											"    pm.expect(res.id).to.be.a(\"string\");\r",
 											"    pm.expect(res.email).to.be.a(\"string\");\r",
 											"    pm.expect(res.username).to.be.a(\"string\");\r",
+											"    pm.expect(res.image_name).to.be.a(\"string\");\r",
 											"})"
 										],
 										"type": "text/javascript"
