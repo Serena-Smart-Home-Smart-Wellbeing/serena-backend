@@ -3462,6 +3462,197 @@
 			"name": "User Emotions API",
 			"item": [
 				{
+					"name": "Analyze user's emotion",
+					"item": [
+						{
+							"name": "201 Analyze user emotion",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "33c97ca1-1529-4964-bf5b-3bd02d1794bb",
+										"exec": [
+											"pm.test(\"Successfully analyzed user emotions\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"id\",\r",
+											"        \"userId\",\r",
+											"        \"created_time\",\r",
+											"        \"user_photo\",\r",
+											"        \"energetic\",\r",
+											"        \"relax\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.energetic).to.have.keys(\r",
+											"        \"anger\",\r",
+											"        \"fear\",\r",
+											"        \"surprise\",\r",
+											"        \"total\"\r",
+											"    );\r",
+											"\r",
+											"    pm.expect(res.relax).to.have.keys(\r",
+											"        \"disgust\",\r",
+											"        \"joy\",\r",
+											"        \"neutral\",\r",
+											"        \"sadness\",\r",
+											"        \"total\"\r",
+											"    );\r",
+											"\r",
+											"    pm.environment.set(\"EMOTION_ID\", res.id);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "e84edbda-45ed-4dd3-b2c2-b0f97ea19b86",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
+									}
+								},
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
+							},
+							"response": []
+						},
+						{
+							"name": "401 Invalid Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3167a89f-14eb-481f-8497-0a3a7c7f902c",
+										"exec": [
+											"pm.test(\"Reject if token is invalid\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Invalid token\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "ff6bf619-85a5-49c4-a029-cda01e5f9d01",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "meow.meow.meow"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "403 Forbidden",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9a9926bf-c599-406d-a027-4b67da5a4bd6",
+										"exec": [
+											"pm.test(\"Reject if access token doesn't match userId\", () => {\r",
+											"    pm.response.to.have.status(403);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Forbidden\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "53157bf6-3ce9-4a64-9e89-3f67cef8873d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{SECOND_ACCESS_TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/{{EMOTION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "404 User not Found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "11bfaf0f-1b66-44f3-8ff2-4c6e0781e45f",
+										"exec": [
+											"pm.test(\"Reject if user not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"User not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4b495e34-213c-4ae0-905c-e50de2ce70a3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/NOTFOUNDDDD/emotions/{{EMOTION_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "404 Emotion not Found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "11bfaf0f-1b66-44f3-8ff2-4c6e0781e45f",
+										"exec": [
+											"pm.test(\"Reject if emotion result not found\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Emotion result not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "f8bfbee7-a10a-4398-8c0d-48d27af7258c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/NOTFOUNDDDD"
+							},
+							"response": []
+						}
+					],
+					"id": "4c418a82-89f3-4a1f-bfb5-be9c9c56d7b5"
+				},
+				{
 					"name": "Get user emotion",
 					"item": [
 						{
