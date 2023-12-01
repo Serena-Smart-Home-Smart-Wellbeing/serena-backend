@@ -3522,7 +3522,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "15f6c3be-bb45-4f04-bff7-5931e4875cf9",
+										"id": "7b3bf25e-a58b-46dc-bfb9-e619fe808d9e",
 										"exec": [
 											"pm.test(\"Successfully analyzed user emotions\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -3536,6 +3536,8 @@
 											"        \"energetic\",\r",
 											"        \"relax\"\r",
 											"    );\r",
+											"\r",
+											"    pm.expect(res.user_photo).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
 											"\r",
 											"    pm.expect(res.energetic).to.have.keys(\r",
 											"        \"anger\",\r",
@@ -3763,7 +3765,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "a16718bf-7a71-46c4-8f22-b2a08a703b33",
+										"id": "57490b71-3cfb-4b89-9286-e0b4819822db",
 										"exec": [
 											"pm.test(\"Return one user emotion\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -3777,6 +3779,8 @@
 											"        \"energetic\",\r",
 											"        \"relax\"\r",
 											"    );\r",
+											"\r",
+											"    pm.expect(res.user_photo).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
 											"\r",
 											"    pm.expect(res.energetic).to.have.keys(\r",
 											"        \"anger\",\r",
@@ -3948,7 +3952,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "081ccfce-65ef-4c86-8acc-afeee30650fb",
+										"id": "ff866aba-2535-4138-9a49-77c9c4075b4b",
 										"exec": [
 											"\r",
 											"pm.test(\"List user's emotion results\", () => {\r",
@@ -3965,6 +3969,8 @@
 											"            \"energetic\",\r",
 											"            \"relax\"\r",
 											"        );\r",
+											"\r",
+											"        pm.expect(res.user_photo).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
 											"\r",
 											"        pm.expect(res.energetic).to.have.keys(\"anger\", \"fear\", \"surprise\", \"total\");\r",
 											"\r",
