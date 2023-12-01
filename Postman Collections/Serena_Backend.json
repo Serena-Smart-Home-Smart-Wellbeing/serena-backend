@@ -3470,7 +3470,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "33c97ca1-1529-4964-bf5b-3bd02d1794bb",
+										"id": "0a6c6ba5-4df6-42ec-a1e1-6179d25d9188",
 										"exec": [
 											"pm.test(\"Successfully analyzed user emotions\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -3516,10 +3516,18 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "file",
-									"file": {
-										"src": "reyhan-smile.jpg"
-									}
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"reyhan-smile.jpg"
+											]
+										}
+									]
 								},
 								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
 							},
@@ -3531,7 +3539,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "17dadc89-ad96-4280-a3b9-321fa448934f",
+										"id": "f97c1f0a-88f9-4419-beee-b6c93dab9deb",
 										"exec": [
 											"pm.test(\"Reject if missing image\", function () {\r",
 											"    pm.response.to.have.status(400);\r",
@@ -3550,10 +3558,18 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "file",
-									"file": {
-										"src": ""
-									}
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"reyhan-smile.jpg"
+											]
+										}
+									]
 								},
 								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
 							},
@@ -3565,7 +3581,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "3167a89f-14eb-481f-8497-0a3a7c7f902c",
+										"id": "38662250-596f-4ec9-97ae-dc73310a9690",
 										"exec": [
 											"pm.test(\"Reject if token is invalid\", () => {\r",
 											"    pm.response.to.have.status(401);\r",
@@ -3590,10 +3606,18 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "file",
-									"file": {
-										"src": "reyhan-smile.jpg"
-									}
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"reyhan-smile.jpg"
+											]
+										}
+									]
 								},
 								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
 							},
@@ -3605,7 +3629,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "9a9926bf-c599-406d-a027-4b67da5a4bd6",
+										"id": "de8d48da-e96c-45a8-8bb9-96872ec51f5b",
 										"exec": [
 											"pm.test(\"Reject if access token doesn't match userId\", () => {\r",
 											"    pm.response.to.have.status(403);\r",
@@ -3630,10 +3654,18 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "file",
-									"file": {
-										"src": "reyhan-smile.jpg"
-									}
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"reyhan-smile.jpg"
+											]
+										}
+									]
 								},
 								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
 							},
@@ -3645,7 +3677,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "11bfaf0f-1b66-44f3-8ff2-4c6e0781e45f",
+										"id": "1214c6f1-f0e2-4cec-9266-bbd06f836857",
 										"exec": [
 											"pm.test(\"Reject if user not found\", () => {\r",
 											"    pm.response.to.have.status(404);\r",
@@ -3664,10 +3696,18 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "file",
-									"file": {
-										"src": "reyhan-smile.jpg"
-									}
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"reyhan-smile.jpg"
+											]
+										}
+									]
 								},
 								"url": "{{HOST}}/users/NOTFOUNDDDD/emotions/detect"
 							},
