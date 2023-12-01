@@ -194,6 +194,11 @@
                     }
                 ]
             },
+            "EmotionAnalysisRequest": {
+                "type": "string",
+                "format": "binary",
+                "description": "User photo"
+            },
             "MusicRecommendation": {
                 "type": "object",
                 "properties": {
@@ -1941,6 +1946,108 @@
                                             "status": 404
                                         }
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}/emotions/detect": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                }
+            ],
+            "post": {
+                "tags": ["User Emotions"],
+                "summary": "Analyze a user's emotion",
+                "description": "Analyze a user's emotion then save the results in our bucket and database.",
+                "operationId": "handleAnalyzeUserEmotion",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "image/jpeg": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmotionAnalysisRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserEmotionServerData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing image": {
+                                        "summary": "Missing image",
+                                        "value": {
+                                            "message": "Missing image",
+                                            "status": 400
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Invalid token",
+                                    "status": 401
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden when using a token that doesn't correspond to the userId",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "Forbidden",
+                                    "status": 403
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "SerenBox not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "example": {
+                                    "message": "SerenBox not found",
+                                    "status": 404
                                 }
                             }
                         }
