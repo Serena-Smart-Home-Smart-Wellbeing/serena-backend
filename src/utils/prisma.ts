@@ -1,5 +1,7 @@
 import { serenaAppStorage } from "@/config/cloud-storage";
+import { getUserEmotionImageFolder } from "@/controllers/user-emotions";
 import { PrismaClient, UserEmotionResult } from "@prisma/client";
+import { deleteStorageFolder } from "./cloud-storage";
 
 const prisma = new PrismaClient().$extends({
     model: {
@@ -93,6 +95,35 @@ const prisma = new PrismaClient().$extends({
                 });
 
                 return serenBoxesWithPublicURL;
+            }
+        },
+        user: {}
+    },
+    query: {
+        userEmotionResult: {
+            async delete({ args, query }) {
+                const emotion = await prisma.userEmotionResult.findUnique({
+                    where: {
+                        id: args.where.id
+                    }
+                });
+
+                const image = serenaAppStorage.file(emotion!.user_photo);
+                await image.delete();
+
+                const deletedEmotion = await query(args);
+
+                return deletedEmotion;
+            }
+        },
+        user: {
+            async delete({ args, query }) {
+                const userFolder = serenaAppStorage.file(`users/${args.where.id}/`);
+                await deleteStorageFolder(serenaAppStorage, userFolder.name);
+
+                const deletedUser = await query(args);
+
+                return deletedUser;
             }
         }
     }
