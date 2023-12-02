@@ -29,6 +29,11 @@
                     "email": {
                         "type": "string",
                         "description": "User email"
+                    },
+                    "image_name": {
+                        "type": "string",
+                        "description": "User photo URL",
+                        "example": "https://storage.googleapis.com/serena-app-storage/assets/placeholders/user_profile_photo.jpeg"
                     }
                 },
                 "example": {
@@ -94,8 +99,8 @@
                     },
                     "image_name": {
                         "type": "string",
-                        "description": "Product image name",
-                        "example": "serena-oil.jpg"
+                        "description": "Product image URL",
+                        "example": "https://storage.googleapis.com/serena-app-storage/assets/placeholders/serenbox_mockup_transparent.png"
                     },
                     "type": {
                         "type": "string",
@@ -294,8 +299,8 @@
                             },
                             "image_name": {
                                 "type": "string",
-                                "description": "SerenBox image name",
-                                "example": "serenbox.jpg"
+                                "description": "SerenBox image URL",
+                                "example": "https://storage.googleapis.com/serena-app-storage/assets/placeholders/essential_oil_slot.png"
                             },
                             "ip_address": {
                                 "type": "string",
@@ -929,7 +934,7 @@
                 "tags": ["SerenBox"],
                 "summary": "Add a new SerenBox",
                 "description": "Add a new SerenBox",
-                "operationId": "addSerenBox",
+                "operationId": "handleAddSerenBox",
                 "requestBody": {
                     "required": true,
                     "content": {

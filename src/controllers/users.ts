@@ -1,3 +1,4 @@
+import { serenaAppStorage } from "@/config/cloud-storage";
 import { isRequestedBySameUser, jwtAccessSecret } from "@/utils/auth";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
@@ -138,14 +139,17 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
 
         const deletedUser = await prisma.user.delete({
             where: {
-                id: req.params.userId
+                id: user.id
             },
             select: {
                 email: true,
                 id: true,
-                username: true
+                username: true,
+                image_name: true
             }
         });
+
+        deletedUser.image_name = serenaAppStorage.file(user.image_name).publicUrl();
 
         return res.status(200).json(deletedUser);
     } catch (err) {
@@ -166,13 +170,16 @@ export const getUserData: RequestHandler<{ userId: string }> = async (
             select: {
                 email: true,
                 id: true,
-                username: true
+                username: true,
+                image_name: true
             }
         });
         if (!user) {
             throw new HttpError(404, "User not found");
         }
         isRequestedBySameUser(req, user.id);
+
+        user.image_name = serenaAppStorage.file(user.image_name).publicUrl();
 
         return res.status(200).json(user);
     } catch (err) {

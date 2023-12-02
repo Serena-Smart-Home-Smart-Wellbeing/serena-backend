@@ -21,8 +21,7 @@ model User {
   email              String              @unique
   password           String
   username           String              @unique
-  // TODO add default values for images
-  image_name         String?             @default("")
+  image_name         String              @default("assets/placeholders/user_profile_photo.jpeg")
   SerenBoxes         SerenBox[]
   UserEmotionResults UserEmotionResult[]
 
@@ -34,14 +33,14 @@ model SerenBox {
   credentials      String            @unique
   ip_address       String?
   name             String
-  user             User              @relation(fields: [userId], references: [id])
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           String
-  image_name       String?           @default("")
+  image_name       String            @default("assets/placeholders/serenbox_mockup_transparent.png")
   added            DateTime          @default(now())
-  slotA            SerenBoxSlot      @relation("slotA", fields: [slotAId], references: [id])
-  slotAId          String            @unique
-  slotB            SerenBoxSlot      @relation("slotB", fields: [slotBId], references: [id])
-  slotBId          String            @unique
+  slotA            SerenBoxSlot?     @relation("slotA", fields: [slotAId], references: [id])
+  slotAId          String?           @unique
+  slotB            SerenBoxSlot?     @relation("slotB", fields: [slotBId], references: [id])
+  slotBId          String?           @unique
   SerenBoxSessions SerenBoxSession[]
 
   @@map("serenbox")
@@ -84,7 +83,7 @@ enum SerenBoxDiffusionModes {
 
 model SerenBoxSession {
   id               String                  @id @default(uuid())
-  serenBox         SerenBox                @relation(fields: [serenBoxId], references: [id])
+  serenBox         SerenBox                @relation(fields: [serenBoxId], references: [id], onDelete: Cascade)
   serenBoxId       String
   duration_minutes Int?                    @default(10)
   detection_mode   SerenBoxDetectionModes? @default(INTERVAL)
@@ -98,7 +97,7 @@ model SerenBoxSession {
 
 model UserEmotionResult {
   id           String   @id @default(uuid())
-  user         User     @relation(fields: [userId], references: [id])
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
   created_time DateTime @default(now())
   neutral      Float
@@ -124,7 +123,7 @@ model SerenPlaceProduct {
   price_idr   Int
   description String
   stock       Int
-  image_name  String?                @default("")
+  image_name  String                 @default("assets/placeholders/essential_oil_slot.png")
   type        SerenPlaceProductTypes @default(OIL)
 
   @@map("serenplaceproduct")

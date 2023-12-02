@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy serena_db prisma to Cloud MySQL
 on:
     push:
         branches:

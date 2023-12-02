@@ -1,3 +1,4 @@
+import { serenaAppStorage } from "@/config/cloud-storage";
 import {
     addSerenBox,
     changeSerenBoxSlotStatus,
@@ -73,6 +74,10 @@ export const handleAddSerenBox: RequestHandler<
             userId: id
         });
 
+        newSerenBox.image_name = serenaAppStorage
+            .file(newSerenBox.image_name)
+            .publicUrl();
+
         res.status(201).json(newSerenBox);
     } catch (err) {
         next(err);
@@ -102,6 +107,8 @@ export const handleGetSerenBox: RequestHandler<{ serenboxId: string }> = async (
             throw new HttpError(403, "Forbidden");
         }
 
+        serenBox.image_name = serenaAppStorage.file(serenBox.image_name).publicUrl();
+
         res.status(200).json(serenBox);
     } catch (err) {
         next(err);
@@ -114,11 +121,9 @@ export const handleGetSerenBoxes: RequestHandler = async (req, res, next) => {
             throw new HttpError(401, "Unauthorized");
         }
 
-        const serenBoxes = await prisma.serenBox.findMany({
-            where: {
-                userId: req.user.id
-            }
-        });
+        const serenBoxes = await prisma.serenBox.findManyByUserIdAndGetPublicURL(
+            req.user.id
+        );
 
         res.status(200).json(serenBoxes);
     } catch (err) {
@@ -153,6 +158,8 @@ export const handlePatchSerenBoxIpAddress: RequestHandler<
         } catch (err) {
             throw new HttpError(404, "SerenBox not found");
         }
+
+        serenbox.image_name = serenaAppStorage.file(serenbox.image_name).publicUrl();
 
         res.status(200).json(serenbox);
     } catch (err) {
@@ -189,6 +196,8 @@ export const handleDeleteSerenBox: RequestHandler<{ serenboxId: string }> = asyn
             }
         });
 
+        serenBox.image_name = serenaAppStorage.file(serenBox.image_name).publicUrl();
+
         res.status(200).json(serenBox);
     } catch (err) {
         next(err);
@@ -216,6 +225,8 @@ export const handleVerifySerenBoxConnection: RequestHandler<
         }
 
         await verifySerenBoxConnection(serenBox.ip_address);
+
+        serenBox.image_name = serenaAppStorage.file(serenBox.image_name).publicUrl();
 
         res.status(200).json(serenBox);
     } catch (err) {
