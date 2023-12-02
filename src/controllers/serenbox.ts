@@ -61,11 +61,17 @@ export const verifySerenBoxConnection = async (ip: SerenBox["ip_address"]) => {
     }
 };
 
+export interface SerenBoxSlotStatus {
+    serenBoxId: string;
+    slotA: boolean;
+    slotB: boolean;
+}
+
 export const changeSerenBoxSlotStatus = async (
     serenBoxId: string,
     slot: SerenBoxSlots,
     status: boolean
-) => {
+): Promise<SerenBoxSlotStatus> => {
     const updatedSerenBox = await prisma.serenBox.update({
         where: {
             id: serenBoxId
@@ -94,14 +100,14 @@ export const changeSerenBoxSlotStatus = async (
 
     return {
         serenBoxId: updatedSerenBox.id,
-        slotA: updatedSerenBox.slotA.is_active,
-        slotB: updatedSerenBox.slotB.is_active
+        slotA: updatedSerenBox.slotA?.is_active || false,
+        slotB: updatedSerenBox.slotB?.is_active || false
     };
 };
 
 export const getSerenBoxSlotStatusByCredentials = async (
     credentials: SerenBox["credentials"]
-) => {
+): Promise<SerenBoxSlotStatus> => {
     const serenBox = await prisma.serenBox.findUnique({
         where: {
             credentials
@@ -127,8 +133,8 @@ export const getSerenBoxSlotStatusByCredentials = async (
 
     return {
         serenBoxId: serenBox.id,
-        slotA: serenBox.slotA.is_active,
-        slotB: serenBox.slotB.is_active
+        slotA: serenBox.slotA?.is_active || false,
+        slotB: serenBox.slotB?.is_active || false
     };
 };
 

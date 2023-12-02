@@ -13,6 +13,7 @@
         "gcloud-dev:revoke": "gcloud auth application-default revoke",
         "dev": "nodemon",
         "create-env": "printenv > .env",
+        "prisma-migrate:deploy": "prisma migrate deploy",
         "prisma-migrate:dev": "prisma migrate dev",
         "postprisma-migrate:dev": "npm i"
     },
