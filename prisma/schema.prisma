@@ -57,15 +57,17 @@ enum SerenBoxLabels {
 }
 
 model SerenBoxSlot {
-  id                  String         @id @default(uuid())
-  name                String
-  slot                SerenBoxSlots
-  label               SerenBoxLabels
-  capacity_ml         Int
-  current_capacity_ml Float
-  is_active           Boolean        @default(false)
-  usedByA             SerenBox?      @relation("slotA")
-  usedByB             SerenBox?      @relation("slotB")
+  id                     String            @id @default(uuid())
+  name                   String
+  slot                   SerenBoxSlots
+  label                  SerenBoxLabels
+  capacity_ml            Int
+  current_capacity_ml    Float
+  is_active              Boolean           @default(false)
+  usedByA                SerenBox?         @relation("slotA")
+  usedByB                SerenBox?         @relation("slotB")
+  slotAUsedDuringSession SerenBoxSession[] @relation("slotA")
+  slotBUsedDuringSession SerenBoxSession[] @relation("slotB")
 
   @@map("serenboxslot")
 }
@@ -82,32 +84,39 @@ enum SerenBoxDiffusionModes {
 }
 
 model SerenBoxSession {
-  id               String                  @id @default(uuid())
-  serenBox         SerenBox                @relation(fields: [serenBoxId], references: [id], onDelete: Cascade)
-  serenBoxId       String
-  duration_minutes Int?                    @default(10)
-  detection_mode   SerenBoxDetectionModes? @default(INTERVAL)
-  diffusion_option SerenBoxDiffusionModes? @default(MATCH_MOOD)
-  start_time       DateTime                @default(now())
-  end_time         DateTime?
-  is_running       Boolean                 @default(true)
+  id                String                  @id @default(uuid())
+  serenBox          SerenBox                @relation(fields: [serenBoxId], references: [id], onDelete: Cascade)
+  serenBoxId        String
+  duration_minutes  Int?                    @default(10)
+  detection_mode    SerenBoxDetectionModes? @default(INTERVAL)
+  diffusion_option  SerenBoxDiffusionModes? @default(MATCH_MOOD)
+  start_time        DateTime                @default(now())
+  end_time          DateTime?
+  is_running        Boolean                 @default(true)
+  slotA             SerenBoxSlot?           @relation("slotA", fields: [slotAId], references: [id])
+  slotAId           String?
+  slotB             SerenBoxSlot?           @relation("slotB", fields: [slotBId], references: [id])
+  slotBId           String?
+  UserEmotionResult UserEmotionResult[]
 
   @@map("serenboxsession")
 }
 
 model UserEmotionResult {
-  id           String   @id @default(uuid())
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String
-  created_time DateTime @default(now())
-  neutral      Float
-  joy          Float
-  sadness      Float
-  disgust      Float
-  surprise     Float
-  anger        Float
-  fear         Float
-  user_photo   String
+  id                String           @id @default(uuid())
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String
+  created_time      DateTime         @default(now())
+  neutral           Float
+  joy               Float
+  sadness           Float
+  disgust           Float
+  surprise          Float
+  anger             Float
+  fear              Float
+  user_photo        String
+  serenBoxSession   SerenBoxSession? @relation(fields: [serenBoxSessionId], references: [id])
+  serenBoxSessionId String?
 
   @@map("useremotionresult")
 }
