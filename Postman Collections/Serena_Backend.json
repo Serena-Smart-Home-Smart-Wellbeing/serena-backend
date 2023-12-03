@@ -3537,7 +3537,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "88bc1f1c-3899-41af-96d2-21e7185ec038",
+										"id": "4399bc12-6973-410a-9edc-e0db9dbaf4e2",
 										"exec": [
 											"pm.test(\"Successfully analyzed user emotions\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -3599,7 +3599,7 @@
 										},
 										{
 											"key": "serenBoxSessionId",
-											"value": "{{SERENBOX_ID}}",
+											"value": "{{SESSION_ID}}",
 											"type": "text",
 											"id": 1
 										}
