@@ -1,6 +1,6 @@
 {
     "name": "serena-backend",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "Backend for Serena",
     "main": "dist/index.js",
     "engines": {
