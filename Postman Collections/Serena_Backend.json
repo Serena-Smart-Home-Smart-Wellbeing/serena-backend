@@ -3537,7 +3537,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "3ca27d97-d2b4-4683-9914-83d8908055d4",
+										"id": "88bc1f1c-3899-41af-96d2-21e7185ec038",
 										"exec": [
 											"pm.test(\"Successfully analyzed user emotions\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -3596,6 +3596,12 @@
 											"src": [
 												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
 											]
+										},
+										{
+											"key": "serenBoxSessionId",
+											"value": "{{SERENBOX_ID}}",
+											"type": "text",
+											"id": 1
 										}
 									]
 								},
