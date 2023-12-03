@@ -2621,7 +2621,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "b8a1241e-f077-41ed-ae79-edfa475bd4e6",
+										"id": "48df967b-d716-449a-a815-f5e7c6f3fbc7",
 										"exec": [
 											"pm.test(\"Created new SerenBox session\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -2635,7 +2635,9 @@
 											"        \"serenBoxId\",\r",
 											"        \"start_time\",\r",
 											"        \"end_time\",\r",
-											"        \"is_running\"\r",
+											"        \"is_running\",\r",
+											"        \"slotAId\",\r",
+											"        \"slotBId\"\r",
 											"    );\r",
 											"\r",
 											"    pm.expect(res.duration_minutes).to.be.equal(10);\r",
@@ -2650,6 +2652,9 @@
 								}
 							],
 							"id": "f37fb752-fb80-4ba0-b48d-e6211a2cc2fc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -2968,7 +2973,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "658a4fa0-1599-49b9-8e88-51909dfbcf01",
+										"id": "c5c30a3b-f402-4908-a051-baf3d0ec2473",
 										"exec": [
 											"pm.test(\"Get existing SerenBox session\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2982,7 +2987,9 @@
 											"        \"serenBoxId\",\r",
 											"        \"start_time\",\r",
 											"        \"end_time\",\r",
-											"        \"is_running\"\r",
+											"        \"is_running\",\r",
+											"        \"slotAId\",\r",
+											"        \"slotBId\"\r",
 											"    );\r",
 											"\r",
 											"    pm.environment.set(\"SESSION_ID\", res.id)\r",
@@ -2993,6 +3000,9 @@
 								}
 							],
 							"id": "8a37735c-e002-4e54-9b65-39140f73866c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -3198,7 +3208,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "3bd347cb-efbd-4485-b118-8a0fe929b7fe",
+										"id": "1a463c1b-5937-48c4-9253-57023560fc20",
 										"exec": [
 											"pm.test(\"Finish an existing SerenBox session\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -3212,7 +3222,9 @@
 											"        \"serenBoxId\",\r",
 											"        \"start_time\",\r",
 											"        \"end_time\",\r",
-											"        \"is_running\"\r",
+											"        \"is_running\",\r",
+											"        \"slotAId\",\r",
+											"        \"slotBId\"\r",
 											"    );\r",
 											"    pm.expect(res.is_running).to.equal(false);\r",
 											"\r",
@@ -3227,6 +3239,9 @@
 								}
 							],
 							"id": "088cbb18-b188-4aba-bb2e-76ce1e426e3e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
