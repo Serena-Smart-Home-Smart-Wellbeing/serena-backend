@@ -277,6 +277,16 @@ export const handleCreateSerenBoxSession: RequestHandler<
 > = async (req, res, next) => {
     try {
         const { serenboxId } = req.params;
+
+        const serenBox = await prisma.serenBox.findUnique({
+            where: {
+                id: serenboxId
+            }
+        });
+        if (!serenBox) {
+            throw new HttpError(404, "SerenBox not found");
+        }
+
         const { detection_mode, diffusion_option, duration_minutes } = req.body;
         if (!detection_mode) {
             throw new HttpError(400, "Missing detection_mode");
@@ -297,7 +307,17 @@ export const handleCreateSerenBoxSession: RequestHandler<
                 },
                 duration_minutes,
                 detection_mode,
-                diffusion_option
+                diffusion_option,
+                slotA: {
+                    connect: {
+                        id: serenBox.slotAId || ""
+                    }
+                },
+                slotB: {
+                    connect: {
+                        id: serenBox.slotBId || ""
+                    }
+                }
             }
         });
 

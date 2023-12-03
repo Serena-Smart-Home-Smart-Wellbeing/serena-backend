@@ -382,6 +382,16 @@
                                 "type": "boolean",
                                 "description": "Flag indicating if the session is currently running",
                                 "example": true
+                            },
+                            "slotAId": {
+                                "type": "string",
+                                "description": "Slot A product id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                            },
+                            "slotBId": {
+                                "type": "string",
+                                "description": "Slot B product id",
+                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
                             }
                         }
                     }
