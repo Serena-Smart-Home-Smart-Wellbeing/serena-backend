@@ -53,6 +53,7 @@ export interface HandleAnalyzeUserEmotionReqBody {
      * The user's photo file
      */
     image: string;
+    serenBoxSessionId?: string;
 }
 
 export const handleAnalyzeUserEmotion: RequestHandler<
@@ -67,6 +68,7 @@ export const handleAnalyzeUserEmotion: RequestHandler<
         }
 
         const { userId } = req.params;
+        const { serenBoxSessionId } = req.body;
         if (userId !== req.user?.id) {
             throw new HttpError(403, "Forbidden");
         }
@@ -74,7 +76,7 @@ export const handleAnalyzeUserEmotion: RequestHandler<
         const analyzedEmotions = await analyzeUserEmotion(image);
 
         // If successfully analyzed emotion
-        const { publicUrl, path } = await saveUserEmotionImage(userId, image);
+        const { path } = await saveUserEmotionImage(userId, image);
 
         const userEmotionResult = await prisma.userEmotionResult.create({
             data: {
@@ -83,6 +85,21 @@ export const handleAnalyzeUserEmotion: RequestHandler<
                 ...analyzedEmotions
             }
         });
+
+        if (serenBoxSessionId) {
+            await prisma.userEmotionResult.update({
+                where: {
+                    id: userEmotionResult.id
+                },
+                data: {
+                    serenBoxSession: {
+                        connect: {
+                            id: serenBoxSessionId
+                        }
+                    }
+                }
+            });
+        }
 
         const formattedUserEmotionResult =
             await prisma.userEmotionResult.getFormattedEmotion(userEmotionResult.id);

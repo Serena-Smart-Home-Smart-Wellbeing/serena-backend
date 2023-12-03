@@ -28,7 +28,10 @@ const prisma = new PrismaClient().$extends({
                     id: emotion.id,
                     userId: emotion.userId,
                     created_time: emotion.created_time,
-                    user_photo: serenaAppStorage.file(emotion.user_photo).publicUrl()
+                    user_photo: serenaAppStorage
+                        .file(emotion.user_photo)
+                        .publicUrl(),
+                    serenBoxSessionId: emotion.serenBoxSessionId
                 };
             },
             async getFormattedEmotion(emotionId: string) {
