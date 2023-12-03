@@ -3537,7 +3537,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "7b3bf25e-a58b-46dc-bfb9-e619fe808d9e",
+										"id": "3ca27d97-d2b4-4683-9914-83d8908055d4",
 										"exec": [
 											"pm.test(\"Successfully analyzed user emotions\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -3549,7 +3549,8 @@
 											"        \"created_time\",\r",
 											"        \"user_photo\",\r",
 											"        \"energetic\",\r",
-											"        \"relax\"\r",
+											"        \"relax\",\r",
+											"        \"serenBoxSessionId\"\r",
 											"    );\r",
 											"\r",
 											"    pm.expect(res.user_photo).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
@@ -3780,7 +3781,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "57490b71-3cfb-4b89-9286-e0b4819822db",
+										"id": "6b01d810-076c-4c97-8183-f3c67aecfe7a",
 										"exec": [
 											"pm.test(\"Return one user emotion\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -3792,7 +3793,8 @@
 											"        \"created_time\",\r",
 											"        \"user_photo\",\r",
 											"        \"energetic\",\r",
-											"        \"relax\"\r",
+											"        \"relax\",\r",
+											"        \"serenBoxSessionId\"\r",
 											"    );\r",
 											"\r",
 											"    pm.expect(res.user_photo).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
@@ -3967,7 +3969,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ff866aba-2535-4138-9a49-77c9c4075b4b",
+										"id": "a1c88ff8-e6bd-432e-90d6-336c7e9abb68",
 										"exec": [
 											"\r",
 											"pm.test(\"List user's emotion results\", () => {\r",
@@ -3982,7 +3984,8 @@
 											"            \"created_time\",\r",
 											"            \"user_photo\",\r",
 											"            \"energetic\",\r",
-											"            \"relax\"\r",
+											"            \"relax\",\r",
+											"            \"serenBoxSessionId\"\r",
 											"        );\r",
 											"\r",
 											"        pm.expect(res.user_photo).to.be.a(\"string\").and.match(/^https:\\/\\/storage\\.googleapis\\.com\\/serena-app-storage/);\r",
