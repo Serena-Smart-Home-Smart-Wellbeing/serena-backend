@@ -4122,6 +4122,36 @@
 						}
 					],
 					"id": "123a7beb-58d0-4633-93ea-b9990f8bb04d"
+				},
+				{
+					"name": "Call Serena Emotion Detector directly",
+					"item": [
+						{
+							"name": "200 Analyze emotion",
+							"id": "d54192e8-c4f4-4714-897d-7cced8c4372c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"value": "",
+											"type": "file",
+											"id": 0
+										}
+									]
+								},
+								"url": "{{HOST}}/serena-emotion-detector/detect"
+							},
+							"response": []
+						}
+					],
+					"id": "2f6acaf9-c543-436c-a2d5-33844407345a"
 				}
 			],
 			"id": "5886007b-a442-4cb3-a230-0f746f386f19"
