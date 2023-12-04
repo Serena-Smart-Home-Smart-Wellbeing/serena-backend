@@ -4128,6 +4128,32 @@
 					"item": [
 						{
 							"name": "200 Analyze emotion",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ac52be32-a699-48bc-8128-ae31571f52b7",
+										"exec": [
+											"pm.test(\"Return emotion analysis results\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res).to.have.keys(\r",
+											"        \"angry\",\r",
+											"        \"fear\",\r",
+											"        \"surprise\",\r",
+											"        \"disgust\",\r",
+											"        \"happy\",\r",
+											"        \"neutral\",\r",
+											"        \"sad\"\r",
+											"    );\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"id": "d54192e8-c4f4-4714-897d-7cced8c4372c",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -4140,9 +4166,55 @@
 									"formdata": [
 										{
 											"key": "file",
-											"value": "",
 											"type": "file",
-											"id": 0
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
+											]
+										}
+									]
+								},
+								"url": "{{HOST}}/serena-emotion-detector/detect"
+							},
+							"response": []
+						},
+						{
+							"name": "400 Missing file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a5e0bea5-0144-4800-b30f-0f7bd17ae276",
+										"exec": [
+											"pm.test(\"Reject if missing file\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing file\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c3111430-2413-435e-a109-745b6157b4e7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
+											],
+											"disabled": true
 										}
 									]
 								},
