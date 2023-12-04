@@ -4132,7 +4132,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ac52be32-a699-48bc-8128-ae31571f52b7",
+										"id": "33b67350-fb02-42ce-8c09-3ee148f159ad",
 										"exec": [
 											"pm.test(\"Return emotion analysis results\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -4165,7 +4165,7 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "file",
+											"key": "image",
 											"type": "file",
 											"id": 0,
 											"fileUploadError": "",
@@ -4180,16 +4180,16 @@
 							"response": []
 						},
 						{
-							"name": "400 Missing file",
+							"name": "400 Missing image",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "a5e0bea5-0144-4800-b30f-0f7bd17ae276",
+										"id": "0610f253-2e39-4ecd-99ef-1fbc69d74443",
 										"exec": [
-											"pm.test(\"Reject if missing file\", function () {\r",
+											"pm.test(\"Reject if missing image\", function () {\r",
 											"    pm.response.to.have.status(400);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing file\");\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing image\");\r",
 											"});"
 										],
 										"type": "text/javascript"
