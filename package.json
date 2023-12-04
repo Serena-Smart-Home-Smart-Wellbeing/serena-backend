@@ -28,6 +28,7 @@
     },
     "homepage": "https://github.com/Serena-Smart-Home-Smart-Wellbeing/serena-backend#readme",
     "dependencies": {
+        "@google-cloud/run": "^1.0.2",
         "@google-cloud/secret-manager": "^5.0.1",
         "@google-cloud/storage": "^7.7.0",
         "@prisma/client": "^5.6.0",

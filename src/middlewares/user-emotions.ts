@@ -49,10 +49,6 @@ export const handleGetUserEmotions: RequestHandler<
 };
 
 export interface HandleAnalyzeUserEmotionReqBody {
-    /**
-     * The user's photo file
-     */
-    image: string;
     serenBoxSessionId?: string;
 }
 
