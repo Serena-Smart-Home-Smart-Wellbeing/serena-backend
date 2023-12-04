@@ -59,8 +59,7 @@ steps:
     - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
       args:
           - run
-          - services
-          - update
+          - deploy
           - $_SERVICE_NAME
           - "--platform=managed"
           - >-
@@ -71,5 +70,6 @@ steps:
           - "--quiet"
           - "--max-instances=1"
           - "--service-account=serena-backend@serena-777.iam.gserviceaccount.com"
+          - "--allow-unauthenticated"
       id: Deploy
       entrypoint: gcloud
