@@ -3630,17 +3630,13 @@
 										{
 											"key": "image",
 											"type": "file",
-											"id": 0,
 											"fileUploadError": "",
-											"src": [
-												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
-											]
+											"src": "reyhan (Custom).jpg"
 										},
 										{
 											"key": "serenBoxSessionId",
 											"value": "{{SESSION_ID}}",
-											"type": "text",
-											"id": 1
+											"type": "text"
 										}
 									]
 								},
@@ -3712,11 +3708,8 @@
 										{
 											"key": "image",
 											"type": "file",
-											"id": 0,
 											"fileUploadError": "",
-											"src": [
-												"reyhan-smile.jpg"
-											]
+											"src": "reyhan (Custom).jpg"
 										}
 									]
 								},
@@ -3760,11 +3753,8 @@
 										{
 											"key": "image",
 											"type": "file",
-											"id": 0,
 											"fileUploadError": "",
-											"src": [
-												"reyhan-smile.jpg"
-											]
+											"src": "reyhan (Custom).jpg"
 										}
 									]
 								},
@@ -3802,11 +3792,8 @@
 										{
 											"key": "image",
 											"type": "file",
-											"id": 0,
 											"fileUploadError": "",
-											"src": [
-												"reyhan-smile.jpg"
-											]
+											"src": "reyhan (Custom).jpg"
 										}
 									]
 								},
