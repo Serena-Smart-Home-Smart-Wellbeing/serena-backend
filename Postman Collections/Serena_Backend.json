@@ -4185,7 +4185,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0610f253-2e39-4ecd-99ef-1fbc69d74443",
+										"id": "85105936-e0b1-4969-86a1-88a2f4fb8a35",
 										"exec": [
 											"pm.test(\"Reject if missing image\", function () {\r",
 											"    pm.response.to.have.status(400);\r",
