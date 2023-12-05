@@ -169,12 +169,14 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "334eeff5-68c5-4048-9a7d-535acc5a44ba",
+										"id": "0e97c8f1-2afa-4350-bede-3adedaafb16c",
 										"exec": [
 											"const userId = pm.environment.get(\"USER_ID\");\r",
 											"const url = `${pm.environment.get(\"HOST\")}/users/${userId}`;\r",
 											"const accessToken = pm.environment.get(\"ACCESS_TOKEN\");\r",
 											"const Authorization = `Bearer ${accessToken}`\r",
+											"\r",
+											"console.log(accessToken);\r",
 											"\r",
 											"pm.sendRequest(\r",
 											"    {\r",
@@ -203,7 +205,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0f7408b0-0792-4017-a2e4-b212ebffcd44",
+										"id": "57606dd1-0cd6-47dd-96ee-c64411431aa5",
 										"exec": [
 											"pm.test(\"respond 201 if user successfuly created\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
