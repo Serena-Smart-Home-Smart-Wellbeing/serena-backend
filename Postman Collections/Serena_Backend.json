@@ -169,7 +169,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "6ad2f424-17d2-44aa-bded-2130fb2a29dd",
+										"id": "3753d877-7f3f-45db-82ba-e45be75c9317",
 										"exec": [
 											"const userId = pm.environment.get(\"USER_ID\");\r",
 											"const url = `${pm.environment.get(\"HOST\")}/users/${userId}`;\r",
@@ -190,7 +190,7 @@
 											"            console.error(err);\r",
 											"            console.error(res);\r",
 											"        } else {\r",
-											"            console.log(\"Deleted User:\", userId);\r",
+											"            console.log(\"Deleted User: \" + userId);\r",
 											"            console.log(res)\r",
 											"        }\r",
 											"    }\r",
@@ -203,7 +203,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5600098f-d1e4-46a6-8ff3-a67a83b675a1",
+										"id": "2af5d06a-35f9-4f2c-9750-cfe0828e33c8",
 										"exec": [
 											"pm.test(\"respond 201 if user successfuly created\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
