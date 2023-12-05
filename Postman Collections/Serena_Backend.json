@@ -167,9 +167,19 @@
 							"name": "201 Valid User",
 							"event": [
 								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b2aa7a22-7a9a-48f6-adff-c55ef0f8a6c4",
+										"exec": [
+											"pm.sendRequest(`${pm.environment.get(\"HOST\")}/users/${pm.environment.get(\"USER_ID\")}`, function (err, response) {});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
 									"listen": "test",
 									"script": {
-										"id": "9b6294ca-d756-46a1-b2f7-b2ce1644f5df",
+										"id": "c32783c0-a8cb-45b7-bdd8-ddafdc81f7c9",
 										"exec": [
 											"pm.test(\"respond 201 if user successfuly created\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -423,12 +433,14 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "37d9377b-29ac-4dd4-b111-946f74376a42",
+										"id": "b65760e3-1c15-44d7-83e8-962e4825f1f5",
 										"exec": [
 											"pm.test(\"response contains accessToken and userId\", ()  => {\r",
 											"    const res = pm.response.json();\r",
 											"    pm.expect(res.accessToken).to.be.a(\"string\");\r",
 											"    pm.expect(res.userId).to.be.a(\"string\");\r",
+											"    pm.environment.set(\"ACCESS_TOKEN\", res.accessToken)\r",
+											"    pm.environment.set(\"USER_ID\", res.userId)\r",
 											"});"
 										],
 										"type": "text/javascript"
