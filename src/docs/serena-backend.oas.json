@@ -230,8 +230,7 @@
                             },
                             "serenBoxSessionId": {
                                 "type": "string",
-                                "description": "SerenBox session id",
-                                "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                                "description": "SerenBox session id"
                             }
                         }
                     }
@@ -247,8 +246,7 @@
                     },
                     "serenBoxSessionId": {
                         "type": "string",
-                        "description": "SerenBox session id, optional and should be used if this API is called during a SerenBox session",
-                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                        "description": "SerenBox session id, optional and should be used if this API is called during a SerenBox session"
                     }
                 },
                 "required": ["image"]

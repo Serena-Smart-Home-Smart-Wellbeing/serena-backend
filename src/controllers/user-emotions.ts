@@ -1,6 +1,7 @@
 import { serenaAppStorage } from "@/config/cloud-storage";
 import { dayjsIndo } from "@/config/dayjs";
 import { UserEmotionResult } from "@prisma/client";
+import { callSerenaEmotionDetector } from "./serena-emotion-detector";
 
 export const getUserEmotionImageFolder = (userId: string) => {
     return `users/${userId}/emotions`;
@@ -31,17 +32,16 @@ export type AnalyzedUserEmotions = Pick<
 export const analyzeUserEmotion = async (
     image: Express.Multer.File
 ): Promise<AnalyzedUserEmotions> => {
-    // TODO implement
-    console.error("analyzeUserEmotion not implemented");
+    const analyzedEmotions = await callSerenaEmotionDetector(image);
 
     const emotionResults = {
-        anger: 0,
-        disgust: 0,
-        fear: 0,
-        joy: 0,
-        neutral: 0,
-        sadness: 0,
-        surprise: 0
+        anger: analyzedEmotions.angry,
+        disgust: analyzedEmotions.disgust,
+        fear: analyzedEmotions.fear,
+        joy: analyzedEmotions.happy,
+        neutral: analyzedEmotions.neutral,
+        sadness: analyzedEmotions.sad,
+        surprise: analyzedEmotions.surprise
     };
 
     return emotionResults;
