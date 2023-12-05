@@ -7,6 +7,7 @@ import setupSwagger from "./docs/swagger";
 import serenPlaceRouter from "./routers/serenplace";
 import musicRecommenderRouter from "./routers/music-recommender";
 import serenBoxRouter from "./routers/serenbox";
+import serenaEmotionDetectorRouter from "./routers/serena-emotion-detector";
 
 //For env File
 dotenv.config();
@@ -23,6 +24,7 @@ app.use("/users", usersRouter);
 app.use("/serenplace", serenPlaceRouter);
 app.use("/music-recommender", musicRecommenderRouter);
 app.use("/devices/serenbox", serenBoxRouter);
+app.use("/serena-emotion-detector", serenaEmotionDetectorRouter);
 
 app.use(handleHttpErrors);
 

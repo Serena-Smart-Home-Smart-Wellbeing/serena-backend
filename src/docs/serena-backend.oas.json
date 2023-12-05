@@ -166,6 +166,39 @@
                     }
                 }
             },
+            "SerenaEmotionDetectorResults": {
+                "type": "object",
+                "properties": {
+                    "angry": {
+                        "type": "number",
+                        "example": 0.3
+                    },
+                    "fear": {
+                        "type": "number",
+                        "example": 0.2
+                    },
+                    "surprise": {
+                        "type": "number",
+                        "example": 0.2
+                    },
+                    "disgust": {
+                        "type": "number",
+                        "example": 0.075
+                    },
+                    "happy": {
+                        "type": "number",
+                        "example": 0.075
+                    },
+                    "neutral": {
+                        "type": "number",
+                        "example": 0.075
+                    },
+                    "sad": {
+                        "type": "number",
+                        "example": 0.075
+                    }
+                }
+            },
             "UserEmotionServerData": {
                 "allOf": [
                     {
@@ -2079,6 +2112,63 @@
                                 "example": {
                                     "message": "SerenBox not found",
                                     "status": 404
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/serena-emotion-detector/detect": {
+            "post": {
+                "security": [],
+                "tags": ["User Emotions"],
+                "summary": "Analyze 7 emotions from a person's face",
+                "description": "This endpoint calls the Serena Emotion Detector directly without saving results in our databases.",
+                "operationId": "handleCallSerenaEmotionDetector",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": ["image"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SerenaEmotionDetectorResults"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpError"
+                                },
+                                "examples": {
+                                    "Missing image": {
+                                        "summary": "Missing image",
+                                        "value": {
+                                            "message": "Missing image",
+                                            "status": 400
+                                        }
+                                    }
                                 }
                             }
                         }

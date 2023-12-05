@@ -36,6 +36,8 @@ steps:
           - "SPOTIFY_CLIENT_ID"
           - "SPOTIFY_CLIENT_SECRET"
           - "JWT_ACCESS_SECRET"
+      env:
+          - SERENA_EMOTION_DETECTOR_URL=https://serena-emotion-detector-2g6tjw7nja-et.a.run.app/
       id: GetEnv
     - name: gcr.io/k8s-skaffold/pack
       env:
