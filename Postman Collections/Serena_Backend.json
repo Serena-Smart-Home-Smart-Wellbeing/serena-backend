@@ -4132,7 +4132,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "3d59ca69-56e1-4ec7-bf9a-60a9c043e2be",
+										"id": "8b12a40b-ef9c-4c7e-9242-86637238c186",
 										"exec": [
 											"pm.test(\"Return emotion analysis results\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -4170,7 +4170,7 @@
 											"id": 0,
 											"fileUploadError": "",
 											"src": [
-												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
+												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan (Custom).jpg"
 											]
 										}
 									]
