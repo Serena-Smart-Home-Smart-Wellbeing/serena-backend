@@ -169,9 +169,16 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "b2aa7a22-7a9a-48f6-adff-c55ef0f8a6c4",
+										"id": "35a2411d-3b68-4d12-8e8e-7d9f2d0b16ba",
 										"exec": [
-											"pm.sendRequest(`${pm.environment.get(\"HOST\")}/users/${pm.environment.get(\"USER_ID\")}`, function (err, response) {});"
+											"pm.sendRequest({\r",
+											"    urL : `${pm.environment.get(\"HOST\")}/users/${pm.environment.get(\"USER_ID\")}`,\r",
+											"    method: \"DELETE\"\r",
+											"}, function (err, response) {\r",
+											"    console.log(\"Register User/201 Valid User/Pre\")\r",
+											"    console.log(err);\r",
+											"    console.log(response);\r",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -179,7 +186,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c32783c0-a8cb-45b7-bdd8-ddafdc81f7c9",
+										"id": "1652a988-22b6-4216-875d-1757f462bc8d",
 										"exec": [
 											"pm.test(\"respond 201 if user successfuly created\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
