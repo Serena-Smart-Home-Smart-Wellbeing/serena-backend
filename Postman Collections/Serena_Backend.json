@@ -1815,7 +1815,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "cd1ed051-c0c5-4fce-ba1a-f08ef3c21380",
+										"id": "f67c5219-78e3-4e5c-9c05-a2e4469cda21",
 										"exec": [
 											"pm.test(\"Return an available existing SerenBox slots status\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1843,7 +1843,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{HOST}}/devices/serenbox/{{SERENBOX_CREDENTIALS}}/slots"
+								"url": "{{HOST}}/devices/serenbox/C4:5B:BE:DA:FC:21/slots"
 							},
 							"response": []
 						},
