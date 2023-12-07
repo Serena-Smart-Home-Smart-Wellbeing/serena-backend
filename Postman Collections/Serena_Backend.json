@@ -1815,7 +1815,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0b9a2903-7962-4af6-abf3-2e02c3b4c6d1",
+										"id": "cd1ed051-c0c5-4fce-ba1a-f08ef3c21380",
 										"exec": [
 											"pm.test(\"Return an available existing SerenBox slots status\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1824,6 +1824,7 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"sessionId\",\r",
+											"        \"startTime\",\r",
 											"        \"slotA\",\r",
 											"        \"slotB\",\r",
 											"        \"isSessionRunning\"\r",
@@ -2053,7 +2054,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "887e5542-b111-418e-9aec-4b40d74c44c0",
+										"id": "c5d5533e-e27d-401a-9c0c-27b0aa03cc60",
 										"exec": [
 											"pm.test(\"Slot A status is true\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2062,6 +2063,7 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"sessionId\",\r",
+											"        \"startTime\",\r",
 											"        \"slotA\",\r",
 											"        \"slotB\",\r",
 											"        \"isSessionRunning\"\r",
@@ -2100,7 +2102,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "47dd5f61-4cf8-488d-90d5-0eb50847ef51",
+										"id": "ccce8cc4-6a5f-4923-ae13-fe568afab921",
 										"exec": [
 											"pm.test(\"Slot A status is false\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2109,6 +2111,7 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"sessionId\",\r",
+											"        \"startTime\",\r",
 											"        \"slotA\",\r",
 											"        \"slotB\",\r",
 											"        \"isSessionRunning\"\r",
@@ -2147,7 +2150,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "eb775ebf-3705-43b8-a651-fd8dd8a21c3d",
+										"id": "01459095-ac81-4d29-9d7f-a22a83c8c6bf",
 										"exec": [
 											"pm.test(\"Slot B status is true\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2156,6 +2159,7 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"sessionId\",\r",
+											"        \"startTime\",\r",
 											"        \"slotA\",\r",
 											"        \"slotB\",\r",
 											"        \"isSessionRunning\"\r",
@@ -2194,7 +2198,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "56ecf41d-c807-4fb5-a4e4-8932f9d2a12a",
+										"id": "e0af609d-92ab-47ca-9292-98c2ea1f9088",
 										"exec": [
 											"pm.test(\"Slot B status is false\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2203,6 +2207,7 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"sessionId\",\r",
+											"        \"startTime\",\r",
 											"        \"slotA\",\r",
 											"        \"slotB\",\r",
 											"        \"isSessionRunning\"\r",
