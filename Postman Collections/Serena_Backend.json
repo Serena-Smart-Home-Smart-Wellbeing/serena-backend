@@ -1815,7 +1815,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "db81bea7-94df-4134-bc14-2b25cd5bf266",
+										"id": "5ebaba92-e874-4fb6-9317-8bc6f23756e1",
 										"exec": [
 											"pm.test(\"Return an available existing SerenBox slots status\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1824,7 +1824,8 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"slotA\",\r",
-											"        \"slotB\"\r",
+											"        \"slotB\",\r",
+											"        \"isSessionRunning\"\r",
 											"    );\r",
 											"});\r",
 											""
@@ -2051,7 +2052,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "e0426b7b-0b1b-4c52-a305-3dbd1f89dcd8",
+										"id": "86936e5b-07ed-4caf-b696-6c98a869b8c4",
 										"exec": [
 											"pm.test(\"Slot A status is true\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2060,7 +2061,8 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"slotA\",\r",
-											"        \"slotB\"\r",
+											"        \"slotB\",\r",
+											"        \"isSessionRunning\"\r",
 											"    );\r",
 											"\r",
 											"    pm.expect(res.slotA).to.be.equal(true);\r",
@@ -2071,6 +2073,9 @@
 								}
 							],
 							"id": "52a39009-75da-4f44-9fd3-a487b94dafda",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "PATCH",
 								"header": [],
@@ -2093,7 +2098,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "b4af3d4a-1537-418b-9c65-bfef175955be",
+										"id": "8d46c566-37a9-4a87-90df-d1803b3ff7c6",
 										"exec": [
 											"pm.test(\"Slot A status is false\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2102,7 +2107,8 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"slotA\",\r",
-											"        \"slotB\"\r",
+											"        \"slotB\",\r",
+											"        \"isSessionRunning\"\r",
 											"    );\r",
 											"\r",
 											"    pm.expect(res.slotA).to.be.equal(false);\r",
@@ -2113,6 +2119,9 @@
 								}
 							],
 							"id": "6c4b8ba8-2a76-419d-972f-e1d0ed93c33d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "PATCH",
 								"header": [],
@@ -2135,7 +2144,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5f943f5b-4dc9-40ec-9fbc-2e1dc5e54a03",
+										"id": "c599adbc-1e9b-496e-ac7b-d8566b2b5bd1",
 										"exec": [
 											"pm.test(\"Slot B status is true\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2144,7 +2153,8 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"slotA\",\r",
-											"        \"slotB\"\r",
+											"        \"slotB\",\r",
+											"        \"isSessionRunning\"\r",
 											"    );\r",
 											"\r",
 											"    pm.expect(res.slotB).to.be.equal(true);\r",
@@ -2155,6 +2165,9 @@
 								}
 							],
 							"id": "9668bf35-e31c-44dc-b69e-93eee02bd2d5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "PATCH",
 								"header": [],
@@ -2177,7 +2190,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "36494485-a4f6-473e-9436-29181bf9381a",
+										"id": "aa4d7e68-11b5-407c-b7e8-7c4567afe6ed",
 										"exec": [
 											"pm.test(\"Slot B status is false\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -2186,7 +2199,8 @@
 											"    pm.expect(res).to.have.keys(\r",
 											"        \"serenBoxId\",\r",
 											"        \"slotA\",\r",
-											"        \"slotB\"\r",
+											"        \"slotB\",\r",
+											"        \"isSessionRunning\"\r",
 											"    );\r",
 											"\r",
 											"    pm.expect(res.slotB).to.be.equal(false);\r",
@@ -2197,6 +2211,9 @@
 								}
 							],
 							"id": "d1b3f68a-2397-4a6c-a1b0-f957f3016fb0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "PATCH",
 								"header": [],
