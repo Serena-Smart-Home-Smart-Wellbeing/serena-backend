@@ -11,9 +11,9 @@ export const saveUserEmotionImage = async (
     userId: string,
     image: Express.Multer.File
 ) => {
-    const path = `${getUserEmotionImageFolder(userId)}/${dayjsIndo.toISOString()}.${
-        image.mimetype.split("/")[1]
-    }`;
+    const path = `${getUserEmotionImageFolder(
+        userId
+    )}/${dayjsIndo().toISOString()}.${image.mimetype.split("/")[1]}`;
     const blob = serenaAppStorage.file(path);
     await blob.save(image.buffer);
 

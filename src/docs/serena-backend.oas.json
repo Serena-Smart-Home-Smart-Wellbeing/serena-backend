@@ -361,15 +361,28 @@
                         "description": "SerenBox id",
                         "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
                     },
-                    "slotA": {
+                    "sessionId": {
                         "type": "string",
-                        "enum": [true, false],
+                        "description": "SerenBox session id",
+                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                    },
+                    "slotA": {
+                        "type": "boolean",
                         "example": true
                     },
                     "slotB": {
-                        "type": "string",
-                        "enum": [true, false],
+                        "type": "boolean",
                         "example": false
+                    },
+                    "isSessionRunning": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Session start time",
+                        "example": "2022-01-01T00:00:00.000Z"
                     }
                 }
             },
@@ -1448,8 +1461,7 @@
                                 "type": "object",
                                 "properties": {
                                     "is_active": {
-                                        "type": "string",
-                                        "enum": [true, false]
+                                        "type": "boolean"
                                     }
                                 }
                             }

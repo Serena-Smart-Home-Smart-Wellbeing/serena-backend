@@ -1,3 +1,4 @@
+import { dayjsIndo } from "@/config/dayjs";
 import { HttpError } from "@/utils/errors";
 import prisma from "@/utils/prisma";
 import {
@@ -63,8 +64,11 @@ export const verifySerenBoxConnection = async (ip: SerenBox["ip_address"]) => {
 
 export interface SerenBoxSlotStatus {
     serenBoxId: string;
+    sessionId: string;
+    startTime: string;
     slotA: boolean;
     slotB: boolean;
+    isSessionRunning: boolean;
 }
 
 export const changeSerenBoxSlotStatus = async (
@@ -94,14 +98,30 @@ export const changeSerenBoxSlotStatus = async (
                 select: {
                     is_active: true
                 }
+            },
+            SerenBoxSessions: {
+                select: {
+                    is_running: true,
+                    id: true,
+                    start_time: true
+                },
+                orderBy: {
+                    start_time: "desc"
+                },
+                take: 1
             }
         }
     });
 
     return {
         serenBoxId: updatedSerenBox.id,
+        sessionId: updatedSerenBox.SerenBoxSessions[0].id,
+        startTime: dayjsIndo(updatedSerenBox.SerenBoxSessions[0].start_time).format(
+            "DD MMMM YYYY, HH:mm"
+        ),
         slotA: updatedSerenBox.slotA?.is_active || false,
-        slotB: updatedSerenBox.slotB?.is_active || false
+        slotB: updatedSerenBox.slotB?.is_active || false,
+        isSessionRunning: updatedSerenBox.SerenBoxSessions[0].is_running
     };
 };
 
@@ -123,6 +143,17 @@ export const getSerenBoxSlotStatusByCredentials = async (
                 select: {
                     is_active: true
                 }
+            },
+            SerenBoxSessions: {
+                select: {
+                    is_running: true,
+                    id: true,
+                    start_time: true
+                },
+                orderBy: {
+                    start_time: "desc"
+                },
+                take: 1
             }
         }
     });
@@ -133,8 +164,13 @@ export const getSerenBoxSlotStatusByCredentials = async (
 
     return {
         serenBoxId: serenBox.id,
+        sessionId: serenBox.SerenBoxSessions[0].id,
+        startTime: dayjsIndo(serenBox.SerenBoxSessions[0].start_time).format(
+            "DD MMMM YYYY, HH:mm"
+        ),
         slotA: serenBox.slotA?.is_active || false,
-        slotB: serenBox.slotB?.is_active || false
+        slotB: serenBox.slotB?.is_active || false,
+        isSessionRunning: serenBox.SerenBoxSessions[0].is_running
     };
 };
 
@@ -145,7 +181,7 @@ export const finishSerenBoxSession = async (sessionId: string) => {
         },
         data: {
             is_running: false,
-            end_time: new Date()
+            end_time: dayjsIndo().toDate()
         }
     });
 
