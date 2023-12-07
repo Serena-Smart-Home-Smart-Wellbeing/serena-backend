@@ -174,7 +174,7 @@
 											"const userId = pm.environment.get(\"USER_ID\");\r",
 											"const url = `${pm.environment.get(\"HOST\")}/users/${userId}`;\r",
 											"const accessToken = pm.environment.get(\"ACCESS_TOKEN\");\r",
-											"const Authorization = `Bearer ${accessToken}`\r",
+											"const Authorization = `Bearer ${accessToken}`;\r",
 											"\r",
 											"console.log(userId);\r",
 											"\r",
