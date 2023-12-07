@@ -181,7 +181,17 @@ export const finishSerenBoxSession = async (sessionId: string) => {
         },
         data: {
             is_running: false,
-            end_time: dayjsIndo().toDate()
+            end_time: dayjsIndo().toDate(),
+            slotA: {
+                update: {
+                    is_active: false
+                }
+            },
+            slotB: {
+                update: {
+                    is_active: false
+                }
+            }
         }
     });
 
