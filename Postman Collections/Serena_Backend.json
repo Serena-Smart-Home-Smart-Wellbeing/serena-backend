@@ -173,6 +173,7 @@
 										"exec": [
 											"const userId = pm.environment.get(\"USER_ID\");\r",
 											"const url = `${pm.environment.get(\"HOST\")}/users/${userId}`;\r",
+											"pm.globals.set(\"variable_key\", \"variable_value\");\r",
 											"const accessToken = pm.environment.get(\"ACCESS_TOKEN\");\r",
 											"const Authorization = `Bearer ${accessToken}`;\r",
 											"\r",
