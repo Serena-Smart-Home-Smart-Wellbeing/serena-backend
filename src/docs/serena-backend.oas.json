@@ -1554,15 +1554,6 @@
                         "type": "string"
                     },
                     "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
-                },
-                {
-                    "name": "sessionId",
-                    "in": "path",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
-                    },
-                    "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
                 }
             ],
             "post": {
