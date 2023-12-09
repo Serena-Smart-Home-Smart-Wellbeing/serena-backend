@@ -4275,6 +4275,49 @@
 								"url": "{{HOST}}/serena-emotion-detector/detect"
 							},
 							"response": []
+						},
+						{
+							"name": "400 Missing image Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "85105936-e0b1-4969-86a1-88a2f4fb8a35",
+										"exec": [
+											"pm.test(\"Reject if missing image\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing image\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4266ae1f-d722-4a33-9e2b-8b85a6c73ff4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
+											],
+											"disabled": true
+										}
+									]
+								},
+								"url": "{{HOST}}/serena-emotion-detector/detect"
+							},
+							"response": []
 						}
 					],
 					"id": "2f6acaf9-c543-436c-a2d5-33844407345a"
