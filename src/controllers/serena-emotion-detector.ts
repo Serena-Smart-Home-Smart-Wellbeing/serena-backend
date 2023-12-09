@@ -2,6 +2,16 @@ import { HttpError } from "@/utils/errors";
 import axios, { AxiosResponse } from "axios";
 import "dotenv/config";
 import FormData from "form-data";
+import sharp from "sharp";
+
+const resizeImage = async (image: Buffer): Promise<Buffer> => {
+    return await sharp(image)
+        .resize({
+            width: 500,
+            fit: "contain"
+        })
+        .toBuffer();
+};
 
 export interface SerenaEmotionDetectorResults {
     angry: number;
@@ -23,7 +33,12 @@ export const callSerenaEmotionDetector = async (
     }
 
     const formData = new FormData();
-    formData.append("file", file.buffer, { filename: file.originalname });
+
+    // Reduce file if more than 500kb, don't reduce smaller files to avoid affecting the model accuracy
+    const image =
+        file.size > 1000 * 500 ? await resizeImage(file.buffer) : file.buffer;
+
+    formData.append("file", image, { filename: file.originalname });
 
     const { data } = await axios.post<
         unknown,
