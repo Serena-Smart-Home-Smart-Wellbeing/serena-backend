@@ -3701,6 +3701,48 @@
 							"response": []
 						},
 						{
+							"name": "400 Face not detected",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c580cefa-7e3e-431a-b519-d9846ea91f6f",
+										"exec": [
+											"pm.test(\"Reject if face not detected\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"400 Face not detected\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4cfee843-02af-4020-9353-762dea92c5ac",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"gato.jpeg"
+											]
+										}
+									]
+								},
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
+							},
+							"response": []
+						},
+						{
 							"name": "401 Invalid Token",
 							"event": [
 								{
@@ -4277,16 +4319,16 @@
 							"response": []
 						},
 						{
-							"name": "400 Missing image Copy",
+							"name": "400 Face not detected",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "85105936-e0b1-4969-86a1-88a2f4fb8a35",
+										"id": "436f429b-5b34-433f-8367-87eca3ee5571",
 										"exec": [
-											"pm.test(\"Reject if missing image\", function () {\r",
+											"pm.test(\"Reject if face not detected\", function () {\r",
 											"    pm.response.to.have.status(400);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Missing image\");\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"400 Face not detected\");\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -4304,14 +4346,13 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "file",
+											"key": "image",
 											"type": "file",
-											"id": 0,
+											"id": 2,
 											"fileUploadError": "",
 											"src": [
-												"C:\\Users\\emuia\\OneDrive\\Gambar\\reyhan.jpg"
-											],
-											"disabled": true
+												"gato.jpeg"
+											]
 										}
 									]
 								},
