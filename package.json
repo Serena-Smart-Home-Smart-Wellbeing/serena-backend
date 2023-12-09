@@ -48,7 +48,6 @@
         "swagger-ui-express": "^5.0.0"
     },
     "devDependencies": {
-        "@img/sharp-win32-x64": "^0.33.0",
         "@mermaid-js/mermaid-cli": "^10.6.1",
         "@types/bcryptjs": "^2.4.6",
         "@types/cors": "^2.8.16",
