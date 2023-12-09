@@ -23,9 +23,7 @@ export interface SerenaEmotionDetectorResults {
     sad: number;
 }
 
-export const callSerenaEmotionDetector = async (
-    file: Express.Multer.File
-): Promise<SerenaEmotionDetectorResults> => {
+export const callSerenaEmotionDetector = async (file: Express.Multer.File) => {
     const url = process.env.SERENA_EMOTION_DETECTOR_URL;
 
     if (!url) {
@@ -42,8 +40,12 @@ export const callSerenaEmotionDetector = async (
 
     const { data } = await axios.post<
         unknown,
-        AxiosResponse<SerenaEmotionDetectorResults>
+        AxiosResponse<SerenaEmotionDetectorResults | HttpError>
     >(url, formData);
+
+    if ("message" in data && data.message === "Face not detected") {
+        throw new HttpError(400, "Face not detected");
+    }
 
     // Fix decimal to 2 points
     const results = {} as SerenaEmotionDetectorResults;

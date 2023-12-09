@@ -2070,6 +2070,13 @@
                                             "message": "Missing image",
                                             "status": 400
                                         }
+                                    },
+                                    "Face not detected": {
+                                        "summary": "Face not detected",
+                                        "value": {
+                                            "message": "Face not detected",
+                                            "status": 400
+                                        }
                                     }
                                 }
                             }
@@ -2167,6 +2174,13 @@
                                         "summary": "Missing image",
                                         "value": {
                                             "message": "Missing image",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Face not detected": {
+                                        "summary": "Face not detected",
+                                        "value": {
+                                            "message": "Face not detected",
                                             "status": 400
                                         }
                                     }
