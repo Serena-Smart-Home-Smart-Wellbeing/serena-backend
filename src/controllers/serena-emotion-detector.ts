@@ -45,5 +45,13 @@ export const callSerenaEmotionDetector = async (
         AxiosResponse<SerenaEmotionDetectorResults>
     >(url, formData);
 
-    return data;
+    // Fix decimal to 2 points
+    const results = {} as SerenaEmotionDetectorResults;
+    for (const [key, value] of Object.entries(data)) {
+        results[key as keyof SerenaEmotionDetectorResults] = Number(
+            value.toFixed(2)
+        );
+    }
+
+    return results;
 };
