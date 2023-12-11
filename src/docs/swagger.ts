@@ -1,17 +1,17 @@
-import { Application } from "express";
-import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./serena-backend.oas.json";
+import { Application } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './serena-backend.oas.json';
 
 const setupSwagger = (app: Application) => {
     app.use(
-        "/api-docs",
+        '/api-docs',
         swaggerUi.serve,
         swaggerUi.setup(swaggerDocument, {
             swaggerOptions: {
                 persistAuthorization: true,
-                tagsSorter: "alpha",
-                operationsSorter: "alpha"
-            }
+                tagsSorter: 'alpha',
+                operationsSorter: 'alpha',
+            },
         })
     );
 };

@@ -1,10 +1,10 @@
-import { serenaAppStorage } from "@/config/cloud-storage";
+import { serenaAppStorage } from '@/config/cloud-storage';
 import {
     getSerenPlaceProducts,
-    getSerenPlaceProduct
-} from "@/controllers/serenplace";
-import { HttpError } from "@/utils/errors";
-import { RequestHandler } from "express";
+    getSerenPlaceProduct,
+} from '@/controllers/serenplace';
+import { HttpError } from '@/utils/errors';
+import { RequestHandler } from 'express';
 
 export const handleGetSerenPlaceProducts: RequestHandler = async (
     req,
@@ -27,10 +27,12 @@ export const handleGetSerenPlaceProduct: RequestHandler<{
         const product = await getSerenPlaceProduct(productId);
 
         if (!product) {
-            throw new HttpError(404, "Product not found");
+            throw new HttpError(404, 'Product not found');
         }
 
-        product.image_name = serenaAppStorage.file(product.image_name).publicUrl();
+        product.image_name = serenaAppStorage
+            .file(product.image_name)
+            .publicUrl();
 
         res.status(200).json(product);
     } catch (err) {

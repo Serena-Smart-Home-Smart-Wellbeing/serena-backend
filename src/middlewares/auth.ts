@@ -1,9 +1,9 @@
-import { UserEndpointParams } from "@/routers/users";
-import { jwtAccessSecret } from "@/utils/auth";
-import { HttpError } from "@/utils/errors";
-import prisma from "@/utils/prisma";
-import { RequestHandler } from "express";
-import jwt from "jsonwebtoken";
+import { UserEndpointParams } from '@/routers/users';
+import { jwtAccessSecret } from '@/utils/auth';
+import { HttpError } from '@/utils/errors';
+import prisma from '@/utils/prisma';
+import { RequestHandler } from 'express';
+import jwt from 'jsonwebtoken';
 
 export const validateUserById: RequestHandler<UserEndpointParams> = async (
     req,
@@ -15,12 +15,12 @@ export const validateUserById: RequestHandler<UserEndpointParams> = async (
 
         const user = await prisma.user.findUnique({
             where: {
-                id: userId
-            }
+                id: userId,
+            },
         });
 
         if (!user) {
-            throw new HttpError(404, "User not found");
+            throw new HttpError(404, 'User not found');
         }
 
         next();
@@ -31,21 +31,21 @@ export const validateUserById: RequestHandler<UserEndpointParams> = async (
 
 export const parseToken: RequestHandler = async (req, res, next) => {
     try {
-        const token = req.headers.authorization?.split(" ")[1];
+        const token = req.headers.authorization?.split(' ')[1];
         if (!token) {
-            throw new HttpError(400, "Missing token");
+            throw new HttpError(400, 'Missing token');
         }
 
         jwt.verify(token, jwtAccessSecret, async (err, user) => {
             if (err) {
-                return next(new HttpError(401, "Invalid token"));
+                return next(new HttpError(401, 'Invalid token'));
             }
 
             const foundUser = await prisma.user.findUnique({
                 where: {
-                    // @ts-expect-error
-                    id: user.userId
-                }
+                    // @ts-expect-error: user is User type
+                    id: user.userId,
+                },
             });
 
             req.user = foundUser;

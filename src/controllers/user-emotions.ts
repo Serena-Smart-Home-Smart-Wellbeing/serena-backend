@@ -1,7 +1,7 @@
-import { serenaAppStorage } from "@/config/cloud-storage";
-import { dayjsIndo } from "@/config/dayjs";
-import { UserEmotionResult } from "@prisma/client";
-import { callSerenaEmotionDetector } from "./serena-emotion-detector";
+import { serenaAppStorage } from '@/config/cloud-storage';
+import { dayjsIndo } from '@/config/dayjs';
+import { UserEmotionResult } from '@prisma/client';
+import { callSerenaEmotionDetector } from './serena-emotion-detector';
 
 export const getUserEmotionImageFolder = (userId: string) => {
     return `users/${userId}/emotions`;
@@ -13,20 +13,20 @@ export const saveUserEmotionImage = async (
 ) => {
     const path = `${getUserEmotionImageFolder(
         userId
-    )}/${dayjsIndo().toISOString()}.${image.mimetype.split("/")[1]}`;
+    )}/${dayjsIndo().toISOString()}.${image.mimetype.split('/')[1]}`;
     const blob = serenaAppStorage.file(path);
     await blob.save(image.buffer);
 
     const publicUrl = blob.publicUrl();
     return {
         path,
-        publicUrl
+        publicUrl,
     };
 };
 
 export type AnalyzedUserEmotions = Pick<
     UserEmotionResult,
-    "anger" | "disgust" | "fear" | "joy" | "neutral" | "sadness" | "surprise"
+    'anger' | 'disgust' | 'fear' | 'joy' | 'neutral' | 'sadness' | 'surprise'
 >;
 
 export const analyzeUserEmotion = async (
@@ -41,7 +41,7 @@ export const analyzeUserEmotion = async (
         joy: analyzedEmotions.happy,
         neutral: analyzedEmotions.neutral,
         sadness: analyzedEmotions.sad,
-        surprise: analyzedEmotions.surprise
+        surprise: analyzedEmotions.surprise,
     };
 
     return emotionResults;

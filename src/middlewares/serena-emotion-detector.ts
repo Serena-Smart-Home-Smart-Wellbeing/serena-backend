@@ -1,6 +1,6 @@
-import { callSerenaEmotionDetector } from "@/controllers/serena-emotion-detector";
-import { HttpError } from "@/utils/errors";
-import { RequestHandler } from "express";
+import { callSerenaEmotionDetector } from '@/controllers/serena-emotion-detector';
+import { HttpError } from '@/utils/errors';
+import { RequestHandler } from 'express';
 
 export const handleCallSerenaEmotionDetector: RequestHandler = async (
     req,
@@ -10,7 +10,7 @@ export const handleCallSerenaEmotionDetector: RequestHandler = async (
     try {
         const image = req.file;
         if (!image) {
-            throw new HttpError(400, "Missing image");
+            throw new HttpError(400, 'Missing image');
         }
 
         const analyzedEmotions = await callSerenaEmotionDetector(image);

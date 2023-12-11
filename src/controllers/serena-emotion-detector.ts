@@ -1,14 +1,14 @@
-import { HttpError } from "@/utils/errors";
-import axios, { AxiosResponse } from "axios";
-import "dotenv/config";
-import FormData from "form-data";
-import sharp from "sharp";
+import { HttpError } from '@/utils/errors';
+import axios, { AxiosResponse } from 'axios';
+import 'dotenv/config';
+import FormData from 'form-data';
+import sharp from 'sharp';
 
 const resizeImage = async (image: Buffer): Promise<Buffer> => {
     return await sharp(image)
         .resize({
             width: 500,
-            fit: "contain"
+            fit: 'contain',
         })
         .toBuffer();
 };
@@ -27,7 +27,10 @@ export const callSerenaEmotionDetector = async (file: Express.Multer.File) => {
     const url = process.env.SERENA_EMOTION_DETECTOR_URL;
 
     if (!url) {
-        throw new HttpError(503, "Serena Emotion Detector services not available");
+        throw new HttpError(
+            503,
+            'Serena Emotion Detector services not available'
+        );
     }
 
     const formData = new FormData();
@@ -36,15 +39,15 @@ export const callSerenaEmotionDetector = async (file: Express.Multer.File) => {
     const image =
         file.size > 1000 * 500 ? await resizeImage(file.buffer) : file.buffer;
 
-    formData.append("file", image, { filename: file.originalname });
+    formData.append('file', image, { filename: file.originalname });
 
     const { data } = await axios.post<
         unknown,
         AxiosResponse<SerenaEmotionDetectorResults | HttpError>
     >(url, formData);
 
-    if ("message" in data && data.message === "Face not detected") {
-        throw new HttpError(400, "Face not detected");
+    if ('message' in data && data.message === 'Face not detected') {
+        throw new HttpError(400, 'Face not detected');
     }
 
     // Fix decimal to 2 points

@@ -1,13 +1,13 @@
-import { serenaAppStorage } from "@/config/cloud-storage";
-import { isRequestedBySameUser, jwtAccessSecret } from "@/utils/auth";
-import { HttpError } from "@/utils/errors";
-import prisma from "@/utils/prisma";
-import bcrypt from "bcryptjs";
-import { RequestHandler } from "express";
-import jwt from "jsonwebtoken";
+import { serenaAppStorage } from '@/config/cloud-storage';
+import { isRequestedBySameUser, jwtAccessSecret } from '@/utils/auth';
+import { HttpError } from '@/utils/errors';
+import prisma from '@/utils/prisma';
+import bcrypt from 'bcryptjs';
+import { RequestHandler } from 'express';
+import jwt from 'jsonwebtoken';
 
 enum PasswordError {
-    TOO_SHORT = "Password must be at least 8 characters long"
+    TOO_SHORT = 'Password must be at least 8 characters long',
 }
 
 const validatePassword = (password: string) => {
@@ -38,10 +38,10 @@ export const registerUser: RequestHandler<
         const { username, email, password } = req.body;
 
         if (!username || !email || !password) {
-            let missingField = "";
-            if (!username) missingField = "username";
-            else if (!email) missingField = "email";
-            else if (!password) missingField = "password";
+            let missingField = '';
+            if (!username) missingField = 'username';
+            else if (!email) missingField = 'email';
+            else if (!password) missingField = 'password';
 
             throw new HttpError(400, `Missing ${missingField}`);
         }
@@ -53,28 +53,28 @@ export const registerUser: RequestHandler<
 
         const userExists = await prisma.user.findFirst({
             where: {
-                OR: [{ email }, { username }]
-            }
+                OR: [{ email }, { username }],
+            },
         });
         if (userExists) {
-            throw new HttpError(409, "User already exists");
+            throw new HttpError(409, 'User already exists');
         }
 
         const newUser = await prisma.user.create({
             data: {
                 email,
                 password: bcrypt.hashSync(password, 10),
-                username
-            }
+                username,
+            },
         });
 
         const accessToken = jwt.sign({ userId: newUser.id }, jwtAccessSecret, {
-            expiresIn: "30d"
+            expiresIn: '30d',
         });
 
         return res.status(201).json({
             accessToken,
-            userId: newUser.id
+            userId: newUser.id,
         });
     } catch (err) {
         next(err);
@@ -84,39 +84,39 @@ export const registerUser: RequestHandler<
 export const login: RequestHandler<
     unknown,
     SafeUserResponse,
-    Omit<UserReqBod, "username">
+    Omit<UserReqBod, 'username'>
 > = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            let missingField = "";
-            if (!email) missingField = "email";
-            else if (!password) missingField = "password";
+            let missingField = '';
+            if (!email) missingField = 'email';
+            else if (!password) missingField = 'password';
 
             throw new HttpError(400, `Missing ${missingField}`);
         }
 
         const user = await prisma.user.findFirst({
             where: {
-                email
-            }
+                email,
+            },
         });
 
         if (!user) {
-            throw new HttpError(404, "User not found");
+            throw new HttpError(404, 'User not found');
         }
 
         const isPasswordValid = bcrypt.compareSync(password, user.password);
         if (!isPasswordValid) {
-            throw new HttpError(401, "Wrong email/password");
+            throw new HttpError(401, 'Wrong email/password');
         }
 
         const accessToken = jwt.sign({ userId: user.id }, jwtAccessSecret, {
-            expiresIn: "30d"
+            expiresIn: '30d',
         });
         return res.status(200).json({
             accessToken,
-            userId: user.id
+            userId: user.id,
         });
     } catch (err) {
         next(err);
@@ -127,29 +127,31 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
     try {
         const user = await prisma.user.findFirst({
             where: {
-                id: req.params.userId
-            }
+                id: req.params.userId,
+            },
         });
         if (!user) {
-            throw new HttpError(404, "User not found");
+            throw new HttpError(404, 'User not found');
         }
         if (user.id !== req.user?.id) {
-            throw new HttpError(403, "Forbidden");
+            throw new HttpError(403, 'Forbidden');
         }
 
         const deletedUser = await prisma.user.delete({
             where: {
-                id: user.id
+                id: user.id,
             },
             select: {
                 email: true,
                 id: true,
                 username: true,
-                image_name: true
-            }
+                image_name: true,
+            },
         });
 
-        deletedUser.image_name = serenaAppStorage.file(user.image_name).publicUrl();
+        deletedUser.image_name = serenaAppStorage
+            .file(user.image_name)
+            .publicUrl();
 
         return res.status(200).json(deletedUser);
     } catch (err) {
@@ -165,17 +167,17 @@ export const getUserData: RequestHandler<{ userId: string }> = async (
     try {
         const user = await prisma.user.findFirst({
             where: {
-                id: req.params.userId
+                id: req.params.userId,
             },
             select: {
                 email: true,
                 id: true,
                 username: true,
-                image_name: true
-            }
+                image_name: true,
+            },
         });
         if (!user) {
-            throw new HttpError(404, "User not found");
+            throw new HttpError(404, 'User not found');
         }
         isRequestedBySameUser(req, user.id);
 

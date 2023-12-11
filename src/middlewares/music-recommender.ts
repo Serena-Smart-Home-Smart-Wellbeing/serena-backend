@@ -1,7 +1,7 @@
-import { getRecommendations } from "@/controllers/music-recommender";
-import { HttpError } from "@/utils/errors";
-import spotify from "@/utils/spotify-api";
-import { RequestHandler } from "express";
+import { getRecommendations } from '@/controllers/music-recommender';
+import { HttpError } from '@/utils/errors';
+import spotify from '@/utils/spotify-api';
+import { RequestHandler } from 'express';
 
 interface RecommendationsParams {
     energetic: string;
@@ -18,16 +18,16 @@ export const handleGetRecommendations: RequestHandler<
         const { energetic, relax } = req.query;
 
         if (!energetic) {
-            throw new HttpError(400, "Missing energetic");
+            throw new HttpError(400, 'Missing energetic');
         }
         if (!relax) {
-            throw new HttpError(400, "Missing relax");
+            throw new HttpError(400, 'Missing relax');
         }
 
         const parsedEnergetic = parseFloat(energetic);
         const parsedRelax = parseFloat(relax);
         if (parsedEnergetic + parsedRelax !== 1) {
-            throw new HttpError(400, "Energetic + relax must be 1");
+            throw new HttpError(400, 'Energetic + relax must be 1');
         }
 
         let mood = parsedEnergetic;
@@ -35,7 +35,8 @@ export const handleGetRecommendations: RequestHandler<
             mood = 1 - parsedRelax;
         }
 
-        const spotifyToken = (await spotify.authenticate()).accessToken.access_token;
+        const spotifyToken = (await spotify.authenticate()).accessToken
+            .access_token;
         const recommendations = await getRecommendations(spotifyToken, mood);
 
         res.status(200).json(recommendations);

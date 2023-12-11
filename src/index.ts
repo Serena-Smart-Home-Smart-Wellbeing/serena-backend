@@ -1,13 +1,13 @@
-import dotenv from "dotenv";
-import express, { Application, Request, Response } from "express";
-import usersRouter from "./routers/users";
-import { handleHttpErrors } from "./middlewares/errors";
-import cors from "cors";
-import setupSwagger from "./docs/swagger";
-import serenPlaceRouter from "./routers/serenplace";
-import musicRecommenderRouter from "./routers/music-recommender";
-import serenBoxRouter from "./routers/serenbox";
-import serenaEmotionDetectorRouter from "./routers/serena-emotion-detector";
+import cors from 'cors';
+import dotenv from 'dotenv';
+import express, { Application } from 'express';
+import setupSwagger from './docs/swagger';
+import { handleHttpErrors } from './middlewares/errors';
+import musicRecommenderRouter from './routers/music-recommender';
+import serenaEmotionDetectorRouter from './routers/serena-emotion-detector';
+import serenBoxRouter from './routers/serenbox';
+import serenPlaceRouter from './routers/serenplace';
+import usersRouter from './routers/users';
 
 //For env File
 dotenv.config();
@@ -20,11 +20,11 @@ app.use(cors());
 
 setupSwagger(app);
 
-app.use("/users", usersRouter);
-app.use("/serenplace", serenPlaceRouter);
-app.use("/music-recommender", musicRecommenderRouter);
-app.use("/devices/serenbox", serenBoxRouter);
-app.use("/serena-emotion-detector", serenaEmotionDetectorRouter);
+app.use('/users', usersRouter);
+app.use('/serenplace', serenPlaceRouter);
+app.use('/music-recommender', musicRecommenderRouter);
+app.use('/devices/serenbox', serenBoxRouter);
+app.use('/serena-emotion-detector', serenaEmotionDetectorRouter);
 
 app.use(handleHttpErrors);
 

@@ -1,40 +1,38 @@
-import { serenaAppStorage } from "@/config/cloud-storage";
+import { serenaAppStorage } from '@/config/cloud-storage';
 import {
     addSerenBox,
     changeSerenBoxSlotStatus,
     finishSerenBoxSession,
     getSerenBoxSlotStatusByCredentials,
-    verifySerenBoxConnection
-} from "@/controllers/serenbox";
+    verifySerenBoxConnection,
+} from '@/controllers/serenbox';
 import {
     SerenBoxRouterParams,
     SerenBoxSessionRouterParams,
     SerenBoxSlotCredentialsRouterParams,
-    SerenBoxSlotRouterParams
-} from "@/routers/serenbox";
-import { HttpError } from "@/utils/errors";
-import prisma from "@/utils/prisma";
-import { SerenBox, SerenBoxSession, SerenBoxSlots } from "@prisma/client";
-import { RequestHandler } from "express";
+    SerenBoxSlotRouterParams,
+} from '@/routers/serenbox';
+import { HttpError } from '@/utils/errors';
+import prisma from '@/utils/prisma';
+import { SerenBox, SerenBoxSession, SerenBoxSlots } from '@prisma/client';
+import { RequestHandler } from 'express';
 
-export const validateSerenBoxById: RequestHandler<SerenBoxRouterParams> = async (
-    req,
-    _res,
-    next
-) => {
+export const validateSerenBoxById: RequestHandler<
+    SerenBoxRouterParams
+> = async (req, _res, next) => {
     try {
         const { serenboxId } = req.params;
 
         const serenBox = await prisma.serenBox.findUnique({
             where: {
-                id: serenboxId
-            }
+                id: serenboxId,
+            },
         });
         if (!serenBox) {
-            throw new HttpError(404, "SerenBox not found");
+            throw new HttpError(404, 'SerenBox not found');
         }
         if (serenBox.userId !== req.user?.id) {
-            throw new HttpError(403, "Forbidden");
+            throw new HttpError(403, 'Forbidden');
         }
 
         next();
@@ -55,23 +53,23 @@ export const handleAddSerenBox: RequestHandler<
     try {
         const { credentials, name } = req.body;
         if (!credentials) {
-            throw new HttpError(400, "Missing credentials");
+            throw new HttpError(400, 'Missing credentials');
         }
         if (!name) {
-            throw new HttpError(400, "Missing name");
+            throw new HttpError(400, 'Missing name');
         }
         if (await prisma.serenBox.findUnique({ where: { credentials } })) {
-            throw new HttpError(409, "SerenBox already exists");
+            throw new HttpError(409, 'SerenBox already exists');
         }
 
         if (!req.user) {
-            throw new HttpError(401, "Unauthorized");
+            throw new HttpError(401, 'Unauthorized');
         }
         const { id } = req.user;
         const newSerenBox = await addSerenBox({
             credentials,
             name,
-            userId: id
+            userId: id,
         });
 
         newSerenBox.image_name = serenaAppStorage
@@ -91,23 +89,25 @@ export const handleGetSerenBox: RequestHandler<{ serenboxId: string }> = async (
 ) => {
     try {
         if (!req.user) {
-            throw new HttpError(401, "Unauthorized");
+            throw new HttpError(401, 'Unauthorized');
         }
 
         const serenBox = await prisma.serenBox.findUnique({
             where: {
-                id: req.params.serenboxId
-            }
+                id: req.params.serenboxId,
+            },
         });
 
         if (!serenBox) {
-            throw new HttpError(404, "SerenBox not found");
+            throw new HttpError(404, 'SerenBox not found');
         }
         if (serenBox.userId !== req.user.id) {
-            throw new HttpError(403, "Forbidden");
+            throw new HttpError(403, 'Forbidden');
         }
 
-        serenBox.image_name = serenaAppStorage.file(serenBox.image_name).publicUrl();
+        serenBox.image_name = serenaAppStorage
+            .file(serenBox.image_name)
+            .publicUrl();
 
         res.status(200).json(serenBox);
     } catch (err) {
@@ -118,12 +118,11 @@ export const handleGetSerenBox: RequestHandler<{ serenboxId: string }> = async (
 export const handleGetSerenBoxes: RequestHandler = async (req, res, next) => {
     try {
         if (!req.user) {
-            throw new HttpError(401, "Unauthorized");
+            throw new HttpError(401, 'Unauthorized');
         }
 
-        const serenBoxes = await prisma.serenBox.findManyByUserIdAndGetPublicURL(
-            req.user.id
-        );
+        const serenBoxes =
+            await prisma.serenBox.findManyByUserIdAndGetPublicURL(req.user.id);
 
         res.status(200).json(serenBoxes);
     } catch (err) {
@@ -134,32 +133,34 @@ export const handleGetSerenBoxes: RequestHandler = async (req, res, next) => {
 export const handlePatchSerenBoxIpAddress: RequestHandler<
     unknown,
     unknown,
-    Pick<SerenBox, "ip_address" | "credentials">
+    Pick<SerenBox, 'ip_address' | 'credentials'>
 > = async (req, res, next) => {
     try {
         const { credentials, ip_address } = req.body;
         if (!credentials) {
-            throw new HttpError(400, "Missing credentials");
+            throw new HttpError(400, 'Missing credentials');
         }
         if (!ip_address) {
-            throw new HttpError(400, "Missing ip_address");
+            throw new HttpError(400, 'Missing ip_address');
         }
 
         let serenbox: SerenBox;
         try {
             serenbox = await prisma.serenBox.update({
                 where: {
-                    credentials: credentials
+                    credentials: credentials,
                 },
                 data: {
-                    ip_address: ip_address
-                }
+                    ip_address: ip_address,
+                },
             });
         } catch (err) {
-            throw new HttpError(404, "SerenBox not found");
+            throw new HttpError(404, 'SerenBox not found');
         }
 
-        serenbox.image_name = serenaAppStorage.file(serenbox.image_name).publicUrl();
+        serenbox.image_name = serenaAppStorage
+            .file(serenbox.image_name)
+            .publicUrl();
 
         res.status(200).json(serenbox);
     } catch (err) {
@@ -167,36 +168,36 @@ export const handlePatchSerenBoxIpAddress: RequestHandler<
     }
 };
 
-export const handleDeleteSerenBox: RequestHandler<{ serenboxId: string }> = async (
-    req,
-    res,
-    next
-) => {
+export const handleDeleteSerenBox: RequestHandler<{
+    serenboxId: string;
+}> = async (req, res, next) => {
     try {
         if (!req.user) {
-            throw new HttpError(401, "Unauthorized");
+            throw new HttpError(401, 'Unauthorized');
         }
 
         const serenBox = await prisma.serenBox.findUnique({
             where: {
-                id: req.params.serenboxId
-            }
+                id: req.params.serenboxId,
+            },
         });
 
         if (!serenBox) {
-            throw new HttpError(404, "SerenBox not found");
+            throw new HttpError(404, 'SerenBox not found');
         }
         if (serenBox.userId !== req.user.id) {
-            throw new HttpError(403, "Forbidden");
+            throw new HttpError(403, 'Forbidden');
         }
 
         await prisma.serenBox.delete({
             where: {
-                id: req.params.serenboxId
-            }
+                id: req.params.serenboxId,
+            },
         });
 
-        serenBox.image_name = serenaAppStorage.file(serenBox.image_name).publicUrl();
+        serenBox.image_name = serenaAppStorage
+            .file(serenBox.image_name)
+            .publicUrl();
 
         res.status(200).json(serenBox);
     } catch (err) {
@@ -216,17 +217,19 @@ export const handleVerifySerenBoxConnection: RequestHandler<
 
         const serenBox = await prisma.serenBox.findUnique({
             where: {
-                id: serenboxId
-            }
+                id: serenboxId,
+            },
         });
 
         if (!serenBox) {
-            throw new HttpError(404, "SerenBox not found");
+            throw new HttpError(404, 'SerenBox not found');
         }
 
         await verifySerenBoxConnection(serenBox.ip_address);
 
-        serenBox.image_name = serenaAppStorage.file(serenBox.image_name).publicUrl();
+        serenBox.image_name = serenaAppStorage
+            .file(serenBox.image_name)
+            .publicUrl();
 
         res.status(200).json(serenBox);
     } catch (err) {
@@ -243,19 +246,19 @@ export const handleChangeSerenBoxSlotStatus: RequestHandler<
         const { serenboxId, slotOption } = req.params;
 
         if (!(slotOption in SerenBoxSlots)) {
-            throw new HttpError(400, "Wrong slot option");
+            throw new HttpError(400, 'Wrong slot option');
         }
 
         const serenBox = await prisma.serenBox.findUnique({
             where: {
-                id: req.params.serenboxId
-            }
+                id: req.params.serenboxId,
+            },
         });
         if (!serenBox) {
-            throw new HttpError(404, "SerenBox not found");
+            throw new HttpError(404, 'SerenBox not found');
         }
         if (serenBox.userId !== req.user?.id) {
-            throw new HttpError(403, "Forbidden");
+            throw new HttpError(403, 'Forbidden');
         }
 
         const updatedSerenBox = await changeSerenBoxSlotStatus(
@@ -273,52 +276,55 @@ export const handleChangeSerenBoxSlotStatus: RequestHandler<
 export const handleCreateSerenBoxSession: RequestHandler<
     SerenBoxRouterParams,
     SerenBoxSession,
-    Pick<SerenBoxSession, "duration_minutes" | "detection_mode" | "diffusion_option">
+    Pick<
+        SerenBoxSession,
+        'duration_minutes' | 'detection_mode' | 'diffusion_option'
+    >
 > = async (req, res, next) => {
     try {
         const { serenboxId } = req.params;
 
         const serenBox = await prisma.serenBox.findUnique({
             where: {
-                id: serenboxId
-            }
+                id: serenboxId,
+            },
         });
         if (!serenBox) {
-            throw new HttpError(404, "SerenBox not found");
+            throw new HttpError(404, 'SerenBox not found');
         }
 
         const { detection_mode, diffusion_option, duration_minutes } = req.body;
         if (!detection_mode) {
-            throw new HttpError(400, "Missing detection_mode");
+            throw new HttpError(400, 'Missing detection_mode');
         }
         if (!diffusion_option) {
-            throw new HttpError(400, "Missing diffusion_option");
+            throw new HttpError(400, 'Missing diffusion_option');
         }
         if (!duration_minutes) {
-            throw new HttpError(400, "Missing duration_minutes");
+            throw new HttpError(400, 'Missing duration_minutes');
         }
 
         const serenBoxSession = await prisma.serenBoxSession.create({
             data: {
                 serenBox: {
                     connect: {
-                        id: serenboxId
-                    }
+                        id: serenboxId,
+                    },
                 },
                 duration_minutes,
                 detection_mode,
                 diffusion_option,
                 slotA: {
                     connect: {
-                        id: serenBox.slotAId || ""
-                    }
+                        id: serenBox.slotAId || '',
+                    },
                 },
                 slotB: {
                     connect: {
-                        id: serenBox.slotBId || ""
-                    }
-                }
-            }
+                        id: serenBox.slotBId || '',
+                    },
+                },
+            },
         });
 
         res.status(201).json(serenBoxSession);
@@ -336,11 +342,11 @@ export const handleGetSerenBoxSession: RequestHandler<
 
         const serenBoxSession = await prisma.serenBoxSession.findUnique({
             where: {
-                id: sessionId
-            }
+                id: sessionId,
+            },
         });
         if (!serenBoxSession) {
-            throw new HttpError(404, "SerenBox session not found");
+            throw new HttpError(404, 'SerenBox session not found');
         }
 
         res.status(200).json(serenBoxSession);
@@ -358,11 +364,11 @@ export const handleFinishSerenBoxSession: RequestHandler<
 
         const serenBoxSession = await prisma.serenBoxSession.findUnique({
             where: {
-                id: sessionId
-            }
+                id: sessionId,
+            },
         });
         if (!serenBoxSession) {
-            throw new HttpError(404, "SerenBox session not found");
+            throw new HttpError(404, 'SerenBox session not found');
         }
 
         const finishedSession = await finishSerenBoxSession(sessionId);
@@ -379,9 +385,8 @@ export const handleGetSerenBoxSlotStatusByCredentials: RequestHandler<
     try {
         const { credentials } = req.params;
 
-        const serenBoxSlotStatus = await getSerenBoxSlotStatusByCredentials(
-            credentials
-        );
+        const serenBoxSlotStatus =
+            await getSerenBoxSlotStatusByCredentials(credentials);
 
         res.status(200).json(serenBoxSlotStatus);
     } catch (err) {

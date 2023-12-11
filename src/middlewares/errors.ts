@@ -1,5 +1,5 @@
-import { HttpError } from "@/utils/errors";
-import { NextFunction, Request, Response } from "express";
+import { HttpError } from '@/utils/errors';
+import { NextFunction, Request, Response } from 'express';
 
 export const handleHttpErrors = (
     err: HttpError,
@@ -10,7 +10,7 @@ export const handleHttpErrors = (
     if (err instanceof HttpError) {
         return res.status(err.status).json({
             message: err.message,
-            status: err.status
+            status: err.status,
         });
     }
     next(err);

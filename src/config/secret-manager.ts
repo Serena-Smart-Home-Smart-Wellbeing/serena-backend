@@ -1,4 +1,4 @@
-import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
+import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 const client = new SecretManagerServiceClient();
 
 /**
@@ -7,7 +7,7 @@ const client = new SecretManagerServiceClient();
  */
 export const getJwtAccessSecret = async () => {
     const [accessResponse] = await client.accessSecretVersion({
-        name: "projects/738222459045/secrets/jwt-access-secret/versions/1"
+        name: 'projects/738222459045/secrets/jwt-access-secret/versions/1',
     });
 
     const responsePayload = accessResponse.payload!.data!.toString();

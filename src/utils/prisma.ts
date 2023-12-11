@@ -1,7 +1,6 @@
-import { serenaAppStorage } from "@/config/cloud-storage";
-import { getUserEmotionImageFolder } from "@/controllers/user-emotions";
-import { PrismaClient, UserEmotionResult } from "@prisma/client";
-import { deleteStorageFolder } from "./cloud-storage";
+import { serenaAppStorage } from '@/config/cloud-storage';
+import { PrismaClient, UserEmotionResult } from '@prisma/client';
+import { deleteStorageFolder } from './cloud-storage';
 
 const prisma = new PrismaClient().$extends({
     model: {
@@ -12,7 +11,7 @@ const prisma = new PrismaClient().$extends({
                         anger: emotion.anger,
                         fear: emotion.fear,
                         surprise: emotion.surprise,
-                        total: emotion.anger + emotion.fear + emotion.surprise
+                        total: emotion.anger + emotion.fear + emotion.surprise,
                     },
                     relax: {
                         disgust: emotion.disgust,
@@ -23,7 +22,7 @@ const prisma = new PrismaClient().$extends({
                             emotion.disgust +
                             emotion.joy +
                             emotion.neutral +
-                            emotion.sadness
+                            emotion.sadness,
                     },
                     id: emotion.id,
                     userId: emotion.userId,
@@ -31,14 +30,14 @@ const prisma = new PrismaClient().$extends({
                     user_photo: serenaAppStorage
                         .file(emotion.user_photo)
                         .publicUrl(),
-                    serenBoxSessionId: emotion.serenBoxSessionId
+                    serenBoxSessionId: emotion.serenBoxSessionId,
                 };
             },
             async getFormattedEmotion(emotionId: string) {
                 const emotion = await prisma.userEmotionResult.findUnique({
                     where: {
-                        id: emotionId
-                    }
+                        id: emotionId,
+                    },
                 });
 
                 if (!emotion) {
@@ -52,25 +51,25 @@ const prisma = new PrismaClient().$extends({
             async getFormattedEmotions(userId: string) {
                 const emotions = await prisma.userEmotionResult.findMany({
                     where: {
-                        userId
+                        userId,
                     },
                     orderBy: {
-                        created_time: "desc"
-                    }
+                        created_time: 'desc',
+                    },
                 });
 
-                const formattedEmotions = emotions.map(emotion =>
+                const formattedEmotions = emotions.map((emotion) =>
                     this.formatEmotion(emotion)
                 );
 
                 return formattedEmotions;
-            }
+            },
         },
         serenPlaceProduct: {
             async findManyAndGetPublicURL() {
                 const products = await prisma.serenPlaceProduct.findMany();
 
-                const productsWithPublicURL = products.map(product => {
+                const productsWithPublicURL = products.map((product) => {
                     product.image_name = serenaAppStorage
                         .file(product.image_name)
                         .publicUrl();
@@ -79,17 +78,17 @@ const prisma = new PrismaClient().$extends({
                 });
 
                 return productsWithPublicURL;
-            }
+            },
         },
         serenBox: {
             async findManyByUserIdAndGetPublicURL(userId: string) {
                 const serenBoxes = await prisma.serenBox.findMany({
                     where: {
-                        userId
-                    }
+                        userId,
+                    },
                 });
 
-                const serenBoxesWithPublicURL = serenBoxes.map(serenBox => {
+                const serenBoxesWithPublicURL = serenBoxes.map((serenBox) => {
                     serenBox.image_name = serenaAppStorage
                         .file(serenBox.image_name)
                         .publicUrl();
@@ -98,17 +97,17 @@ const prisma = new PrismaClient().$extends({
                 });
 
                 return serenBoxesWithPublicURL;
-            }
+            },
         },
-        user: {}
+        user: {},
     },
     query: {
         userEmotionResult: {
             async delete({ args, query }) {
                 const emotion = await prisma.userEmotionResult.findUnique({
                     where: {
-                        id: args.where.id
-                    }
+                        id: args.where.id,
+                    },
                 });
 
                 const image = serenaAppStorage.file(emotion!.user_photo);
@@ -117,19 +116,21 @@ const prisma = new PrismaClient().$extends({
                 const deletedEmotion = await query(args);
 
                 return deletedEmotion;
-            }
+            },
         },
         user: {
             async delete({ args, query }) {
-                const userFolder = serenaAppStorage.file(`users/${args.where.id}/`);
+                const userFolder = serenaAppStorage.file(
+                    `users/${args.where.id}/`
+                );
                 await deleteStorageFolder(serenaAppStorage, userFolder.name);
 
                 const deletedUser = await query(args);
 
                 return deletedUser;
-            }
-        }
-    }
+            },
+        },
+    },
 });
 
 export default prisma;
