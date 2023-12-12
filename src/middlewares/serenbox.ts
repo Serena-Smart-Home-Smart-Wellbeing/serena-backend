@@ -96,6 +96,10 @@ export const handleGetSerenBox: RequestHandler<{ serenboxId: string }> = async (
             where: {
                 id: req.params.serenboxId,
             },
+            include: {
+                slotA: true,
+                slotB: true,
+            },
         });
 
         if (!serenBox) {
@@ -153,6 +157,10 @@ export const handlePatchSerenBoxIpAddress: RequestHandler<
                 data: {
                     ip_address: ip_address,
                 },
+                include: {
+                    slotA: true,
+                    slotB: true,
+                },
             });
         } catch (err) {
             throw new HttpError(404, 'SerenBox not found');
@@ -179,6 +187,10 @@ export const handleDeleteSerenBox: RequestHandler<{
         const serenBox = await prisma.serenBox.findUnique({
             where: {
                 id: req.params.serenboxId,
+            },
+            include: {
+                slotA: true,
+                slotB: true,
             },
         });
 
@@ -218,6 +230,10 @@ export const handleVerifySerenBoxConnection: RequestHandler<
         const serenBox = await prisma.serenBox.findUnique({
             where: {
                 id: serenboxId,
+            },
+            include: {
+                slotA: true,
+                slotB: true,
             },
         });
 

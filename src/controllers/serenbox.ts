@@ -43,6 +43,10 @@ export const addSerenBox = async (
                 },
             },
         },
+        include: {
+            slotA: true,
+            slotB: true,
+        },
     });
 
     return newSerenBox;
