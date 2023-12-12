@@ -1511,13 +1511,12 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "11ca3e49-938f-48c4-9a7b-4195285c5de3",
+										"id": "01553572-551f-4e86-a3ef-d395c25bfc65",
 										"exec": [
 											"pm.test(\"Added new SerenBox\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"    const serenbox = pm.response.json();\r",
 											"\r",
-											"    pm.expect(serenbox.credentials).to.be.equal(\"00:0a:95:9d:68:16\");\r",
 											"    pm.expect(serenbox.name).to.be.equal(\"My SerenBox\");\r",
 											"    pm.expect(serenbox).to.have.keys(\r",
 											"        \"credentials\",\r",
@@ -1549,7 +1548,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"credentials\": \"00:0a:95:9d:68:16\",\r\n    \"name\":\"My SerenBox\"\r\n}",
+									"raw": "{\r\n    \"credentials\": \"00:0a:fe:9d:68:f16\",\r\n    \"name\":\"My SerenBox\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1896,7 +1895,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "e0760b30-013f-4572-9dd6-95a4b22b37df",
+										"id": "4a18d184-9b49-472a-9f15-e53a3d9f3bb0",
 										"exec": [
 											"pm.test(\"Ok update IP address\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1911,6 +1910,8 @@
 											"        \"added\",\r",
 											"        \"slotAId\",\r",
 											"        \"slotBId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\",\r",
 											"        \"image_name\",\r",
 											"        \"ip_address\"\r",
 											"    );\r",
@@ -1921,6 +1922,9 @@
 								}
 							],
 							"id": "c1da2ef2-c031-41f4-9784-b60f2c8570b1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -1929,7 +1933,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"ip_address\":  \"192.192.192.192\",\r\n    \"credentials\": \"00:0a:95:9d:68:16\"\r\n}",
+									"raw": "{\r\n    \"ip_address\": \"192.192.192.192\",\r\n    \"credentials\": \"{{SERENBOX_CREDENTIALS}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3322,7 +3326,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "1880b8a1-7750-4084-8b61-323eb6e4d996",
+										"id": "87034660-20ae-4b90-8f90-d3fde45dbe44",
 										"exec": [
 											"pm.test(\"Delete an existing SerenBox\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -3336,6 +3340,8 @@
 											"        \"added\",\r",
 											"        \"slotAId\",\r",
 											"        \"slotBId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\",\r",
 											"        \"image_name\",\r",
 											"        \"ip_address\"\r",
 											"    );\r",
@@ -3347,6 +3353,9 @@
 								}
 							],
 							"id": "f04d24c4-7633-47a2-9b56-3b0807e9b440",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "DELETE",
 								"header": [],
