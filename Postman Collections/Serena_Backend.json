@@ -1511,7 +1511,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ca0254bb-df11-4b28-b70f-58dac175c3c7",
+										"id": "11ca3e49-938f-48c4-9a7b-4195285c5de3",
 										"exec": [
 											"pm.test(\"Added new SerenBox\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -1528,7 +1528,9 @@
 											"        \"slotAId\",\r",
 											"        \"slotBId\",\r",
 											"        \"image_name\",\r",
-											"        \"ip_address\"\r",
+											"        \"ip_address\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\"\r",
 											"    );\r",
 											"    pm.environment.set(\"SERENBOX_ID\", serenbox.id)\r",
 											"    pm.environment.set(\"SERENBOX_CREDENTIALS\", serenbox.credentials)\r",
@@ -1604,7 +1606,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "55efaf38-dd07-491a-a11a-05acd1d7c5bb",
+										"id": "45cd6382-e870-402a-8544-f6cb0a594cfe",
 										"exec": [
 											"pm.test(\"Return an existing SerenBox\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1619,7 +1621,9 @@
 											"        \"slotAId\",\r",
 											"        \"slotBId\",\r",
 											"        \"image_name\",\r",
-											"        \"ip_address\"\r",
+											"        \"ip_address\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\"\r",
 											"    );\r",
 											"\r",
 											"     pm.environment.set(\"SERENBOX_ID\", res.id)\r",
