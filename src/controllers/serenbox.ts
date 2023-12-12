@@ -26,7 +26,7 @@ export const addSerenBox = async (
             },
             slotA: {
                 create: {
-                    name: 'Cajuput Oil',
+                    name: 'Citronella Oil',
                     slot: SerenBoxSlots.A,
                     label: SerenBoxLabels.ENERGETIC,
                     capacity_ml: 100,
@@ -35,7 +35,7 @@ export const addSerenBox = async (
             },
             slotB: {
                 create: {
-                    name: 'Citronella Oil',
+                    name: 'Cajuput Oil',
                     slot: SerenBoxSlots.B,
                     label: SerenBoxLabels.RELAX,
                     capacity_ml: 100,
