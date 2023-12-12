@@ -1648,7 +1648,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "02cd7773-06d8-42a2-a402-8ff2a8b127e2",
+										"id": "553c21ca-25ab-4a7a-95fc-c4e783c92116",
 										"exec": [
 											"pm.test(\"Return current user's SerenBoxes\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -1667,7 +1667,9 @@
 											"            \"slotAId\",\r",
 											"            \"slotBId\",\r",
 											"            \"image_name\",\r",
-											"            \"ip_address\"\r",
+											"            \"ip_address\",\r",
+											"            \"slotA\",\r",
+											"            \"slotB\"\r",
 											"        );\r",
 											"    });\r",
 											"});\r",
@@ -1678,6 +1680,9 @@
 								}
 							],
 							"id": "889c5de0-9d9a-4029-8275-a17a0ed99c17",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
