@@ -1895,7 +1895,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4a18d184-9b49-472a-9f15-e53a3d9f3bb0",
+										"id": "e73523c1-4a35-483d-8f8f-c02769237b6b",
 										"exec": [
 											"pm.test(\"Ok update IP address\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -3375,7 +3375,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ae8433b5-368a-4f78-baf8-52476b23d339",
+										"id": "9752fe88-ff4a-43bc-9766-48c15a4a1cd8",
 										"exec": [
 											"pm.test(\"Return an available existing SerenBox\", () => {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -3389,6 +3389,8 @@
 											"        \"added\",\r",
 											"        \"slotAId\",\r",
 											"        \"slotBId\",\r",
+											"        \"slotA\",\r",
+											"        \"slotB\",\r",
 											"        \"image_name\",\r",
 											"        \"ip_address\"\r",
 											"    );\r",
@@ -3400,6 +3402,9 @@
 								}
 							],
 							"id": "e93050b3-1bee-479f-9d4a-dba5d5d721c4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
