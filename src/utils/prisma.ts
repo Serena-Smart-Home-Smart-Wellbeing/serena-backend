@@ -86,6 +86,10 @@ const prisma = new PrismaClient().$extends({
                     where: {
                         userId,
                     },
+                    include: {
+                        slotA: true,
+                        slotB: true,
+                    },
                 });
 
                 const serenBoxesWithPublicURL = serenBoxes.map((serenBox) => {
