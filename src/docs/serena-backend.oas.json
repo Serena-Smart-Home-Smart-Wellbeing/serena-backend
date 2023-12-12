@@ -348,6 +348,64 @@
                                 "type": "string",
                                 "description": "SerenBox IP address",
                                 "example": "192.0.31.34"
+                            },
+                            "slotA": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Cajuput Oil"
+                                    },
+                                    "slot": {
+                                        "type": "string",
+                                        "example": "A"
+                                    },
+                                    "capacity_ml": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "current_capacity_ml": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                }
+                            },
+                            "slotB": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Cajuput Oil"
+                                    },
+                                    "slot": {
+                                        "type": "string",
+                                        "example": "B"
+                                    },
+                                    "capacity_ml": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "current_capacity_ml": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                }
                             }
                         }
                     }
