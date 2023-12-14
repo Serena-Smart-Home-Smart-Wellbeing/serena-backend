@@ -47,7 +47,10 @@ export const callSerenaEmotionDetector = async (file: Express.Multer.File) => {
     >(url, formData);
 
     if (!('angry' in data)) {
-        console.error(data);
+        console.error('Original File:');
+        console.error(file);
+        console.error('Resized File:');
+        console.error(image);
         throw new HttpError(400, 'Face not detected');
     }
 
