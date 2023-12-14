@@ -46,7 +46,7 @@ export const callSerenaEmotionDetector = async (file: Express.Multer.File) => {
         AxiosResponse<SerenaEmotionDetectorResults | HttpError>
     >(url, formData);
 
-    if ('message' in data && data.message === 'Face not detected') {
+    if ('message' in data) {
         throw new HttpError(400, 'Face not detected');
     }
 
