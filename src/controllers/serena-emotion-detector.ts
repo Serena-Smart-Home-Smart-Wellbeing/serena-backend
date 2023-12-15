@@ -12,6 +12,7 @@ const resizeImage = async (image: Buffer): Promise<Buffer> => {
             height: 300,
             fit: 'cover',
         })
+        .withMetadata()
         .toBuffer();
 };
 
