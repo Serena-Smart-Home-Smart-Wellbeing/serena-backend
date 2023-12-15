@@ -2139,7 +2139,7 @@
                                     "Wrong mime type": {
                                         "summary": "Wrong mime type",
                                         "value": {
-                                            "message": "Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received: X",
+                                            "message": "Wrong mime type. Received: X. Expected: image/jpeg, image/png, image/gif. Received: X",
                                             "status": 400
                                         }
                                     }
@@ -2252,7 +2252,7 @@
                                     "Wrong mime type": {
                                         "summary": "Wrong mime type",
                                         "value": {
-                                            "message": "Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received: X",
+                                            "message": "Wrong mime type. Received: X. Expected: image/jpeg, image/png, image/gif. Received: X",
                                             "status": 400
                                         }
                                     }

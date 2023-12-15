@@ -9,7 +9,7 @@ export const upload = multer({
             cb(
                 new HttpError(
                     400,
-                    `Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received: ${file.mimetype}`
+                    `Wrong mime type. Received: ${file.mimetype}. Expected: image/jpeg, image/png, image/gif.`
                 )
             );
         }
