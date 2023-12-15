@@ -8,8 +8,8 @@ import sharp from 'sharp';
 const resizeImage = async (image: Buffer): Promise<Buffer> => {
     return await sharp(image)
         .resize({
-            width: 500,
-            height: 500,
+            width: 300,
+            height: 300,
             fit: 'cover',
         })
         .toBuffer();
