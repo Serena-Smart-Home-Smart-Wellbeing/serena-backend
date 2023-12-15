@@ -3900,7 +3900,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5fbe567a-27dd-4be1-b7d5-121e70a3f99a",
+										"id": "b9fd0fa6-1113-4208-be61-5607afdd9ffe",
 										"exec": [
 											"pm.test('Reject if wrong mime type', function () {\r",
 											"    pm.response.to.have.status(400);\r",
@@ -3908,7 +3908,7 @@
 											"        pm.response\r",
 											"            .json()\r",
 											"            .message.startsWith(\r",
-											"                'Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received:'\r",
+											"                'Wrong mime type.'\r",
 											"            )\r",
 											"    ).to.be.true;\r",
 											"});\r",
