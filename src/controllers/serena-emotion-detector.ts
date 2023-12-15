@@ -50,7 +50,7 @@ export const callSerenaEmotionDetector = async (file: Express.Multer.File) => {
 
     if (!('angry' in data)) {
         console.error(data);
-        await saveUserEmotionImage('not_detected', file);
+        await saveUserEmotionImage('not_detected', { ...file, buffer: image });
         throw new HttpError(400, 'Face not detected');
     }
 
