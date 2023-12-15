@@ -4389,12 +4389,19 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "eecd958a-5af9-4f34-9af9-d8f83e74fbf3",
+										"id": "7229becf-0280-46d5-bfbb-894c5dcde102",
 										"exec": [
-											"pm.test(\"Reject if wrong mime type\", function () {\r",
+											"pm.test('Reject if wrong mime type', function () {\r",
 											"    pm.response.to.have.status(400);\r",
-											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received:\");\r",
-											"});"
+											"    pm.expect(\r",
+											"        pm.response\r",
+											"            .json()\r",
+											"            .message.startsWith(\r",
+											"                'Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received:'\r",
+											"            )\r",
+											"    ).to.be.true;\r",
+											"});\r",
+											""
 										],
 										"type": "text/javascript"
 									}
