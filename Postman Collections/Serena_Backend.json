@@ -3893,6 +3893,55 @@
 								"url": "{{HOST}}/users/NOTFOUNDDDD/emotions/detect"
 							},
 							"response": []
+						},
+						{
+							"name": "400 Wrong mime type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5fbe567a-27dd-4be1-b7d5-121e70a3f99a",
+										"exec": [
+											"pm.test('Reject if wrong mime type', function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(\r",
+											"        pm.response\r",
+											"            .json()\r",
+											"            .message.startsWith(\r",
+											"                'Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received:'\r",
+											"            )\r",
+											"    ).to.be.true;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "6b42f25a-62b3-4392-a719-195bbba79f15",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"id": 2,
+											"fileUploadError": "",
+											"src": [
+												"C:\\Users\\emuia\\Downloads\\users_random_emotions_2023-12-14T14_56_00.876Z.form-data"
+											]
+										}
+									]
+								},
+								"url": "{{HOST}}/users/{{USER_ID}}/emotions/detect"
+							},
+							"response": []
 						}
 					],
 					"id": "4c418a82-89f3-4a1f-bfb5-be9c9c56d7b5"
