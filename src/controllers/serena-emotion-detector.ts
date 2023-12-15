@@ -9,7 +9,8 @@ const resizeImage = async (image: Buffer): Promise<Buffer> => {
     return await sharp(image)
         .resize({
             width: 500,
-            fit: 'contain',
+            height: 500,
+            fit: 'cover',
         })
         .toBuffer();
 };
