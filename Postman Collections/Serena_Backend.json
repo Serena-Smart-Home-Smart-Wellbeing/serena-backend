@@ -4382,6 +4382,48 @@
 								"url": "{{HOST}}/serena-emotion-detector/detect"
 							},
 							"response": []
+						},
+						{
+							"name": "400 Wrong mime type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "eecd958a-5af9-4f34-9af9-d8f83e74fbf3",
+										"exec": [
+											"pm.test(\"Reject if wrong mime type\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"    pm.expect(pm.response.json()).to.haveOwnProperty(\"message\", \"Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received:\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "84096819-9926-419a-bf2c-fbb42cc34c5d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"id": 0,
+											"fileUploadError": "",
+											"src": [
+												"C:\\Users\\emuia\\Documents\\Diagram Flow Serena.pdf"
+											]
+										}
+									]
+								},
+								"url": "{{HOST}}/serena-emotion-detector/detect"
+							},
+							"response": []
 						}
 					],
 					"id": "2f6acaf9-c543-436c-a2d5-33844407345a"
