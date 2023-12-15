@@ -7,7 +7,7 @@ export const handleHttpErrors = (
     res: Response,
     next: NextFunction
 ) => {
-    if (err instanceof HttpError) {
+    if (err) {
         console.error(err);
         return res.status(err.status).json({
             message: err.message,
