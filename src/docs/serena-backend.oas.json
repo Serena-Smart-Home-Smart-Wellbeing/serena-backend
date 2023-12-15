@@ -2135,6 +2135,13 @@
                                             "message": "Face not detected",
                                             "status": 400
                                         }
+                                    },
+                                    "Wrong mime type": {
+                                        "summary": "Wrong mime type",
+                                        "value": {
+                                            "message": "Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received: X",
+                                            "status": 400
+                                        }
                                     }
                                 }
                             }
@@ -2239,6 +2246,13 @@
                                         "summary": "Face not detected",
                                         "value": {
                                             "message": "Face not detected",
+                                            "status": 400
+                                        }
+                                    },
+                                    "Wrong mime type": {
+                                        "summary": "Wrong mime type",
+                                        "value": {
+                                            "message": "Wrong mime type. Expected: image/jpeg, image/png, image/gif. Received: X",
                                             "status": 400
                                         }
                                     }
