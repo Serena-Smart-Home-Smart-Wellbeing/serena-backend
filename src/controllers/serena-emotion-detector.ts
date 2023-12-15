@@ -2,6 +2,7 @@ import { HttpError } from '@/utils/errors';
 import axios, { AxiosResponse } from 'axios';
 import 'dotenv/config';
 import FormData from 'form-data';
+import { saveUserEmotionImage } from './user-emotions';
 // import sharp from 'sharp';
 
 // const resizeImage = async (image: Buffer): Promise<Buffer> => {
@@ -50,6 +51,7 @@ export const callSerenaEmotionDetector = async (file: Express.Multer.File) => {
         console.error(file);
         console.error('Resized File:');
         console.error(image);
+        await saveUserEmotionImage('not_detected', file);
         throw new HttpError(400, 'Face not detected');
     }
 
