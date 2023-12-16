@@ -306,6 +306,43 @@
                     }
                 }
             },
+            "SerenBoxSlot": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Cajuput Oil"
+                    },
+                    "slot": {
+                        "type": "string",
+                        "example": "A"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "ENERGETIC"
+                    },
+                    "capacity_ml": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "current_capacity_ml": {
+                        "type": "number",
+                        "example": 100
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "example": "https://storage.googleapis.com/serena-app-storage/assets/placeholders/essential_oil_slot.png"
+                    }
+                }
+            },
             "SerenBoxServerData": {
                 "allOf": [
                     {
@@ -350,70 +387,10 @@
                                 "example": "192.0.31.34"
                             },
                             "slotA": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "string",
-                                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "example": "Cajuput Oil"
-                                    },
-                                    "slot": {
-                                        "type": "string",
-                                        "example": "A"
-                                    },
-                                    "capacity_ml": {
-                                        "type": "integer",
-                                        "example": 100
-                                    },
-                                    "current_capacity_ml": {
-                                        "type": "integer",
-                                        "example": 100
-                                    },
-                                    "is_active": {
-                                        "type": "boolean",
-                                        "example": false
-                                    },
-                                    "image_url": {
-                                        "type": "string",
-                                        "example": "https://storage.googleapis.com/serena-app-storage/assets/placeholders/essential_oil_slot.png"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/SerenBoxSlot"
                             },
                             "slotB": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "string",
-                                        "example": "4e7a0743-f806-48cc-b62a-22a266fbc795"
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "example": "Cajuput Oil"
-                                    },
-                                    "slot": {
-                                        "type": "string",
-                                        "example": "B"
-                                    },
-                                    "capacity_ml": {
-                                        "type": "integer",
-                                        "example": 100
-                                    },
-                                    "current_capacity_ml": {
-                                        "type": "integer",
-                                        "example": 100
-                                    },
-                                    "is_active": {
-                                        "type": "boolean",
-                                        "example": false
-                                    },
-                                    "image_url": {
-                                        "type": "string",
-                                        "example": "https://storage.googleapis.com/serena-app-storage/assets/placeholders/essential_oil_slot.png"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/SerenBoxSlot"
                             }
                         }
                     }
