@@ -68,7 +68,7 @@ model SerenBoxSlot {
   usedByB                SerenBox?         @relation("slotB")
   slotAUsedDuringSession SerenBoxSession[] @relation("slotA")
   slotBUsedDuringSession SerenBoxSession[] @relation("slotB")
-  image_url              String            @default("assets/placeholders/essential_oil_slot.png")
+  image_url              String            @default("https://storage.googleapis.com/serena-app-storage/assets/placeholders/essential_oil_slot.png")
 
   @@map("serenboxslot")
 }

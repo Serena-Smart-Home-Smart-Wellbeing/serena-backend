@@ -375,6 +375,10 @@
                                     "is_active": {
                                         "type": "boolean",
                                         "example": false
+                                    },
+                                    "image_url": {
+                                        "type": "string",
+                                        "example": "https://storage.googleapis.com/serena-app-storage/assets/placeholders/essential_oil_slot.png"
                                     }
                                 }
                             },
@@ -404,6 +408,10 @@
                                     "is_active": {
                                         "type": "boolean",
                                         "example": false
+                                    },
+                                    "image_url": {
+                                        "type": "string",
+                                        "example": "https://storage.googleapis.com/serena-app-storage/assets/placeholders/essential_oil_slot.png"
                                     }
                                 }
                             }
