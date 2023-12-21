@@ -5,9 +5,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator erd {
+generator erdPdf {
   provider = "prisma-erd-generator"
   output   = "./ERD.pdf"
+  theme    = "forest"
+}
+
+generator erdPng {
+  provider = "prisma-erd-generator"
+  output   = "./ERD.png"
   theme    = "forest"
 }
 

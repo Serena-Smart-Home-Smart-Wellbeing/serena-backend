@@ -3,6 +3,7 @@
 - [Serena Backend](#serena-backend)
   - [Background](#background)
   - [Available APIs](#available-apis)
+  - [Database Entities](#database-entities)
   - [Running Local Server](#running-local-server)
   - [Testing](#testing)
   - [Production Server](#production-server)
@@ -27,6 +28,22 @@ The APIs we developed includes:
 |   SerenBox   |   Clients can create and configure their SerenBox  |
 |    Mood-based Music Recommender    |   Clients can requests music playlist based on their mood thanks to Spotify API |
 |   SerenPlace   |   Clients can see the products we sell in SerenPlace   |
+
+## Database Entities
+
+![ERD](prisma/ERD.png)
+
+The models we store in our database mirrors how our app is going to be used along with
+other information needed to support the functions of the app.
+
+| Model | Description |
+|----------|----------|
+|   User   |   User of our app. It's a main model in our app since most other models references it   |
+|   SerenBox   |   Record of every SerenBox used by our users   |
+| SerenBoxSlot | Record of the essential oils that is used on each slot of a SerenBox |
+| SerenBoxSession | Record of every session of SerenBox ever ran |
+| UserEmotionResult | Record of the emotion analysis results for a user |
+| SerenPlaceProduct | Record of every product we sell in SerenPlace |
 
 ## Running Local Server
 
@@ -72,5 +89,5 @@ However, here a some things you must do if you want to try:
 ## Members Contributions
 
 |              Name              |    Student ID    |                                                                                                                  Contribution                                                                                                                  |
-|:------------------------------:|:----------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|------------------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |      Muhammad Reyhan Ardiya Putra Wijaya      | (CC) C200BSY3485 | Wrote Postman tests. Created database ERD. Setup database. Develop backend. Setup GCP for backend deployment. |
