@@ -57,11 +57,11 @@ First, you must create `.env` file in the root and fill it with the following va
 | SPOTIFY_CLIENT_SECRET | Spotify Client Secret you can get from your Spotify developer project |
 | SERENA_EMOTION_DETECTOR_URL | Use our production URL [https://serena-emotion-detector-2g6tjw7nja-et.a.run.app](https://serena-emotion-detector-2g6tjw7nja-et.a.run.app) or fill it with your own deployment of [Serena Emotion Detector model](https://github.com/Serena-Smart-Home-Smart-Wellbeing/serena-emotion-detector) |
 
-Then, setup your local MySQL server:
+Then, set up your local MySQL server:
 
 1. Create `serena_db` database
 2. Change `DATABASE_URL` in `.env` file to your MySQL connection string, example: `mysql://root:123@localhost:3306/serena_db`
-3. Run `npm run prisma-migrate:dev` to migrate the database schema and setup Prisma client
+3. Run `npm run prisma-migrate:dev` to migrate the database schema and set up Prisma client
 
 Finally, install the dependencies and run the server:
 
@@ -76,18 +76,18 @@ You can duplicate our Postman collection [here](https://www.postman.com/serena-s
 
 ## Production Server
 
-We use Cloud Build for CI/CD so that whenever we push to `main` branch, it's going to deploy on Cloud Run. The steps to deploy is in [cloudbuild.yaml](./cloudbuild.yaml).
+We use Cloud Build for CI/CD so that whenever we push to `main` branch, it's going to deploy on Cloud Run. The steps to deploy are in [cloudbuild.yaml](./cloudbuild.yaml).
 Our production server is hosted at [https://serena-backend-2g6tjw7nja-et.a.run.app](https://serena-backend-2g6tjw7nja-et.a.run.app).
 
-Deploying your own production server will be difficult, considering our Cloud Build is setup with our own project-specific configurations (e.g. GitHub secrets, IAMs, service accounts, secrets).
+Deploying your own production server will be difficult, considering our Cloud Build is set up with our own project-specific configurations (e.g. GitHub secrets, IAMs, service accounts, secrets).
 However, here a some things you must do if you want to try:
 
-1. Setup MYSQL database in Cloud SQL. Save the Prisma connection string in your GitHub secrets as `SERENA_DB_URL_PROD`
-2. Setup Secret Manager to store secrets listed in the `availableSecrets` field in [cloudbuild.yaml](./cloudbuild.yaml)
-3. Setup Cloud Run continous deployment with Cloud Build and point it to this repository's `cloudbuild.yaml` file
+1. set up MYSQL database in Cloud SQL. Save the Prisma connection string in your GitHub secrets as `SERENA_DB_URL_PROD`
+2. set up Secret Manager to store secrets listed in the `availableSecrets` field in [cloudbuild.yaml](./cloudbuild.yaml)
+3. set up Cloud Run continuous deployment with Cloud Build and point it to this repository's `cloudbuild.yaml` file
 
 ## Members Contributions
 
 |              Name              |    Student ID    |                                                                                                                  Contribution                                                                                                                  |
 |------------------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|      Muhammad Reyhan Ardiya Putra Wijaya      | (CC) C200BSY3485 | Wrote Postman tests. Created database ERD. Setup database. Develop backend. Setup GCP for backend deployment. |
+|      Muhammad Reyhan Ardiya Putra Wijaya      | (CC) C200BSY3485 | Wrote Postman tests. Created database ERD. set up database. Develop backend. set up GCP for backend deployment. |
